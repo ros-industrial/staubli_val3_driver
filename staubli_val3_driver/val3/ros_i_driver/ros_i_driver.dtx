@@ -29,12 +29,8 @@
     </Data>
     <Data name="sMotionTaskName" access="public" xsi:type="array" type="string" size="1" />
     <Data name="nMsgTypeB" access="public" xsi:type="array" type="num" size="4" />
-    <Data name="nCommTypeB" access="public" xsi:type="array" type="num" size="4" />
     <Data name="nReplyCodeB" access="public" xsi:type="array" type="num" size="4" />
     <Data name="bSendData" access="public" xsi:type="array" type="bool" size="1" />
-    <Data name="nBytesSent" access="public" xsi:type="array" type="num" size="1" />
-    <Data name="nSeqB" access="public" xsi:type="array" type="num" size="4" />
-    <Data name="nPosB" access="public" xsi:type="array" type="num" size="40" />
     <Data name="nDeg2Rad" access="public" xsi:type="array" type="num" size="1" />
     <Data name="rosGenericMsg" access="public" xsi:type="array" type="RosSimpleMsg" size="1">
       <Value key="0">
@@ -55,8 +51,6 @@
       </Value>
     </Data>
     <Data name="bValidMsgHeader" access="public" xsi:type="array" type="bool" size="1" />
-    <Data name="nTrajPtB" access="public" xsi:type="array" type="num" size="52" />
-    <Data name="nMsgHeaderB" access="public" xsi:type="array" type="num" size="16" />
     <Data name="bValidMsgBody" access="public" xsi:type="array" type="bool" size="1" />
     <Data name="bValidMotion" access="public" xsi:type="array" type="bool" size="1" />
     <Data name="jDesiredPose" access="public" xsi:type="array" type="jointRx" size="1" />
@@ -100,7 +94,6 @@
         </Field>
       </Value>
     </Data>
-    <Data name="nRobotStatusB" access="public" xsi:type="array" type="num" size="28" />
     <Data name="rosJointMsg" access="public" xsi:type="array" type="JointStateMsg" size="1">
       <Value key="0">
         <Field name="header" xsi:type="array" type="Header" size="1">
@@ -313,9 +306,11 @@
     <Data name="nDataIn" access="public" xsi:type="array" type="num" size="1" />
     <Data name="nDataOut" access="public" xsi:type="array" type="num" size="1" />
     <Data name="nDebugStatus" access="public" xsi:type="array" type="num" size="1" />
-    <Data name="nDebugSocket" access="public" xsi:type="array" type="num" size="1" />
     <Data name="scDebug" access="public" xsi:type="array" type="screen" size="1" />
     <Data name="scMonitor" access="public" xsi:type="array" type="screen" size="1" />
     <Data name="sHtbtTaskName" access="public" xsi:type="array" type="string" size="1" />
+    <Data name="bCheckHeartbeat" access="public" xsi:type="array" type="bool" size="1" />
+    <Data name="nCommTypeB" access="public" xsi:type="array" type="num" size="4" />
+    <Data name="nBytesSent" access="public" xsi:type="array" type="num" size="1" />
   </Datas>
 </Database>

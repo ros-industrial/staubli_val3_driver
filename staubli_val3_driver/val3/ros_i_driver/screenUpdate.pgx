@@ -2,7 +2,7 @@
 <Programs xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.staubli.com/robotics/VAL3/Program/2">
   <Program name="screenUpdate" access="public">
     <Code><![CDATA[begin
-  //userPage(scMonitor)
+  userPage(scMonitor)
   cls(scMonitor)
   title("ROS-I server")
   
@@ -57,11 +57,11 @@
     gotoxy(scMonitor, 15,3)
     put(scMonitor, libBuffer:nElems)
     
-    // debug siTcpIpFbk return value
+    // display heartbeat status
     gotoxy(scMonitor, 0,5)
-    put(scMonitor, "sioSet(): ")
-    gotoxy(scMonitor, 10,5)
-    put(scMonitor, nDebugSocket)
+    put(scMonitor, "Heartbeat status:")
+    gotoxy(scMonitor, 18,5)
+    put(scMonitor, nDataOut)
     
     // update debug status
     gotoxy(scMonitor, 18,7)
@@ -78,7 +78,7 @@
       break
     endSwitch
     
-    
+    // sequence task
     delay(0)
   endWhile
 end]]></Code>

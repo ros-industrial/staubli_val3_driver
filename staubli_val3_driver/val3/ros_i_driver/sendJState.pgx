@@ -5,70 +5,9 @@
       <Local name="l_nRetVal" type="num" xsi:type="array" size="1" />
     </Locals>
     <Code><![CDATA[begin
-  // send message length (prefix)
-  l_nRetVal = sioSet(siTcpIpFbk, rosJointMsg.prefix.nData)
-
-  if (l_nRetVal == -1)
-    // 10002: not connected?
-    putln(scDebug, "11002: not connected")
-    if (nDataOut != 0)
-      nDataOut = -1
-      clearBuffer(siTcpIpFbk)
-    endIf
-    return
-  elseIf (l_nRetVal < 4)
-    popUpMsg("Error while sending prefix")
-    nDataOut = -1
-    clearBuffer(siTcpIpFbk)
-    return
-  else
-    putln(scDebug, "prefix sent")
-    nDataOut = 1
-  endIf
-
-  nBytesSent = size(rosJointMsg.prefix.nData)
-
-  // send message header (msg type, comm type, reply code)
-  l_nRetVal = sioSet(siTcpIpFbk, rosJointMsg.header.nData)
-
-  if (l_nRetVal == -1)
-    // 10002: connection lost
-    putln(scDebug, "11002: connection lost")
-    nDataOut = -1
-    clearBuffer(siTcpIpFbk)
-    return
-  elseIf (l_nRetVal < 12)
-    popUpMsg("Error while sending msg header")
-    nDataOut = -1
-    clearBuffer(siTcpIpFbk)
-    return
-  else
-    putln(scDebug, "header sent")
-    nDataOut = 1
-  endIf
-  
-  nBytesSent = nBytesSent + size(rosJointMsg.header.nData)
-
-  // send message body (data)
-  l_nRetVal = sioSet(siTcpIpFbk, rosJointMsg.body.nData)
-
-  if (l_nRetVal == -1)
-    // 10002: connection lost
-    putln(scDebug, "11002: connection lost")
-    nDataOut = -1
-    clearBuffer(siTcpIpFbk)
-    return
-  elseIf (l_nRetVal < 44)
-    popUpMsg("Error while sending msg body")
-    nDataOut = -1
-    clearBuffer(siTcpIpFbk)
-    return
-  else
-    putln(scDebug, "body sent")
-    nDataOut = 1
-  endIf
-  
-  nBytesSent = nBytesSent + size(rosJointMsg.body.nData)
+    call sendData(siTcpIpFbk, rosJointMsg.prefix.nData, nDataOut)
+    call sendData(siTcpIpFbk, rosJointMsg.header.nData, nDataOut)
+    call sendData(siTcpIpFbk, rosJointMsg.body.nData, nDataOut)
 end]]></Code>
   </Program>
 </Programs>

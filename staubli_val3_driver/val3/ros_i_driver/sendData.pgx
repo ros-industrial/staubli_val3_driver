@@ -10,19 +10,19 @@
       <Local name="l_nRetVal" type="num" xsi:type="array" size="1" />
     </Locals>
     <Code><![CDATA[begin
-  // send data via socket connection
-  l_nRetVal = sioSet(x_sTcpSocket, x_nData)
-  if (l_nRetVal == -1)
-    if (x_nFlag == 1)
+  // send data via socket connection...
+  // but only if connection is alive, or
+  // if heartbeat is not expected
+  if (nDataOut == 1 or bCheckHeartbeat == false)
+    l_nRetVal = sioSet(x_sTcpSocket, x_nData)
+    if (l_nRetVal == -1)
+      if (x_nFlag == 1)
+        x_nFlag = -1
+      endIf
+    elseIf (l_nRetVal < size(x_nData))
+      popUpMsg("Error while sending data")
       x_nFlag = -1
     endIf
-    return
-  elseIf (l_nRetVal < size(x_nData))
-    popUpMsg("Error while sending data")
-    x_nFlag = -1
-    return
-  else
-    nDataOut = 1
   endIf
 end]]></Code>
   </Program>

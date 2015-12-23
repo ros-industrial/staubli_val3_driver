@@ -11,6 +11,7 @@
     <Program file="encodeJState.pgx" />
     <Program file="encodeStatus.pgx" />
     <Program file="fbkStreamer.pgx" />
+    <Program file="fetchStatus.pgx" />
     <Program file="initParams.pgx" />
     <Program file="motionControl.pgx" />
     <Program file="pushMotion.pgx" />

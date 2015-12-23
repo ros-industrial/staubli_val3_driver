@@ -9,7 +9,7 @@
       <Local name="l_nHtbt" type="num" xsi:type="array" size="1" />
     </Locals>
     <Code><![CDATA[begin
-  while (true)
+  while (bCheckHeartbeat)
     // attempt to receive heartbeat
     l_nBytesRecv = 0
     l_nIndex = 0
@@ -22,14 +22,15 @@
         // error or timeout, indicate only if connection previously established
         if (nDataOut == 1)
           nDataOut = -1
+          // close connection properly (to avoid CLOSE_WAIT)
           clearBuffer(siTcpIpFbk)
         endIf
       endIf
     endWhile
     // received 4 bytes
     l_nIndex = fromBinary(l_nHtbtB, 4, "-4l", l_nHtbt)
-    if (l_nIndex == 4)
-      // confirm heartbeat value, ensure it is connected
+    if (l_nIndex == 1)
+      // confirm heartbeat value -> ensure it is connected
       if (l_nHtbt == 11002)
         nDataOut = 1
       endIf
