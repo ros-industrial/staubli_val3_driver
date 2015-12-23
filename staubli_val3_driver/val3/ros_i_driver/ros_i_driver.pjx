@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://www.staubli.com/robotics/VAL3/Project/3">
+  <Parameters version="s7.7.2" stackSize="5000" millimeterUnit="true" />
+  <Programs>
+    <Program file="dataReceiver.pgx" />
+    <Program file="dataStreamer.pgx" />
+    <Program file="decodeMsgHeader.pgx" />
+    <Program file="decTrajPt.pgx" />
+    <Program file="decTrajPtFull.pgx" />
+    <Program file="encodeJointFbk.pgx" />
+    <Program file="encodeJState.pgx" />
+    <Program file="encodeStatus.pgx" />
+    <Program file="fbkStreamer.pgx" />
+    <Program file="initParams.pgx" />
+    <Program file="motionControl.pgx" />
+    <Program file="pushMotion.pgx" />
+    <Program file="recvHeartbeat.pgx" />
+    <Program file="recvMsgHeader.pgx" />
+    <Program file="recvTrajPt.pgx" />
+    <Program file="recvTrajPtFull.pgx" />
+    <Program file="screenUpdate.pgx" />
+    <Program file="sendAck.pgx" />
+    <Program file="sendData.pgx" />
+    <Program file="sendJointFbk.pgx" />
+    <Program file="sendJState.pgx" />
+    <Program file="sendStatus.pgx" />
+    <Program file="sendTrajPtAck.pgx" />
+    <Program file="sendTrajPtFAck.pgx" />
+    <Program file="setupRosMsgs.pgx" />
+    <Program file="start.pgx" />
+    <Program file="stop.pgx" />
+  </Programs>
+  <Database>
+    <Data file="ros_i_driver.dtx" />
+  </Database>
+  <Libraries>
+    <Library alias="libBuffer" path="Disk://MotionQueue/MotionQueue.pjx" />
+  </Libraries>
+  <Types>
+    <Type name="RosSimpleMsg" path="Disk://RosSimpleMsg/RosSimpleMsg.pjx" />
+    <Type name="RobotStatusMsg" path="Disk://RobotStatusMsg/RobotStatusMsg.pjx" />
+    <Type name="JointStateMsg" path="Disk://JointStateMsg/JointStateMsg.pjx" />
+    <Type name="JointTrajPtMsg" path="Disk://JointTrajPtMsg/JointTrajPtMsg.pjx" />
+    <Type name="JointTrajPtFMsg" path="Disk://JointTrajPtFMsg/JointTrajPtFMsg.pjx" />
+    <Type name="JointFbkMsg" path="Disk://JointFbkMsg/JointFbkMsg.pjx" />
+    <Type name="MotionBuffer" path="Disk://MotionBuffer/MotionBuffer.pjx" />
+  </Types>
+</Project>

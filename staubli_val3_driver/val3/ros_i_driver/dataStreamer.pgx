@@ -1,0 +1,65 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Programs xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.staubli.com/robotics/VAL3/Program/2">
+  <Program name="dataStreamer" access="public">
+    <Code><![CDATA[begin
+  userPage(scDebug)
+  while (bSendData)
+    putln(scDebug, "stream...")
+    // fetch current joint values
+    jCurrPose=herej()
+
+    // encode and send ROS simple_message ID 10: joint state
+    call encodeJState()
+    nBytesSent = 0
+    call sendJState()
+    
+    // fetch robot status
+    // drives_powered
+    if (isPowered() == true)
+      rosStatusMsg.robotStatus.nDrivesPowered = 1
+    else
+      rosStatusMsg.robotStatus.nDrivesPowered = 0
+    endIf
+    
+    // e-stopped
+    if (esStatus() == 2)
+      rosStatusMsg.robotStatus.nEStopped = 1
+    else
+      rosStatusMsg.robotStatus.nEStopped = 0
+    endIf
+    
+    // error_code
+    rosStatusMsg.robotStatus.nErrorCode = -1
+    
+    // in_error
+    rosStatusMsg.robotStatus.nInError = -1
+    
+    // in_motion
+    if (isSettled() == true)
+      rosStatusMsg.robotStatus.nInMotion = 0
+    else
+      rosStatusMsg.robotStatus.nInMotion = 1
+    endIf
+      
+    // mode (controller/pendant mode)
+    if (workingMode() == 1 or workingMode() == 2)
+      rosStatusMsg.robotStatus.nMode = 1
+    elseIf (workingMode() == 3 or workingMode() == 4)
+      rosStatusMsg.robotStatus.nMode = 0
+    else
+      rosStatusMsg.robotStatus.nMode = -1
+    endIf
+    
+    // motion_possible
+    rosStatusMsg.robotStatus.nMotionPossible = -1
+    
+    // encode and send ROS simple_message ID 13: robot status
+    call encodeStatus()
+    nBytesSent = 0
+    call sendStatus()
+    
+    delay(0)
+  endWhile
+end]]></Code>
+  </Program>
+</Programs>

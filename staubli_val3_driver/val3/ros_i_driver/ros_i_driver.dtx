@@ -1,0 +1,321 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Database xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.staubli.com/robotics/VAL3/Data/2">
+  <Datas>
+    <Data name="bFbkOverrun" access="public" xsi:type="array" type="bool" size="1" />
+    <Data name="bMotionOverrun" access="public" xsi:type="array" type="bool" size="1" />
+    <Data name="jCurrPose" access="public" xsi:type="array" type="jointRx" size="1" />
+    <Data name="nCounter" access="public" xsi:type="array" type="num" size="1" />
+    <Data name="nFbkPeriod" access="public" xsi:type="array" type="num" size="1">
+      <Value key="0" value="0.032" />
+    </Data>
+    <Data name="nLengthB" access="public" xsi:type="array" type="num" size="4" />
+    <Data name="nMotionPeriod" access="private" xsi:type="array" type="num" size="1">
+      <Value key="0" value="0.012" />
+    </Data>
+    <Data name="nPosVelAccB" access="public" xsi:type="array" type="num" size="120" />
+    <Data name="nRobotIdB" access="public" xsi:type="array" type="num" size="4" />
+    <Data name="nTimeB" access="public" xsi:type="array" type="num" size="4" />
+    <Data name="nValidFieldsB" access="public" xsi:type="array" type="num" size="4">
+      <Value key="0" value="2" />
+    </Data>
+    <Data name="siTcpIpFbk" access="public" xsi:type="array" type="sio" size="1">
+      <Value key="0" link="Socket\Feedback" />
+    </Data>
+    <Data name="siTcpIpMotion" access="public" xsi:type="array" type="sio" size="1">
+      <Value key="0" link="Socket\Motion" />
+    </Data>
+    <Data name="sStreamTaskName" access="public" xsi:type="array" type="string" size="1">
+      <Value key="0" value="publisher" />
+    </Data>
+    <Data name="sMotionTaskName" access="public" xsi:type="array" type="string" size="1" />
+    <Data name="nMsgTypeB" access="public" xsi:type="array" type="num" size="4" />
+    <Data name="nCommTypeB" access="public" xsi:type="array" type="num" size="4" />
+    <Data name="nReplyCodeB" access="public" xsi:type="array" type="num" size="4" />
+    <Data name="bSendData" access="public" xsi:type="array" type="bool" size="1" />
+    <Data name="nBytesSent" access="public" xsi:type="array" type="num" size="1" />
+    <Data name="nSeqB" access="public" xsi:type="array" type="num" size="4" />
+    <Data name="nPosB" access="public" xsi:type="array" type="num" size="40" />
+    <Data name="nDeg2Rad" access="public" xsi:type="array" type="num" size="1" />
+    <Data name="rosGenericMsg" access="public" xsi:type="array" type="RosSimpleMsg" size="1">
+      <Value key="0">
+        <Field name="header" xsi:type="array" type="Header" size="1">
+          <Value key="0">
+            <Field name="nMsgType" xsi:type="array" type="num" size="1" />
+            <Field name="nCommType" xsi:type="array" type="num" size="1" />
+            <Field name="nReplyCode" xsi:type="array" type="num" size="1" />
+            <Field name="nData" xsi:type="array" type="num" size="12" />
+          </Value>
+        </Field>
+        <Field name="prefix" xsi:type="array" type="Prefix" size="1">
+          <Value key="0">
+            <Field name="nLength" xsi:type="array" type="num" size="1" />
+            <Field name="nData" xsi:type="array" type="num" size="4" />
+          </Value>
+        </Field>
+      </Value>
+    </Data>
+    <Data name="bValidMsgHeader" access="public" xsi:type="array" type="bool" size="1" />
+    <Data name="nTrajPtB" access="public" xsi:type="array" type="num" size="52" />
+    <Data name="nMsgHeaderB" access="public" xsi:type="array" type="num" size="16" />
+    <Data name="bValidMsgBody" access="public" xsi:type="array" type="bool" size="1" />
+    <Data name="bValidMotion" access="public" xsi:type="array" type="bool" size="1" />
+    <Data name="jDesiredPose" access="public" xsi:type="array" type="jointRx" size="1" />
+    <Data name="tTool" access="public" xsi:type="array" type="tool" size="1">
+      <Value key="0" fatherId="flange[0]" ioLink="valve1" />
+    </Data>
+    <Data name="nRad2Deg" access="public" xsi:type="array" type="num" size="1" />
+    <Data name="sTrajPtTaskName" access="public" xsi:type="array" type="string" size="1" />
+    <Data name="bTrajPtOverrun" access="public" xsi:type="array" type="bool" size="1" />
+    <Data name="rosStatusMsg" access="public" xsi:type="array" type="RobotStatusMsg" size="1">
+      <Value key="0">
+        <Field name="body" xsi:type="array" type="Body" size="1">
+          <Value key="0">
+            <Field name="nData" xsi:type="array" type="num" size="28" />
+          </Value>
+        </Field>
+        <Field name="header" xsi:type="array" type="Header" size="1">
+          <Value key="0">
+            <Field name="nMsgType" xsi:type="array" type="num" size="1" />
+            <Field name="nCommType" xsi:type="array" type="num" size="1" />
+            <Field name="nReplyCode" xsi:type="array" type="num" size="1" />
+            <Field name="nData" xsi:type="array" type="num" size="12" />
+          </Value>
+        </Field>
+        <Field name="prefix" xsi:type="array" type="Prefix" size="1">
+          <Value key="0">
+            <Field name="nLength" xsi:type="array" type="num" size="1" />
+            <Field name="nData" xsi:type="array" type="num" size="4" />
+          </Value>
+        </Field>
+        <Field name="robotStatus" xsi:type="array" type="RobotStatus" size="1">
+          <Value key="0">
+            <Field name="nDrivesPowered" xsi:type="array" type="num" size="1" />
+            <Field name="nEStopped" xsi:type="array" type="num" size="1" />
+            <Field name="nErrorCode" xsi:type="array" type="num" size="1" />
+            <Field name="nInError" xsi:type="array" type="num" size="1" />
+            <Field name="nInMotion" xsi:type="array" type="num" size="1" />
+            <Field name="nMode" xsi:type="array" type="num" size="1" />
+            <Field name="nMotionPossible" xsi:type="array" type="num" size="1" />
+          </Value>
+        </Field>
+      </Value>
+    </Data>
+    <Data name="nRobotStatusB" access="public" xsi:type="array" type="num" size="28" />
+    <Data name="rosJointMsg" access="public" xsi:type="array" type="JointStateMsg" size="1">
+      <Value key="0">
+        <Field name="header" xsi:type="array" type="Header" size="1">
+          <Value key="0">
+            <Field name="nMsgType" xsi:type="array" type="num" size="1" />
+            <Field name="nCommType" xsi:type="array" type="num" size="1" />
+            <Field name="nReplyCode" xsi:type="array" type="num" size="1" />
+            <Field name="nData" xsi:type="array" type="num" size="12" />
+          </Value>
+        </Field>
+        <Field name="body" xsi:type="array" type="Body" size="1">
+          <Value key="0">
+            <Field name="nData" xsi:type="array" type="num" size="44" />
+          </Value>
+        </Field>
+        <Field name="jointState" xsi:type="array" type="JointState" size="1">
+          <Value key="0">
+            <Field name="nSeq" xsi:type="array" type="num" size="1" />
+            <Field name="nJoints" xsi:type="array" type="num" size="10" />
+          </Value>
+        </Field>
+        <Field name="prefix" xsi:type="array" type="Prefix" size="1">
+          <Value key="0">
+            <Field name="nLength" xsi:type="array" type="num" size="1" />
+            <Field name="nData" xsi:type="array" type="num" size="4" />
+          </Value>
+        </Field>
+      </Value>
+    </Data>
+    <Data name="rosTrajPtMsg" access="public" xsi:type="array" type="JointTrajPtMsg" size="1">
+      <Value key="0">
+        <Field name="header" xsi:type="array" type="Header" size="1">
+          <Value key="0">
+            <Field name="nMsgType" xsi:type="array" type="num" size="1" />
+            <Field name="nCommType" xsi:type="array" type="num" size="1" />
+            <Field name="nReplyCode" xsi:type="array" type="num" size="1" />
+            <Field name="nData" xsi:type="array" type="num" size="12" />
+          </Value>
+        </Field>
+        <Field name="jointTrajPt" xsi:type="array" type="JointTrajPt" size="1">
+          <Value key="0">
+            <Field name="nSeq" xsi:type="array" type="num" size="1" />
+            <Field name="nJoints" xsi:type="array" type="num" size="10" />
+            <Field name="nVelocity" xsi:type="array" type="num" size="1" />
+            <Field name="nDuration" xsi:type="array" type="num" size="1" />
+          </Value>
+        </Field>
+        <Field name="prefix" xsi:type="array" type="Prefix" size="1">
+          <Value key="0">
+            <Field name="nLength" xsi:type="array" type="num" size="1" />
+            <Field name="nData" xsi:type="array" type="num" size="4" />
+          </Value>
+        </Field>
+        <Field name="body" xsi:type="array" type="Body" size="1">
+          <Value key="0">
+            <Field name="nData" xsi:type="array" type="num" size="64" />
+          </Value>
+        </Field>
+      </Value>
+    </Data>
+    <Data name="bRecvData" access="public" xsi:type="array" type="bool" size="1" />
+    <Data name="rosTrajPtFMsg" access="public" xsi:type="array" type="JointTrajPtFMsg" size="1">
+      <Value key="0">
+        <Field name="header" xsi:type="array" type="Header" size="1">
+          <Value key="0">
+            <Field name="nMsgType" xsi:type="array" type="num" size="1" />
+            <Field name="nCommType" xsi:type="array" type="num" size="1" />
+            <Field name="nReplyCode" xsi:type="array" type="num" size="1" />
+            <Field name="nData" xsi:type="array" type="num" size="12" />
+          </Value>
+        </Field>
+        <Field name="prefix" xsi:type="array" type="Prefix" size="1">
+          <Value key="0">
+            <Field name="nLength" xsi:type="array" type="num" size="1" />
+            <Field name="nData" xsi:type="array" type="num" size="4" />
+          </Value>
+        </Field>
+        <Field name="jointTrajPtFull" xsi:type="array" type="JointTrajPtFull" size="1">
+          <Value key="0">
+            <Field name="nRobotId" xsi:type="array" type="num" size="1" />
+            <Field name="nSeq" xsi:type="array" type="num" size="1" />
+            <Field name="nValidFields" xsi:type="array" type="num" size="1" />
+            <Field name="nTime" xsi:type="array" type="num" size="1" />
+            <Field name="nPositions" xsi:type="array" type="num" size="10" />
+            <Field name="nVelocities" xsi:type="array" type="num" size="10" />
+            <Field name="nAccelerations" xsi:type="array" type="num" size="10" />
+          </Value>
+        </Field>
+        <Field name="body" xsi:type="array" type="Body" size="1">
+          <Value key="0">
+            <Field name="nData" xsi:type="array" type="num" size="136" />
+          </Value>
+        </Field>
+      </Value>
+    </Data>
+    <Data name="rosJointFbkMsg" access="public" xsi:type="array" type="JointFbkMsg" size="1">
+      <Value key="0">
+        <Field name="header" xsi:type="array" type="Header" size="1">
+          <Value key="0">
+            <Field name="nMsgType" xsi:type="array" type="num" size="1" />
+            <Field name="nCommType" xsi:type="array" type="num" size="1" />
+            <Field name="nReplyCode" xsi:type="array" type="num" size="1" />
+            <Field name="nData" xsi:type="array" type="num" size="12" />
+          </Value>
+        </Field>
+        <Field name="prefix" xsi:type="array" type="Prefix" size="1">
+          <Value key="0">
+            <Field name="nLength" xsi:type="array" type="num" size="1" />
+            <Field name="nData" xsi:type="array" type="num" size="4" />
+          </Value>
+        </Field>
+        <Field name="jointFeedback" xsi:type="array" type="JointFeedback" size="1">
+          <Value key="0">
+            <Field name="nRobotId" xsi:type="array" type="num" size="1" />
+            <Field name="nValidFields" xsi:type="array" type="num" size="1" />
+            <Field name="nTime" xsi:type="array" type="num" size="1" />
+            <Field name="nPositions" xsi:type="array" type="num" size="10" />
+            <Field name="nVelocities" xsi:type="array" type="num" size="10" />
+            <Field name="nAccelerations" xsi:type="array" type="num" size="10" />
+          </Value>
+        </Field>
+        <Field name="body" xsi:type="array" type="Body" size="1">
+          <Value key="0">
+            <Field name="nData" xsi:type="array" type="num" size="132" />
+          </Value>
+        </Field>
+      </Value>
+    </Data>
+    <Data name="rosTrajPtFAck" access="public" xsi:type="array" type="JointTrajPtFMsg" size="1">
+      <Value key="0">
+        <Field name="header" xsi:type="array" type="Header" size="1">
+          <Value key="0">
+            <Field name="nMsgType" xsi:type="array" type="num" size="1" />
+            <Field name="nCommType" xsi:type="array" type="num" size="1" />
+            <Field name="nReplyCode" xsi:type="array" type="num" size="1" />
+            <Field name="nData" xsi:type="array" type="num" size="12" />
+          </Value>
+        </Field>
+        <Field name="prefix" xsi:type="array" type="Prefix" size="1">
+          <Value key="0">
+            <Field name="nLength" xsi:type="array" type="num" size="1" />
+            <Field name="nData" xsi:type="array" type="num" size="4" />
+          </Value>
+        </Field>
+        <Field name="jointTrajPtFull" xsi:type="array" type="JointTrajPtFull" size="1">
+          <Value key="0">
+            <Field name="nRobotId" xsi:type="array" type="num" size="1" />
+            <Field name="nSeq" xsi:type="array" type="num" size="1" />
+            <Field name="nValidFields" xsi:type="array" type="num" size="1" />
+            <Field name="nTime" xsi:type="array" type="num" size="1" />
+            <Field name="nPositions" xsi:type="array" type="num" size="10" />
+            <Field name="nVelocities" xsi:type="array" type="num" size="10" />
+            <Field name="nAccelerations" xsi:type="array" type="num" size="10" />
+          </Value>
+        </Field>
+        <Field name="body" xsi:type="array" type="Body" size="1">
+          <Value key="0">
+            <Field name="nData" xsi:type="array" type="num" size="136" />
+          </Value>
+        </Field>
+      </Value>
+    </Data>
+    <Data name="bMsgDecoded" access="public" xsi:type="array" type="bool" size="1" />
+    <Data name="bHeaderDecoded" access="public" xsi:type="array" type="bool" size="1" />
+    <Data name="rosTrajPtAck" access="public" xsi:type="array" type="JointTrajPtMsg" size="1">
+      <Value key="0">
+        <Field name="header" xsi:type="array" type="Header" size="1">
+          <Value key="0">
+            <Field name="nMsgType" xsi:type="array" type="num" size="1" />
+            <Field name="nCommType" xsi:type="array" type="num" size="1" />
+            <Field name="nReplyCode" xsi:type="array" type="num" size="1" />
+            <Field name="nData" xsi:type="array" type="num" size="12" />
+          </Value>
+        </Field>
+        <Field name="jointTrajPt" xsi:type="array" type="JointTrajPt" size="1">
+          <Value key="0">
+            <Field name="nSeq" xsi:type="array" type="num" size="1" />
+            <Field name="nJoints" xsi:type="array" type="num" size="10" />
+            <Field name="nVelocity" xsi:type="array" type="num" size="1" />
+            <Field name="nDuration" xsi:type="array" type="num" size="1" />
+          </Value>
+        </Field>
+        <Field name="prefix" xsi:type="array" type="Prefix" size="1">
+          <Value key="0">
+            <Field name="nLength" xsi:type="array" type="num" size="1" />
+            <Field name="nData" xsi:type="array" type="num" size="4" />
+          </Value>
+        </Field>
+        <Field name="body" xsi:type="array" type="Body" size="1">
+          <Value key="0">
+            <Field name="nData" xsi:type="array" type="num" size="64" />
+          </Value>
+        </Field>
+      </Value>
+    </Data>
+    <Data name="bScreenOverrun" access="public" xsi:type="array" type="bool" size="1" />
+    <Data name="sScreenTaskName" access="public" xsi:type="array" type="string" size="1" />
+    <Data name="nScreenUpdate" access="public" xsi:type="array" type="num" size="1" />
+    <Data name="nTrajReception" access="public" xsi:type="array" type="num" size="1" />
+    <Data name="mTrajPt" access="public" xsi:type="array" type="MotionBuffer" size="1">
+      <Value key="0">
+        <Field name="mVelAcc" xsi:type="array" type="mdesc" size="1">
+          <Value key="0" leave="0" reach="0" />
+        </Field>
+        <Field name="nDuration" xsi:type="array" type="num" size="1" />
+        <Field name="nSequence" xsi:type="array" type="num" size="1" />
+        <Field name="jJointRx" xsi:type="array" type="jointRx" size="1" />
+      </Value>
+    </Data>
+    <Data name="nDataIn" access="public" xsi:type="array" type="num" size="1" />
+    <Data name="nDataOut" access="public" xsi:type="array" type="num" size="1" />
+    <Data name="nDebugStatus" access="public" xsi:type="array" type="num" size="1" />
+    <Data name="nDebugSocket" access="public" xsi:type="array" type="num" size="1" />
+    <Data name="scDebug" access="public" xsi:type="array" type="screen" size="1" />
+    <Data name="scMonitor" access="public" xsi:type="array" type="screen" size="1" />
+    <Data name="sHtbtTaskName" access="public" xsi:type="array" type="string" size="1" />
+  </Datas>
+</Database>

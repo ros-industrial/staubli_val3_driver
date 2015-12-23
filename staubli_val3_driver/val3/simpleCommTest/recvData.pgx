@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Programs xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.staubli.com/robotics/VAL3/Program/2">
+  <Program name="recvData" access="public">
+    <Code><![CDATA[begin
+  while (true)
+    nB=0
+    n=0
+    while (nB<24)
+      nB=sioGet(siTcpReceiver,nByteIn[n])
+      if (nB>0)
+        n=n+nB
+      else
+        // communication error
+        popUpMsg("Comm error")
+        return
+      endIf
+    endWhile
+    if (fromBinary(nByteIn,24,"-4l",nTrsfIn)!=6)
+      // corrupted data
+      popUpMsg("Data corrupted")
+      return
+    else
+      trShiftIn.x=nTrsfIn[0]
+      trShiftIn.y=nTrsfIn[1]
+      trShiftIn.z=nTrsfIn[2]
+      trShiftIn.rx=nTrsfIn[3]
+      trShiftIn.ry=nTrsfIn[4]
+      trShiftIn.rz=nTrsfIn[5]
+    endIf
+  endWhile
+end]]></Code>
+  </Program>
+</Programs>

@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Programs xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.staubli.com/robotics/VAL3/Program/2">
+  <Program name="sendData" access="public">
+    <Parameters xmlns="http://www.staubli.com/robotics/VAL3/Param/1">
+      <Parameter name="x_sTcpSocket" type="sio" xsi:type="element" use="reference" />
+      <Parameter name="x_nData" type="num" xsi:type="array" use="reference" />
+      <Parameter name="x_nFlag" type="num" xsi:type="element" use="reference" />
+    </Parameters>
+    <Locals>
+      <Local name="l_nRetVal" type="num" xsi:type="array" size="1" />
+    </Locals>
+    <Code><![CDATA[begin
+  // send data via socket connection
+  l_nRetVal = sioSet(x_sTcpSocket, x_nData)
+  if (l_nRetVal == -1)
+    if (x_nFlag == 1)
+      x_nFlag = -1
+    endIf
+    return
+  elseIf (l_nRetVal < size(x_nData))
+    popUpMsg("Error while sending data")
+    x_nFlag = -1
+    return
+  else
+    nDataOut = 1
+  endIf
+end]]></Code>
+  </Program>
+</Programs>

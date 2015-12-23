@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Programs xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.staubli.com/robotics/VAL3/Program/2">
+  <Program name="sendData" access="public">
+    <Locals>
+      <Local name="l_nRetVal" type="num" xsi:type="array" size="1" />
+    </Locals>
+    <Code><![CDATA[begin
+  userPage()
+  while (true)
+    nTrsfOut[0]=trShiftOut.x
+    nTrsfOut[1]=trShiftOut.y
+    nTrsfOut[2]=trShiftOut.z
+    nTrsfOut[3]=trShiftOut.rx
+    nTrsfOut[4]=trShiftOut.ry
+    nTrsfOut[5]=trShiftOut.rz
+
+    toBinary(nTrsfOut,6,"-4l",nByteOut)
+    l_nRetVal = sioSet(siTcpSender,nByteOut)
+    if (l_nRetVal == -1)
+      putln("Not connected")
+    endIf
+  endWhile
+end]]></Code>
+  </Program>
+</Programs>

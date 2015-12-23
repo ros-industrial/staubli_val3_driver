@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Programs xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.staubli.com/robotics/VAL3/Program/2">
+  <Program name="pushMotion" access="public">
+    <Locals>
+      <Local name="l_nJointError" type="num" xsi:type="array" size="1" />
+      <Local name="l_bOk" type="bool" xsi:type="array" size="1" />
+      <Local name="l_nCounter" type="num" xsi:type="array" size="1" />
+    </Locals>
+    <Code><![CDATA[begin
+  switch rosGenericMsg.header.nMsgType
+    case 11
+      mTrajPt.nSequence = rosTrajPtMsg.jointTrajPt.nSeq
+      
+      mTrajPt.jJointRx.j1 = rosTrajPtMsg.jointTrajPt.nJoints[0]
+      mTrajPt.jJointRx.j2 = rosTrajPtMsg.jointTrajPt.nJoints[1]
+      mTrajPt.jJointRx.j3 = rosTrajPtMsg.jointTrajPt.nJoints[2]
+      mTrajPt.jJointRx.j4 = rosTrajPtMsg.jointTrajPt.nJoints[3]
+      mTrajPt.jJointRx.j5 = rosTrajPtMsg.jointTrajPt.nJoints[4]
+      mTrajPt.jJointRx.j6 = rosTrajPtMsg.jointTrajPt.nJoints[5]
+      
+      mTrajPt.mVelAcc.vel = rosTrajPtMsg.jointTrajPt.nVelocity
+      mTrajPt.nDuration = rosTrajPtMsg.jointTrajPt.nDuration
+    break
+    case 14
+      mTrajPt.nSequence = rosTrajPtFMsg.jointTrajPtFull.nSeq
+      mTrajPt.nDuration = rosTrajPtFMsg.jointTrajPtFull.nTime
+      mTrajPt.jJointRx.j1 = rosTrajPtFMsg.jointTrajPtFull.nPositions[0]
+      mTrajPt.jJointRx.j2 = rosTrajPtFMsg.jointTrajPtFull.nPositions[1]
+      mTrajPt.jJointRx.j3 = rosTrajPtFMsg.jointTrajPtFull.nPositions[2]
+      mTrajPt.jJointRx.j4 = rosTrajPtFMsg.jointTrajPtFull.nPositions[3]
+      mTrajPt.jJointRx.j5 = rosTrajPtFMsg.jointTrajPtFull.nPositions[4]
+      mTrajPt.jJointRx.j6 = rosTrajPtFMsg.jointTrajPtFull.nPositions[5]
+      
+      mTrajPt.mVelAcc.vel = rosTrajPtFMsg.jointTrajPtFull.nVelocities[0]
+      mTrajPt.mVelAcc.accel = rosTrajPtFMsg.jointTrajPtFull.nAccelerations[0]
+      mTrajPt.mVelAcc.decel = mTrajPt.mVelAcc.decel
+    break
+    default
+    break
+  endSwitch
+  
+  call libBuffer:push(mTrajPt, l_bOk)
+  
+  bValidMotion = false
+end]]></Code>
+  </Program>
+</Programs>

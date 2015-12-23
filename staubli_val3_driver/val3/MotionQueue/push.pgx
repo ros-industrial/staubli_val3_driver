@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Programs xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.staubli.com/robotics/VAL3/Program/2">
+  <Program name="push" access="public">
+    <Parameters xmlns="http://www.staubli.com/robotics/VAL3/Param/1">
+      <Parameter name="x_cmd" type="MotionBuffer" xsi:type="element" use="reference" />
+      <Parameter name="x_res" type="bool" xsi:type="element" use="reference" />
+    </Parameters>
+    <Code><![CDATA[begin
+  if (nElems < size(buffer))
+    buffer[nPush] = x_cmd
+    nElems = nElems + 1
+    nPush = nPush + 1
+    if (nPush >= size(buffer))
+      nPush = 0
+    endIf
+    x_res = true
+  else
+    x_res = false
+  endIf
+end]]></Code>
+  </Program>
+</Programs>

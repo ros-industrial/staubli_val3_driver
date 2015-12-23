@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Database xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.staubli.com/robotics/VAL3/Data/2">
+  <Datas>
+    <Data name="bReceiver" access="public" xsi:type="array" type="bool" size="1" />
+    <Data name="bSender" access="public" xsi:type="array" type="bool" size="1" />
+    <Data name="mNomSpeed" access="private" xsi:type="array" type="mdesc" size="1" />
+    <Data name="n" access="public" xsi:type="array" type="num" size="1" />
+    <Data name="nB" access="public" xsi:type="array" type="num" size="1">
+      <Value key="0" value="-1" />
+    </Data>
+    <Data name="nByteIn" access="public" xsi:type="array" type="num" size="24" />
+    <Data name="nByteOut" access="public" xsi:type="array" type="num" size="24" />
+    <Data name="nTrsfIn" access="public" xsi:type="array" type="num" size="6" />
+    <Data name="nTrsfOut" access="public" xsi:type="array" type="num" size="6" />
+    <Data name="siTcpReceiver" access="public" xsi:type="array" type="sio" size="1">
+      <Value key="0" link="Socket\Feedback" />
+    </Data>
+    <Data name="siTcpSender" access="public" xsi:type="array" type="sio" size="1">
+      <Value key="0" link="Socket\Motion" />
+    </Data>
+    <Data name="trShiftIn" access="public" xsi:type="array" type="trsf" size="1" />
+    <Data name="trShiftOut" access="public" xsi:type="array" type="trsf" size="1" />
+  </Datas>
+</Database>

@@ -1,0 +1,51 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Programs xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.staubli.com/robotics/VAL3/Program/2">
+  <Program name="decodeMsgHeader" access="public">
+    <Locals>
+      <Local name="l_nRetVal" type="num" xsi:type="array" size="1" />
+    </Locals>
+    <Code><![CDATA[begin
+  // decode message into generic message first  
+  l_nRetVal = fromBinary(rosGenericMsg.prefix.nData, 4, "-4l", rosGenericMsg.prefix.nLength)
+  if (l_nRetVal != 1)
+    put("data corrupted: ")
+    putln(l_nRetVal)
+    bHeaderDecoded = false
+    return
+  endIf
+  l_nRetVal = fromBinary(rosGenericMsg.header.nData, 4, "-4l", rosGenericMsg.header.nMsgType)
+  if (l_nRetVal != 1)
+    put("data corrupted: ")
+    putln(l_nRetVal)
+    bHeaderDecoded = false
+    return
+  endIf
+  l_nRetVal = fromBinary(rosGenericMsg.header.nData[4], 4, "-4l", rosGenericMsg.header.nCommType)
+  if (l_nRetVal != 1)
+    put("data corrupted: ")
+    putln(l_nRetVal)
+    bHeaderDecoded = false
+    return
+  endIf
+  l_nRetVal = fromBinary(rosGenericMsg.header.nData[8], 4, "-4l", rosGenericMsg.header.nReplyCode)
+  if (l_nRetVal != 1)
+    put("data corrupted: ")
+    putln(l_nRetVal)
+    bHeaderDecoded = false
+    return
+  endIf
+  
+  //put("length: ")
+  //putln(toString("", rosGenericMsg.prefix.nLength))
+  //put("msg_type: ")
+  //putln(toString("", rosGenericMsg.header.nMsgType))
+  //put("comm_type: ")
+  //putln(toString("", rosGenericMsg.header.nCommType))
+  //put("reply_code: ")
+  //putln(toString("", rosGenericMsg.header.nReplyCode))
+  
+  // after decoding msg, indicate completion
+  bHeaderDecoded = true
+end]]></Code>
+  </Program>
+</Programs>

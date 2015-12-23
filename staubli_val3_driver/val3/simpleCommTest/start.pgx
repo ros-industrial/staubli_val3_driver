@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Programs xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.staubli.com/robotics/VAL3/Program/2" >
+  <Program name="start" access="private" >
+    <Code><![CDATA[begin
+  taskCreateSync "sender",0.5,bSender,sendData()
+  taskCreateSync "receiver",0.5,bReceiver,recvData()
+end]]></Code>
+  </Program>
+</Programs>

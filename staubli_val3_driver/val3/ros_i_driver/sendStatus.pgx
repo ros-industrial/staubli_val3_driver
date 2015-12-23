@@ -1,0 +1,71 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Programs xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.staubli.com/robotics/VAL3/Program/2">
+  <Program name="sendStatus" access="public">
+    <Locals>
+      <Local name="l_nRetVal" type="num" xsi:type="array" size="1" />
+    </Locals>
+    <Code><![CDATA[begin  
+  // send message length (prefix)
+  l_nRetVal = sioSet(siTcpIpFbk, rosStatusMsg.prefix.nData)
+  nDebugSocket = l_nRetVal
+  if (l_nRetVal == -1)
+    // 10002: not connected?
+    //putln("11002: not connected")
+    if (nDataOut != 0)
+      nDataOut = -1
+      clearBuffer(siTcpIpFbk)
+    endIf
+    return
+  elseIf (l_nRetVal < 4)
+    popUpMsg("Error while sending prefix")
+    nDataOut = -1
+    clearBuffer(siTcpIpFbk)
+    return
+  else
+    nDataOut = 1
+  endIf
+
+  nBytesSent = size(rosStatusMsg.prefix.nData)
+
+  // send message header (msg type, comm type, reply code)
+  l_nRetVal = sioSet(siTcpIpFbk, rosStatusMsg.header.nData)
+  nDebugSocket = l_nRetVal
+  if (l_nRetVal == -1)
+    // 10002: connection lost
+    //putln("11002: connection lost")
+    nDataOut = -1
+    clearBuffer(siTcpIpFbk)
+    return
+  elseIf (l_nRetVal < 12)
+    popUpMsg("Error while sending msg header")
+    nDataOut = -1
+    clearBuffer(siTcpIpFbk)
+    return
+  else
+    nDataOut = 1
+  endIf
+  
+  nBytesSent = nBytesSent + size(rosStatusMsg.header.nData)
+
+  // send message body (data)
+  l_nRetVal = sioSet(siTcpIpFbk, rosStatusMsg.body.nData)
+  nDebugSocket = l_nRetVal
+  if (l_nRetVal == -1)
+    // 10002: connection lost
+    //putln("11002: connection lost")
+    nDataOut = -1
+    clearBuffer(siTcpIpFbk)
+    return
+  elseIf (l_nRetVal < 28)
+    popUpMsg("Error while sending msg body")
+    nDataOut = -1
+    clearBuffer(siTcpIpFbk)
+    return
+  else
+    nDataOut = 1
+  endIf
+  
+  nBytesSent = nBytesSent + size(rosStatusMsg.body.nData)
+end]]></Code>
+  </Program>
+</Programs>
