@@ -33,7 +33,7 @@
       
       mTrajPt.mVelAcc.vel = rosTrajPtFMsg.jointTrajPtFull.nVelocities[0]
       mTrajPt.mVelAcc.accel = rosTrajPtFMsg.jointTrajPtFull.nAccelerations[0]
-      mTrajPt.mVelAcc.decel = mTrajPt.mVelAcc.decel
+      mTrajPt.mVelAcc.decel = mTrajPt.mVelAcc.accel
     break
     default
     break
@@ -41,7 +41,23 @@
   
   call libBuffer:push(mTrajPt, l_bOk)
   
-  bValidMotion = false
+  if (l_bOk == false)
+    // could not push trajectory point into buffer
+    // thus ACK should flag FAILURE
+    switch rosGenericMsg.header.nMsgType
+      case 11
+        rosTrajPtAck.header.nReplyCode = 2
+      break
+      case 14
+        rosTrajPtFAck.header.nReplyCode = 2
+      break
+      default
+      break
+    endSwitch
+  endIf
+  
+  // move on to state 5: sendAck()
+  nDataInState = 5
 end]]></Code>
   </Program>
 </Programs>

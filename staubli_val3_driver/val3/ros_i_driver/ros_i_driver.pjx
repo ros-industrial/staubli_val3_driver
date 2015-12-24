@@ -4,6 +4,7 @@
   <Programs>
     <Program file="dataReceiver.pgx" />
     <Program file="dataStreamer.pgx" />
+    <Program file="decodeMsgBody.pgx" />
     <Program file="decodeMsgHeader.pgx" />
     <Program file="decTrajPt.pgx" />
     <Program file="decTrajPtFull.pgx" />
@@ -17,6 +18,7 @@
     <Program file="pushMotion.pgx" />
     <Program file="recvData.pgx" />
     <Program file="recvHeartbeat.pgx" />
+    <Program file="recvMsgBody.pgx" />
     <Program file="recvMsgHeader.pgx" />
     <Program file="recvTrajPt.pgx" />
     <Program file="recvTrajPtFull.pgx" />

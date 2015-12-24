@@ -12,6 +12,10 @@
     default
     break
   endSwitch
+  
+  // regardless of result from sending ACK
+  // reset state machine to receive new messages
+  nDataInState = 0
 end]]></Code>
   </Program>
 </Programs>

@@ -8,32 +8,32 @@
   // decode message into generic message first  
   l_nRetVal = fromBinary(rosGenericMsg.prefix.nData, 4, "-4l", rosGenericMsg.prefix.nLength)
   if (l_nRetVal != 1)
-    put("data corrupted: ")
-    putln(l_nRetVal)
-    bHeaderDecoded = false
+    // error decoding prefix, reset state machine
+    nDataInState = 0
     return
   endIf
   l_nRetVal = fromBinary(rosGenericMsg.header.nData, 4, "-4l", rosGenericMsg.header.nMsgType)
   if (l_nRetVal != 1)
-    put("data corrupted: ")
-    putln(l_nRetVal)
-    bHeaderDecoded = false
+    // error decoding header (msg type), reset state machine
+    nDataInState = 0
     return
   endIf
   l_nRetVal = fromBinary(rosGenericMsg.header.nData[4], 4, "-4l", rosGenericMsg.header.nCommType)
   if (l_nRetVal != 1)
-    put("data corrupted: ")
-    putln(l_nRetVal)
-    bHeaderDecoded = false
+    // error decoding header (comm type), reset state machine
+    nDataInState = 0
     return
   endIf
   l_nRetVal = fromBinary(rosGenericMsg.header.nData[8], 4, "-4l", rosGenericMsg.header.nReplyCode)
   if (l_nRetVal != 1)
-    put("data corrupted: ")
-    putln(l_nRetVal)
-    bHeaderDecoded = false
+    // error decoding header (reply code), reset state machine
+    nDataInState = 0
     return
   endIf
+  
+  // no errors detected whilst decoding prefix and header
+  // move on to state 2: receive msg body
+  nDataInState = 2
   
   //put("length: ")
   //putln(toString("", rosGenericMsg.prefix.nLength))
@@ -43,9 +43,6 @@
   //putln(toString("", rosGenericMsg.header.nCommType))
   //put("reply_code: ")
   //putln(toString("", rosGenericMsg.header.nReplyCode))
-  
-  // after decoding msg, indicate completion
-  bHeaderDecoded = true
 end]]></Code>
   </Program>
 </Programs>

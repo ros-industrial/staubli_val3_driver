@@ -7,6 +7,52 @@
   bValidMsgBody = false
   bValidMotion = false
   
+  // state machine at initial state
+  // 0: receive header
+  // 1: decode header
+  // 2: receive body
+  // 3: decode body
+  // 4: push motion into buffer
+  // 5: send ACK
+  nDataInState = 0
+  
+  while (bRecvData)
+    // usually for state machines a switch-case statement is a neat implementation
+    // HOWEVER, at every iteration of while() this task is sequenced and only called
+    // after whatever ms is was defined when created.
+    // As a result, receiving one single message, pushing motion and sending ACK
+    // would take 6 * task period using switch-case statement.
+    // The desirable behaviour is to receive and decode a full message, push motion
+    // into buffer and then send ACK to client WITHIN ONE ITERATION of while(),
+    // hence the if statement sequence below
+    if (nDataInState == 0)
+      call recvMsgHeader()
+    endIf
+    if (nDataInState == 1)
+      call decodeMsgHeader()
+    endIf
+    if (nDataInState == 2)
+      call recvMsgBody()
+    endIf
+    if (nDataInState == 3)
+      call decodeMsgBody()
+    endIf
+    if (nDataInState == 4)
+      call pushMotion()
+    endIf
+    if (nDataInState == 5)
+      call sendAck()
+    endIf
+    
+    // assert state machine is working OK
+    if (nDataInState < 0 or nDataInState > 5)
+      popUpMsg("Data reception state machine error")
+    endIf
+    
+    // sequence task
+    delay(0)
+  endWhile
+  
   while (bRecvData)
     // receive message prefix + header
     call recvMsgHeader()
@@ -24,10 +70,10 @@
         case 11
           // assume Failure by default (change within decTrajPt())
           rosTrajPtAck.header.nReplyCode = 2
-          call recvTrajPt()
+          //call recvTrajPt()
           if (bValidMsgBody)
             bValidMsgBody = false
-            call decTrajPt()
+            //call decTrajPt()
             // always send ACK, with reply_code = SUCCESS or FAILURE
             call sendAck()
           endIf
@@ -35,10 +81,10 @@
         case 14
           // assume Failure by default (change within decTrajPtFull())
           rosTrajPtFAck.header.nReplyCode = 2
-          call recvTrajPtFull()
+          //call recvTrajPtFull()
           if (bValidMsgBody)
             bValidMsgBody = false
-            call decTrajPtFull()
+            //call decTrajPtFull()
             // always send ACK, with reply_code = SUCCESS or FAILURE
             call sendAck()
           endIf
