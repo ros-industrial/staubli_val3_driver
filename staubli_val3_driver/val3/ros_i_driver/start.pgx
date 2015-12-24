@@ -34,7 +34,7 @@
   
   // flags to control tasks: should start sending/receiving
   bSendData = true
-  bRecvData = false
+  bRecvData = true
   bCheckHeartbeat = true
   
   // debug status

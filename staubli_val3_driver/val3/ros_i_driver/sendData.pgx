@@ -13,7 +13,7 @@
   // send data via socket connection...
   // but only if connection is alive, or
   // if heartbeat is not expected
-  if (nDataOut == 1 or bCheckHeartbeat == false)
+  if (x_nFlag == 1 or bCheckHeartbeat == false)
     l_nRetVal = sioSet(x_sTcpSocket, x_nData)
     if (l_nRetVal == -1)
       if (x_nFlag == 1)
@@ -22,6 +22,14 @@
     elseIf (l_nRetVal < size(x_nData))
       popUpMsg("Error while sending data")
       x_nFlag = -1
+    elseIf (bCheckHeartbeat == false)
+      // once data is sent over an open connection,
+      // flag it as connected...
+      // however, it will never be possible to detect
+      // disconnections because the status goes into
+      // CLOSE_WAIT, but sioSet() keeps writing data
+      // to the socket...
+      x_nFlag = 1
     endIf
   endIf
 end]]></Code>

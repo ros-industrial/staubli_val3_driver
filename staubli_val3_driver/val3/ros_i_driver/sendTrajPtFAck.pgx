@@ -6,43 +6,51 @@
     </Locals>
     <Code><![CDATA[begin
   // send message length (prefix)
-  l_nRetVal = sioSet(siTcpIpMotion, rosTrajPtFAck.prefix.nData)
-  if (l_nRetVal == -1)
-    putln("10000: not connected")
-    return
-  elseIf (l_nRetVal < 4)
-    popUpMsg("Error while sending prefix")
-  endIf
-
-  nBytesSent = size(rosTrajPtFAck.prefix.nData)
-
+  call sendData(siTcpIpMotion, rosTrajPtFAck.prefix.nData, nDataIn)
   // send message header (msg type, comm type, reply code)
-  l_nRetVal = sioSet(siTcpIpMotion, rosTrajPtFAck.header.nData)
-  if (l_nRetVal == -1)
-    putln("10000: connection lost")
-    return
-  elseIf (l_nRetVal < 12)
-    popUpMsg("Error while sending msg header")
-  endIf
+  call sendData(siTcpIpMotion, rosTrajPtAck.header.nData, nDataIn)
+  // send message body (data) -- send as ACK the same body received
+  call sendData(siTcpIpMotion, rosTrajPtFMsg.body.nData, nDataIn)
   
-  nBytesSent = nBytesSent + size(rosTrajPtFAck.header.nData)
   
-  // send message body (data)
-  // reply_code can only be = 1 (Success) or = 2 (Failure)
-  if (rosTrajPtFAck.header.nReplyCode == 2)
-    l_nRetVal = sioSet(siTcpIpMotion, rosTrajPtFAck.body.nData)
-  elseIf (rosTrajPtFAck.header.nReplyCode == 1)
-    l_nRetVal = sioSet(siTcpIpMotion, rosTrajPtFMsg.body.nData)
-  endIf
-  
-  if (l_nRetVal == -1)
-    putln("10000: connection lost")
-    return
-  elseIf (l_nRetVal < 136)
-    popUpMsg("Error while sending msg body")
-  endIf
-  
-  nBytesSent = nBytesSent + size(rosTrajPtFAck.body.nData)
+//  // send message length (prefix)
+//  l_nRetVal = sioSet(siTcpIpMotion, rosTrajPtFAck.prefix.nData)
+//  if (l_nRetVal == -1)
+//    putln("10000: not connected")
+//    return
+//  elseIf (l_nRetVal < 4)
+//    popUpMsg("Error while sending prefix")
+//  endIf
+//
+//  nBytesSent = size(rosTrajPtFAck.prefix.nData)
+//
+//  // send message header (msg type, comm type, reply code)
+//  l_nRetVal = sioSet(siTcpIpMotion, rosTrajPtFAck.header.nData)
+//  if (l_nRetVal == -1)
+//    putln("10000: connection lost")
+//    return
+//  elseIf (l_nRetVal < 12)
+//    popUpMsg("Error while sending msg header")
+//  endIf
+//  
+//  nBytesSent = nBytesSent + size(rosTrajPtFAck.header.nData)
+//  
+//  // send message body (data)
+//  // reply_code can only be = 1 (Success) or = 2 (Failure)
+//  if (rosTrajPtFAck.header.nReplyCode == 2)
+//    l_nRetVal = sioSet(siTcpIpMotion, rosTrajPtFAck.body.nData)
+//  elseIf (rosTrajPtFAck.header.nReplyCode == 1)
+//    l_nRetVal = sioSet(siTcpIpMotion, rosTrajPtFMsg.body.nData)
+//  endIf
+//  
+//  if (l_nRetVal == -1)
+//    putln("10000: connection lost")
+//    return
+//  elseIf (l_nRetVal < 136)
+//    popUpMsg("Error while sending msg body")
+//  endIf
+//  
+//  nBytesSent = nBytesSent + size(rosTrajPtFAck.body.nData)
 end]]></Code>
   </Program>
 </Programs>

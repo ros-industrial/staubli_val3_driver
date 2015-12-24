@@ -7,39 +7,48 @@
       <Local name="l_nByte" type="num" xsi:type="array" size="1" />
     </Locals>
     <Code><![CDATA[begin
-  // receive message ID 11 data (prefix and header are in rosGenericMsg)
-  l_nBytesRecv = 0
-  l_nIndex = 0
-  
+  // attempt to receive message ID 11 data (prefix and header are in rosGenericMsg)
   rosTrajPtMsg.prefix.nLength = rosGenericMsg.prefix.nLength
   rosTrajPtMsg.header.nMsgType = rosGenericMsg.header.nMsgType
   rosTrajPtMsg.header.nCommType = rosGenericMsg.header.nCommType
   rosTrajPtMsg.header.nReplyCode = rosGenericMsg.header.nReplyCode
   
-  //while (l_nBytesRecv < (rosGenericMsg.prefix.nLength - 12))
-  while (l_nBytesRecv < 52)
-    l_nIndex = sioGet(siTcpIpMotion, l_nByte)
-    if (l_nIndex == -1)
-      if (l_nBytesRecv == 0)
-        // 11000: client is not connected?
-        if (nDataIn == 1)
-          nDataIn = -1
-        endIf
-      else
-        // 11000: connection lost
-        if (nDataIn == 1)
-          nDataIn = -1
-        endIf
-      endIf
-      bValidMsgBody = false
-      return
-    elseIf (l_nIndex == 1)
-      rosTrajPtMsg.body.nData[l_nBytesRecv] = l_nByte
-      l_nBytesRecv = l_nBytesRecv + l_nIndex
-      nDataIn = 1
-    endIf
-  endWhile
-  bValidMsgBody = true
+  call recvData(siTcpIpMotion, rosTrajPtMsg.body.nData, nDataIn, bValidMsgBody)
+  
+  
+//  // receive message ID 11 data (prefix and header are in rosGenericMsg)
+//  l_nBytesRecv = 0
+//  l_nIndex = 0
+//  
+//  rosTrajPtMsg.prefix.nLength = rosGenericMsg.prefix.nLength
+//  rosTrajPtMsg.header.nMsgType = rosGenericMsg.header.nMsgType
+//  rosTrajPtMsg.header.nCommType = rosGenericMsg.header.nCommType
+//  rosTrajPtMsg.header.nReplyCode = rosGenericMsg.header.nReplyCode
+//  
+//  //while (l_nBytesRecv < (rosGenericMsg.prefix.nLength - 12))
+//  while (l_nBytesRecv < 52)
+//    l_nIndex = sioGet(siTcpIpMotion, l_nByte)
+//    if (l_nIndex == -1)
+//      if (l_nBytesRecv == 0)
+//        // 11000: client is not connected?
+//        if (nDataIn == 1)
+//          nDataIn = -1
+//        endIf
+//      else
+//        // 11000: connection lost
+//        if (nDataIn == 1)
+//          nDataIn = -1
+//        endIf
+//      endIf
+//      bValidMsgBody = false
+//      return
+//    elseIf (l_nIndex == 1)
+//      rosTrajPtMsg.body.nData[l_nBytesRecv] = l_nByte
+//      l_nBytesRecv = l_nBytesRecv + l_nIndex
+//      nDataIn = 1
+//    endIf
+//  endWhile
+//  bValidMsgBody = true
 end]]></Code>
   </Program>
 </Programs>
