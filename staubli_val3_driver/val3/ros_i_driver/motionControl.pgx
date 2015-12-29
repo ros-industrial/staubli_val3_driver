@@ -1,7 +1,20 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Programs xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.staubli.com/robotics/VAL3/Program/2">
   <Program name="motionControl" access="public">
+    <Locals>
+      <Local name="l_motionBuffer" type="MotionBuffer" xsi:type="array" size="1" />
+      <Local name="l_bFlag" type="bool" xsi:type="array" size="1" />
+    </Locals>
     <Code><![CDATA[begin
+  // if buffer is not empty, pop() a motion command
+  if (libBuffer:nElems > 0)
+    call libBuffer:pop(l_motionBuffer, l_bFlag)
+    // check if pop() was successful
+    if (l_bFlag)
+      // what to do here?
+    endIf
+  endIf
+  
 end]]></Code>
   </Program>
 </Programs>

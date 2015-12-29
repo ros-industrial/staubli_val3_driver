@@ -2,10 +2,10 @@
 <Programs xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.staubli.com/robotics/VAL3/Program/2">
   <Program name="dataReceiver" access="public">
     <Code><![CDATA[begin
-  bValidMsgHeader = false
-  bHeaderDecoded = false
-  bValidMsgBody = false
-  bValidMotion = false
+//  bValidMsgHeader = false
+//  bHeaderDecoded = false
+//  bValidMsgBody = false
+//  bValidMotion = false
   
   // state machine at initial state
   // 0: receive header
@@ -53,56 +53,56 @@
     delay(0)
   endWhile
   
-  while (bRecvData)
-    // receive message prefix + header
-    call recvMsgHeader()
-    
-    if (bValidMsgHeader)
-      bValidMsgHeader = false
-      // decode appropriately
-      call decodeMsgHeader()
-    endIf
-    
-    if (bHeaderDecoded)
-      bHeaderDecoded = false
-      // receive and decode message according to msg_type
-      switch rosGenericMsg.header.nMsgType
-        case 11
-          // assume Failure by default (change within decTrajPt())
-          rosTrajPtAck.header.nReplyCode = 2
-          //call recvTrajPt()
-          if (bValidMsgBody)
-            bValidMsgBody = false
-            //call decTrajPt()
-            // always send ACK, with reply_code = SUCCESS or FAILURE
-            call sendAck()
-          endIf
-        break
-        case 14
-          // assume Failure by default (change within decTrajPtFull())
-          rosTrajPtFAck.header.nReplyCode = 2
-          //call recvTrajPtFull()
-          if (bValidMsgBody)
-            bValidMsgBody = false
-            //call decTrajPtFull()
-            // always send ACK, with reply_code = SUCCESS or FAILURE
-            call sendAck()
-          endIf
-        break
-        default
-          bValidMsgBody = false
-          bValidMotion = false
-        break
-      endSwitch      
-    endIf
-    
-    if (bValidMotion)
-      call pushMotion()
-    endIf
-    
-    // sequence task
-    delay(0)
-  endWhile
+//  while (bRecvData)
+//    // receive message prefix + header
+//    call recvMsgHeader()
+//    
+//    if (bValidMsgHeader)
+//      bValidMsgHeader = false
+//      // decode appropriately
+//      call decodeMsgHeader()
+//    endIf
+//    
+//    if (bHeaderDecoded)
+//      bHeaderDecoded = false
+//      // receive and decode message according to msg_type
+//      switch rosGenericMsg.header.nMsgType
+//        case 11
+//          // assume Failure by default (change within decTrajPt())
+//          rosTrajPtAck.header.nReplyCode = 2
+//          //call recvTrajPt()
+//          if (bValidMsgBody)
+//            bValidMsgBody = false
+//            //call decTrajPt()
+//            // always send ACK, with reply_code = SUCCESS or FAILURE
+//            call sendAck()
+//          endIf
+//        break
+//        case 14
+//          // assume Failure by default (change within decTrajPtFull())
+//          rosTrajPtFAck.header.nReplyCode = 2
+//          //call recvTrajPtFull()
+//          if (bValidMsgBody)
+//            bValidMsgBody = false
+//            //call decTrajPtFull()
+//            // always send ACK, with reply_code = SUCCESS or FAILURE
+//            call sendAck()
+//          endIf
+//        break
+//        default
+//          bValidMsgBody = false
+//          bValidMotion = false
+//        break
+//      endSwitch      
+//    endIf
+//    
+//    if (bValidMotion)
+//      call pushMotion()
+//    endIf
+//    
+//    // sequence task
+//    delay(0)
+//  endWhile
 end]]></Code>
   </Program>
 </Programs>
