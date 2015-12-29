@@ -40,7 +40,7 @@
   rosTrajPtAck.header.nCommType = 3
   // reply: 1 = success, 2 = failure
   rosTrajPtAck.header.nReplyCode = 1
-  // seq and joints are assumed to be initiliased to zero
+  // joints are assumed to be initiliased to zero
   
   // the message bellow will be filled upon reception
   rosTrajPtMsg.prefix.nLength = 64

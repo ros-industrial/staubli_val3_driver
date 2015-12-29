@@ -41,6 +41,7 @@
       call pushMotion()
     endIf
     if (nDataInState == 5)
+      call encodeAck()
       call sendAck()
     endIf
     

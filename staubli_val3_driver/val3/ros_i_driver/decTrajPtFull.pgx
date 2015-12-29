@@ -71,6 +71,7 @@
   
   // decoding successful
   rosTrajPtFAck.header.nReplyCode = 1
+  rosTrajPtFAck.jointTrajPtFull.nSeq = rosTrajPtFMsg.jointTrajPtFull.nSeq
   x_bFlag = true
 end]]></Code>
   </Program>

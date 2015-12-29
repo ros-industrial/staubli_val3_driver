@@ -8,9 +8,12 @@
     <Program file="decodeMsgHeader.pgx" />
     <Program file="decTrajPt.pgx" />
     <Program file="decTrajPtFull.pgx" />
+    <Program file="encodeAck.pgx" />
     <Program file="encodeJointFbk.pgx" />
     <Program file="encodeJState.pgx" />
     <Program file="encodeStatus.pgx" />
+    <Program file="encTrajPtAck.pgx" />
+    <Program file="encTrajPtFAck.pgx" />
     <Program file="fbkStreamer.pgx" />
     <Program file="fetchStatus.pgx" />
     <Program file="initParams.pgx" />

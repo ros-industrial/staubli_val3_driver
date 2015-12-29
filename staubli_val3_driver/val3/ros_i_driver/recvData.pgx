@@ -33,8 +33,10 @@
         clearBuffer(x_sTcpSocket)
       endIf
       return
-    else
-      popUpMsg("sioGet() returned 0 (or > 1)")
+    elseIf (l_nIndex > 1)
+      popUpMsg("sioGet() returned > 1")
+    //else
+    //  popUpMsg("sioGet() returned 0")
     endIf
   endWhile
   x_bValidFlag = true

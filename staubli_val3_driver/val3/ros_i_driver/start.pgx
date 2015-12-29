@@ -37,6 +37,8 @@
   bRecvData = true
   bCheckHeartbeat = true
   
+  nPtsPopped = 0
+  
   // debug status
   nDebugStatus = 0
 

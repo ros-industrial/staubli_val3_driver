@@ -9,9 +9,7 @@
   call sendData(siTcpIpMotion, rosTrajPtAck.prefix.nData, nDataIn)
   // send message header (msg type, comm type, reply code)
   call sendData(siTcpIpMotion, rosTrajPtAck.header.nData, nDataIn)
-  // send message body (data) -- send as ACK the same body received
-  //call sendData(siTcpIpMotion, rosTrajPtAck.body.nData, nDataIn)
-  call sendData(siTcpIpMotion, rosTrajPtMsg.body.nData, nDataIn)
+  call sendData(siTcpIpMotion, rosTrajPtAck.body.nData, nDataIn)
   
   
 //  // send message length (prefix)

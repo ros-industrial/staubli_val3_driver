@@ -6,15 +6,19 @@
       <Local name="l_bFlag" type="bool" xsi:type="array" size="1" />
     </Locals>
     <Code><![CDATA[begin
-  // if buffer is not empty, pop() a motion command
-  if (libBuffer:nElems > 0)
-    call libBuffer:pop(l_motionBuffer, l_bFlag)
-    // check if pop() was successful
-    if (l_bFlag)
-      // what to do here?
+  while (true)
+    // if enough points in buffer, pop() a motion command
+    if (libBuffer:nElems > 4)
+      call libBuffer:pop(l_motionBuffer, l_bFlag)
+      // check if pop() was successful
+      if (l_bFlag)
+        // what to do here?
+        nPtsPopped = nPtsPopped + 1
+      endIf
     endIf
-  endIf
-  
+    // sequence task
+    delay(0)
+  endWhile
 end]]></Code>
   </Program>
 </Programs>

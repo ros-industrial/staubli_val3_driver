@@ -57,6 +57,9 @@
     gotoxy(scMonitor, 15,3)
     put(scMonitor, libBuffer:nElems)
     
+    gotoxy(scMonitor, 19,3)
+    put(scMonitor, nPtsPopped)
+    
     // display heartbeat status
     gotoxy(scMonitor, 0,5)
     put(scMonitor, "Heartbeat status:")

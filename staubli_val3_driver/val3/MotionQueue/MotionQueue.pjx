@@ -5,6 +5,7 @@
     <Program file="getNumElements.pgx" />
     <Program file="pop.pgx" />
     <Program file="push.pgx" />
+    <Program file="push_front.pgx" />
     <Program file="start.pgx" />
     <Program file="stop.pgx" />
   </Programs>
