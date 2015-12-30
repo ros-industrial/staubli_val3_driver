@@ -1,40 +1,40 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Programs xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.staubli.com/robotics/VAL3/Program/2">
-  <Program name="decodeMsgHeader" access="public">
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Programs xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.staubli.com/robotics/VAL3/Program/2" >
+  <Program name="decodeMsgHeader" access="public" >
     <Locals>
       <Local name="l_nRetVal" type="num" xsi:type="array" size="1" />
     </Locals>
     <Code><![CDATA[begin
   // decode message into generic message first  
-  l_nRetVal = fromBinary(rosGenericMsg.prefix.nData, 4, "-4l", rosGenericMsg.prefix.nLength)
-  if (l_nRetVal != 1)
+  l_nRetVal=fromBinary(rosGenericMsg.prefix.nData,4,"-4l",rosGenericMsg.prefix.nLength)
+  if (l_nRetVal!=1)
     // error decoding prefix, reset state machine
-    nDataInState = 0
+    nDataInState=0
     return
   endIf
-  l_nRetVal = fromBinary(rosGenericMsg.header.nData, 4, "-4l", rosGenericMsg.header.nMsgType)
-  if (l_nRetVal != 1)
+  l_nRetVal=fromBinary(rosGenericMsg.header.nData,4,"-4l",rosGenericMsg.header.nMsgType)
+  if (l_nRetVal!=1)
     // error decoding header (msg type), reset state machine
-    nDataInState = 0
+    nDataInState=0
     return
   endIf
-  l_nRetVal = fromBinary(rosGenericMsg.header.nData[4], 4, "-4l", rosGenericMsg.header.nCommType)
-  if (l_nRetVal != 1)
+  l_nRetVal=fromBinary(rosGenericMsg.header.nData[4],4,"-4l",rosGenericMsg.header.nCommType)
+  if (l_nRetVal!=1)
     // error decoding header (comm type), reset state machine
-    nDataInState = 0
+    nDataInState=0
     return
   endIf
-  l_nRetVal = fromBinary(rosGenericMsg.header.nData[8], 4, "-4l", rosGenericMsg.header.nReplyCode)
-  if (l_nRetVal != 1)
+  l_nRetVal=fromBinary(rosGenericMsg.header.nData[8],4,"-4l",rosGenericMsg.header.nReplyCode)
+  if (l_nRetVal!=1)
     // error decoding header (reply code), reset state machine
-    nDataInState = 0
+    nDataInState=0
     return
   endIf
-  
+
   // no errors detected whilst decoding prefix and header
   // move on to state 2: receive msg body
-  nDataInState = 2
-  
+  nDataInState=2
+
   //put("length: ")
   //putln(toString("", rosGenericMsg.prefix.nLength))
   //put("msg_type: ")

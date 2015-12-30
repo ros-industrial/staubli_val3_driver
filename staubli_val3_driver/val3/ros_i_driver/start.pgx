@@ -2,7 +2,7 @@
 <Programs xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.staubli.com/robotics/VAL3/Program/2">
   <Program name="start">
     <Code><![CDATA[begin 
-  // feedback task will run every 32 ms (approx. 31 HZ)
+  // feedback task will run every 32 ms (approx. 31 Hz)
   //nFbkPeriod=0.032
   //nFbkPeriod = 0.05
   nFbkPeriod = 1.0
@@ -38,6 +38,7 @@
   bCheckHeartbeat = true
   
   nPtsPopped = 0
+  nMovePts = 0
   
   // debug status
   nDebugStatus = 0

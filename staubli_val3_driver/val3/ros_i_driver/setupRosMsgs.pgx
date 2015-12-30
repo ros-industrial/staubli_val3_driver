@@ -1,6 +1,6 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Programs xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.staubli.com/robotics/VAL3/Program/2">
-  <Program name="setupRosMsgs" access="public">
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Programs xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.staubli.com/robotics/VAL3/Program/2" >
+  <Program name="setupRosMsgs" access="public" >
     <Code><![CDATA[begin
   // Joint trajectory point message
   //rosMsgJointTraj.header.nMsgType=14
@@ -13,69 +13,69 @@
   //rosMsgJointFbk.header.nMsgType=15
   //rosMsgJointFbk.header.nCommType=1
   //rosMsgJointFbk.header.nReplyCode=0
-  
+
   // robot_id
   //rosMsgJointFbk.body.nData[0] = 0
   // valid_fields
   //rosMsgJointFbk.body.nData[1] = 2
   // time
   //rosMsgJointFbk.body.nData[2] = 3.2
-  
-  
+
+
   // Joint state message (ID 10)
   // prefix length = 12 + 44
-  rosJointMsg.prefix.nLength = 56
-  rosJointMsg.header.nMsgType = 10
-  rosJointMsg.header.nCommType = 1
-  rosJointMsg.header.nReplyCode = 0
+  rosJointMsg.prefix.nLength=56
+  rosJointMsg.header.nMsgType=10
+  rosJointMsg.header.nCommType=1
+  rosJointMsg.header.nReplyCode=0
   // sequence
-  rosJointMsg.jointState.nSeq = 0
-  
-  
-  
+  rosJointMsg.jointState.nSeq=0
+
+
+
   // Trajectory point message (ID 11)
   // prefix length = 12 + 52
-  rosTrajPtAck.prefix.nLength = 64
-  rosTrajPtAck.header.nMsgType = 11
-  rosTrajPtAck.header.nCommType = 3
+  rosTrajPtAck.prefix.nLength=64
+  rosTrajPtAck.header.nMsgType=11
+  rosTrajPtAck.header.nCommType=3
   // reply: 1 = success, 2 = failure
-  rosTrajPtAck.header.nReplyCode = 1
+  rosTrajPtAck.header.nReplyCode=1
   // joints are assumed to be initiliased to zero
-  
+
   // the message bellow will be filled upon reception
-  rosTrajPtMsg.prefix.nLength = 64
-  
-  
-  
+  rosTrajPtMsg.prefix.nLength=64
+
+
+
   // Robot status message (ID 13)
   // prefix length = 12 + 28
-  rosStatusMsg.prefix.nLength = 40
-  rosStatusMsg.header.nMsgType = 13
-  rosStatusMsg.header.nCommType = 1
-  rosStatusMsg.header.nReplyCode = 0
-  
-  
-  
+  rosStatusMsg.prefix.nLength=40
+  rosStatusMsg.header.nMsgType=13
+  rosStatusMsg.header.nCommType=1
+  rosStatusMsg.header.nReplyCode=0
+
+
+
   // Trajectory point full message (ID 14)
   // prefix length = 12 + 136
-  rosTrajPtFAck.prefix.nLength = 148
-  rosTrajPtFAck.header.nMsgType = 14
-  rosTrajPtFAck.header.nCommType = 3
+  rosTrajPtFAck.prefix.nLength=148
+  rosTrajPtFAck.header.nMsgType=14
+  rosTrajPtFAck.header.nCommType=3
   // reply: 1 = success, 2 = failure
-  rosTrajPtFAck.header.nReplyCode = 1
+  rosTrajPtFAck.header.nReplyCode=1
   // body (data) assumed to be initialised to zero
-  
+
   // the message bellow will be filled upon reception
-  rosTrajPtFMsg.prefix.nLength = 148
-  
-  
-  
+  rosTrajPtFMsg.prefix.nLength=148
+
+
+
   // Joint feedback message (ID 15)
   // prefix length = 12 + 132
-  rosJointFbkMsg.prefix.nLength = 144
-  rosJointFbkMsg.header.nMsgType = 15
-  rosJointFbkMsg.header.nCommType = 1
-  rosJointFbkMsg.header.nReplyCode = 0
+  rosJointFbkMsg.prefix.nLength=144
+  rosJointFbkMsg.header.nMsgType=15
+  rosJointFbkMsg.header.nCommType=1
+  rosJointFbkMsg.header.nReplyCode=0
 end]]></Code>
   </Program>
 </Programs>

@@ -1,29 +1,29 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Programs xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.staubli.com/robotics/VAL3/Program/2">
-  <Program name="encTrajPtAck" access="public">
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Programs xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.staubli.com/robotics/VAL3/Program/2" >
+  <Program name="encTrajPtAck" access="public" >
     <Locals>
       <Local name="l_nRetVal" type="num" xsi:type="array" size="1" />
     </Locals>
     <Code><![CDATA[begin
   // encode prefix length
-  l_nRetVal = toBinary(rosTrajPtAck.prefix.nLength, 1, "-4l", rosTrajPtAck.prefix.nData)
+  l_nRetVal=toBinary(rosTrajPtAck.prefix.nLength,1,"-4l",rosTrajPtAck.prefix.nData)
 
   // encode header
-  l_nRetVal = toBinary(rosTrajPtAck.header.nMsgType, 1, "-4l", rosTrajPtAck.header.nData)
-  l_nRetVal = toBinary(rosTrajPtAck.header.nCommType, 1, "-4l", rosTrajPtAck.header.nData[4])
-  l_nRetVal = toBinary(rosTrajPtAck.header.nReplyCode, 1, "-4l", rosTrajPtAck.header.nData[8])
+  l_nRetVal=toBinary(rosTrajPtAck.header.nMsgType,1,"-4l",rosTrajPtAck.header.nData)
+  l_nRetVal=toBinary(rosTrajPtAck.header.nCommType,1,"-4l",rosTrajPtAck.header.nData[4])
+  l_nRetVal=toBinary(rosTrajPtAck.header.nReplyCode,1,"-4l",rosTrajPtAck.header.nData[8])
 
   // encode 'sequence' variable of body message (data)
-  l_nRetVal = toBinary(rosTrajPtAck.jointTrajPt.nSeq, 1, "-4l", rosTrajPtAck.body.nData)
+  l_nRetVal=toBinary(rosTrajPtAck.jointTrajPt.nSeq,1,"-4l",rosTrajPtAck.body.nData)
 
   // encodings below are commented out to save CPU time, since values are all zeros
 
   // encode 10 values representing joints[10]
   //l_nRetVal = toBinary(rosTrajPtAck.jointTrajPt.nJoints, 10, "4.0l", rosTrajPtAck.body.nData[4])
-  
+
   // encode 'velocity' variable of body message (data)
   //l_nRetVal = toBinary(rosTrajPtAck.jointTrajPt.nVelocity, 1, "4.0l", rosTrajPtAck.body.nData[44])
-  
+
   // encode 'duration' variable of body message (data)
   //l_nRetVal = toBinary(rosTrajPtAck.jointTrajPt.nDuration, 1, "4.0l", rosTrajPtAck.body.nData[48])
 end]]></Code>

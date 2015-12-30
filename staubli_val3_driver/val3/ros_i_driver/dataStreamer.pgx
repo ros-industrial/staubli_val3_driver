@@ -1,6 +1,6 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Programs xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.staubli.com/robotics/VAL3/Program/2">
-  <Program name="dataStreamer" access="public">
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Programs xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.staubli.com/robotics/VAL3/Program/2" >
+  <Program name="dataStreamer" access="public" >
     <Code><![CDATA[begin
   while (bSendData)
     // fetch current joint positions
@@ -8,7 +8,7 @@
     // encode and send ROS simple_message ID 10: joint state
     call encodeJState()
     call sendJState()
-    
+
     // fetch robot status
     call fetchStatus()
     // encode and send ROS simple_message ID 13: robot status

@@ -1,38 +1,38 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Programs xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.staubli.com/robotics/VAL3/Program/2">
-  <Program name="recvHeartbeat" access="public">
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Programs xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.staubli.com/robotics/VAL3/Program/2" >
+  <Program name="recvHeartbeat" access="public" >
     <Locals>
       <Local name="l_nByte" type="num" xsi:type="array" size="1" />
       <Local name="l_nBytesRecv" type="num" xsi:type="array" size="1" />
-      <Local name="l_nIndex" type="num" xsi:type="array" size="1" />
-      <Local name="l_nHtbtB" type="num" xsi:type="array" size="4" />
       <Local name="l_nHtbt" type="num" xsi:type="array" size="1" />
+      <Local name="l_nHtbtB" type="num" xsi:type="array" size="4" />
+      <Local name="l_nIndex" type="num" xsi:type="array" size="1" />
     </Locals>
     <Code><![CDATA[begin
   while (bCheckHeartbeat)
     // attempt to receive heartbeat
-    l_nBytesRecv = 0
-    l_nIndex = 0
-    while (l_nBytesRecv < 4)
-      l_nIndex = sioGet(siTcpIpFbk, l_nByte)
-      if (l_nIndex == 1)
-        l_nHtbtB[l_nBytesRecv] = l_nByte
-        l_nBytesRecv = l_nBytesRecv + l_nIndex
-      elseIf (l_nIndex == -1)
+    l_nBytesRecv=0
+    l_nIndex=0
+    while (l_nBytesRecv<4)
+      l_nIndex=sioGet(siTcpIpFbk,l_nByte)
+      if (l_nIndex==1)
+        l_nHtbtB[l_nBytesRecv]=l_nByte
+        l_nBytesRecv=l_nBytesRecv+l_nIndex
+      elseIf (l_nIndex==-1)
         // error or timeout, indicate only if connection previously established
-        if (nDataOut == 1)
-          nDataOut = -1
+        if (nDataOut==1)
+          nDataOut=-1
           // close connection properly (to avoid CLOSE_WAIT)
           clearBuffer(siTcpIpFbk)
         endIf
       endIf
     endWhile
     // received 4 bytes
-    l_nIndex = fromBinary(l_nHtbtB, 4, "-4l", l_nHtbt)
-    if (l_nIndex == 1)
+    l_nIndex=fromBinary(l_nHtbtB,4,"-4l",l_nHtbt)
+    if (l_nIndex==1)
       // confirm heartbeat value -> ensure it is connected
-      if (l_nHtbt == 11002)
-        nDataOut = 1
+      if (l_nHtbt==11002)
+        nDataOut=1
       endIf
     endIf
   endWhile

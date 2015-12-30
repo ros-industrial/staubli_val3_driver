@@ -4,7 +4,7 @@
     <Code><![CDATA[begin
   userPage(scMonitor)
   cls(scMonitor)
-  title("ROS-I server")
+  title(scMonitor, "ROS-I server")
   
   while (true)
     // clear screen
@@ -50,24 +50,41 @@
       break
     endSwitch
     
-    // update buffer size
+    // update trajectory buffer size
     gotoxy(scMonitor, 0,3)
-    // 14 characteres: gotoxy(15,3) to insert status
-    put(scMonitor, "Motion buffer:")
-    gotoxy(scMonitor, 15,3)
-    put(scMonitor, libTrajPtBuffer:nElems)
-    // also print number of points popped (motion already processed)
+    // 18 characteres: gotoxy(19,3) to insert status
+    put(scMonitor, "Trajectory buffer:")
     gotoxy(scMonitor, 19,3)
+    put(scMonitor, libTrajPtBuffer:nElems)
+    // also print number of points popped from buffer
+    gotoxy(scMonitor, 24,3)
     put(scMonitor, nPtsPopped)
+    // do the same for move buffer
+    gotoxy(scMonitor, 0,4)
+    put(scMonitor, "Motion buffer:")
+    gotoxy(scMonitor, 19,4)
+    put(scMonitor, libMoveBuffer:nElems)
+    gotoxy(scMonitor, 24,4)
+    put(scMonitor, nMovePts)
+    
+    // display nMoveId and nMotionProgress
+    gotoxy(scMonitor, 0,6)
+    put(scMonitor, "moveId:")
+    gotoxy(scMonitor, 8,6)
+    put(scMonitor, nMoveId)
+    gotoxy(scMonitor, 13,6)
+    put(scMonitor, "progress:")
+    gotoxy(scMonitor, 23,6)
+    put(scMonitor, nMotionProgress)
     
     // display heartbeat status
-    gotoxy(scMonitor, 0,6)
+    gotoxy(scMonitor, 0,8)
     put(scMonitor, "Heartbeat status:")
-    gotoxy(scMonitor, 18,6)
+    gotoxy(scMonitor, 18,8)
     put(scMonitor, nDataOut)
     
     // update debug status
-    gotoxy(scMonitor, 18,8)
+    gotoxy(scMonitor, 18,10)
     switch nDebugStatus
       case 0
         put(scMonitor, "[+]")

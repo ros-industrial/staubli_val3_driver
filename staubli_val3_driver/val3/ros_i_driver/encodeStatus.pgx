@@ -1,26 +1,26 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Programs xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.staubli.com/robotics/VAL3/Program/2">
-  <Program name="encodeStatus" access="public">
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Programs xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.staubli.com/robotics/VAL3/Program/2" >
+  <Program name="encodeStatus" access="public" >
     <Locals>
       <Local name="l_nRetVal" type="num" xsi:type="array" size="1" />
     </Locals>
     <Code><![CDATA[begin
   // encode prefix length
-  l_nRetVal = toBinary(rosStatusMsg.prefix.nLength, 1, "-4l", rosStatusMsg.prefix.nData)
+  l_nRetVal=toBinary(rosStatusMsg.prefix.nLength,1,"-4l",rosStatusMsg.prefix.nData)
 
   // encode header
-  l_nRetVal = toBinary(rosStatusMsg.header.nMsgType, 1, "-4l", rosStatusMsg.header.nData)
-  l_nRetVal = toBinary(rosStatusMsg.header.nCommType, 1, "-4l", rosStatusMsg.header.nData[4])
-  l_nRetVal = toBinary(rosStatusMsg.header.nReplyCode, 1, "-4l", rosStatusMsg.header.nData[8])
+  l_nRetVal=toBinary(rosStatusMsg.header.nMsgType,1,"-4l",rosStatusMsg.header.nData)
+  l_nRetVal=toBinary(rosStatusMsg.header.nCommType,1,"-4l",rosStatusMsg.header.nData[4])
+  l_nRetVal=toBinary(rosStatusMsg.header.nReplyCode,1,"-4l",rosStatusMsg.header.nData[8])
 
   // encode variables of body message (data)
-  l_nRetVal = toBinary(rosStatusMsg.robotStatus.nMode, 1, "-4l", rosStatusMsg.body.nData)
-  l_nRetVal = toBinary(rosStatusMsg.robotStatus.nEStopped, 1, "-4l", rosStatusMsg.body.nData[4])
-  l_nRetVal = toBinary(rosStatusMsg.robotStatus.nDrivesPowered, 1, "-4l", rosStatusMsg.body.nData[8])
-  l_nRetVal = toBinary(rosStatusMsg.robotStatus.nMotionPossible, 1, "-4l", rosStatusMsg.body.nData[12])
-  l_nRetVal = toBinary(rosStatusMsg.robotStatus.nInError, 1, "-4l", rosStatusMsg.body.nData[16])
-  l_nRetVal = toBinary(rosStatusMsg.robotStatus.nInMotion, 1, "-4l", rosStatusMsg.body.nData[20])
-  l_nRetVal = toBinary(rosStatusMsg.robotStatus.nErrorCode, 1, "-4l", rosStatusMsg.body.nData[24])
+  l_nRetVal=toBinary(rosStatusMsg.robotStatus.nMode,1,"-4l",rosStatusMsg.body.nData)
+  l_nRetVal=toBinary(rosStatusMsg.robotStatus.nEStopped,1,"-4l",rosStatusMsg.body.nData[4])
+  l_nRetVal=toBinary(rosStatusMsg.robotStatus.nDrivesPowered,1,"-4l",rosStatusMsg.body.nData[8])
+  l_nRetVal=toBinary(rosStatusMsg.robotStatus.nMotionPossible,1,"-4l",rosStatusMsg.body.nData[12])
+  l_nRetVal=toBinary(rosStatusMsg.robotStatus.nInError,1,"-4l",rosStatusMsg.body.nData[16])
+  l_nRetVal=toBinary(rosStatusMsg.robotStatus.nInMotion,1,"-4l",rosStatusMsg.body.nData[20])
+  l_nRetVal=toBinary(rosStatusMsg.robotStatus.nErrorCode,1,"-4l",rosStatusMsg.body.nData[24])
 end]]></Code>
   </Program>
 </Programs>
