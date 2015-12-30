@@ -18,8 +18,9 @@
       mTrajPt.jJointRx.j5 = rosTrajPtMsg.jointTrajPt.nJoints[4]
       mTrajPt.jJointRx.j6 = rosTrajPtMsg.jointTrajPt.nJoints[5]
       
-      mTrajPt.mVelAcc.vel = rosTrajPtMsg.jointTrajPt.nVelocity
+      mTrajPt.mDesc.vel = rosTrajPtMsg.jointTrajPt.nVelocity
       mTrajPt.nDuration = rosTrajPtMsg.jointTrajPt.nDuration
+      
     break
     case 14
       mTrajPt.nSequence = rosTrajPtFMsg.jointTrajPtFull.nSeq
@@ -31,32 +32,40 @@
       mTrajPt.jJointRx.j5 = rosTrajPtFMsg.jointTrajPtFull.nPositions[4]
       mTrajPt.jJointRx.j6 = rosTrajPtFMsg.jointTrajPtFull.nPositions[5]
       
-      mTrajPt.mVelAcc.vel = rosTrajPtFMsg.jointTrajPtFull.nVelocities[0]
-      mTrajPt.mVelAcc.accel = rosTrajPtFMsg.jointTrajPtFull.nAccelerations[0]
-      mTrajPt.mVelAcc.decel = mTrajPt.mVelAcc.accel
+      mTrajPt.mDesc.vel = rosTrajPtFMsg.jointTrajPtFull.nVelocities[0]
+      mTrajPt.mDesc.accel = rosTrajPtFMsg.jointTrajPtFull.nAccelerations[0]
+      mTrajPt.mDesc.decel = mTrajPt.mDesc.accel
     break
     default
     break
   endSwitch
   
-  call libBuffer:push(mTrajPt, l_bOk)
-  
-  if (l_bOk == false)
-    // could not push trajectory point into buffer
-    // thus ACK should flag FAILURE
-    switch rosGenericMsg.header.nMsgType
-      case 11
-        rosTrajPtAck.header.nReplyCode = 2
-      break
-      case 14
-        rosTrajPtFAck.header.nReplyCode = 2
-      break
-      default
-      break
-    endSwitch
+  if (mTrajPt.nSequence == -2)
+    // set flag to stop immediately
+    bStopNow = true
+  else
+    // only push motion into buffer if not a STOP message
+    
+    call libTrajPtBuffer:push(mTrajPt, l_bOk)
+    if (l_bOk == false)
+      // could not push trajectory point into buffer
+      // thus ACK should flag FAILURE, but only if comm type is request
+      if (rosGenericMsg.header.nCommType == 2)
+        switch rosGenericMsg.header.nMsgType
+          case 11
+            rosTrajPtAck.header.nReplyCode = 2
+          break
+          case 14
+            rosTrajPtFAck.header.nReplyCode = 2
+          break
+          default
+          break
+        endSwitch
+      endIf
+    endIf
   endIf
   
-  // move on to state 5: sendAck()
+  // move on to state 5: send Ack
   nDataInState = 5
 end]]></Code>
   </Program>

@@ -41,6 +41,16 @@
   
   // debug status
   nDebugStatus = 0
+  
+  // ensure motion buffer is empty
+  call libTrajPtBuffer:clear()
+  call libMoveBuffer:clear()
+  
+  // before anything else, enable power (only works if robot is in remote mode)
+  //enablePower()
+  //if (watch(isPowered(), 5) == false)
+  //  popUpMsg("Arm power could not be enabled")
+  //endIf
 
   // create joint state and robot status streamer task to send data to industrial_robot_client
   taskCreateSync sStreamTaskName, nFbkPeriod, bFbkOverrun, dataStreamer()

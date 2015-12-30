@@ -41,7 +41,8 @@
     <Data file="ros_i_driver.dtx" />
   </Database>
   <Libraries>
-    <Library alias="libBuffer" path="Disk://MotionQueue/MotionQueue.pjx" />
+    <Library alias="libMoveBuffer" path="Disk://MotionQueue/MotionQueue.pjx" />
+    <Library alias="libTrajPtBuffer" path="Disk://TrajectoryQueue/TrajectoryQueue.pjx" />
   </Libraries>
   <Types>
     <Type name="RosSimpleMsg" path="Disk://RosSimpleMsg/RosSimpleMsg.pjx" />

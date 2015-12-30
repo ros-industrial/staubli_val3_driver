@@ -55,19 +55,19 @@
     // 14 characteres: gotoxy(15,3) to insert status
     put(scMonitor, "Motion buffer:")
     gotoxy(scMonitor, 15,3)
-    put(scMonitor, libBuffer:nElems)
-    
+    put(scMonitor, libTrajPtBuffer:nElems)
+    // also print number of points popped (motion already processed)
     gotoxy(scMonitor, 19,3)
     put(scMonitor, nPtsPopped)
     
     // display heartbeat status
-    gotoxy(scMonitor, 0,5)
+    gotoxy(scMonitor, 0,6)
     put(scMonitor, "Heartbeat status:")
-    gotoxy(scMonitor, 18,5)
+    gotoxy(scMonitor, 18,6)
     put(scMonitor, nDataOut)
     
     // update debug status
-    gotoxy(scMonitor, 18,7)
+    gotoxy(scMonitor, 18,8)
     switch nDebugStatus
       case 0
         put(scMonitor, "[+]")
