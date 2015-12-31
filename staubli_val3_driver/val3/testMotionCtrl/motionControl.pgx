@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Programs xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.staubli.com/robotics/VAL3/Program/2">
+  <Program name="motionControl" access="public">
+    <Code><![CDATA[begin
+  jJointPos[0].j1 = 0.0
+  jJointPos[0].j2 = 0.0
+  jJointPos[0].j3 = 0.0
+  jJointPos[0].j4 = 0.0
+  jJointPos[0].j5 = 0.0
+  jJointPos[0].j6 = 0.0
+  
+  jJointPos[1].j1 = 0.5
+  jJointPos[1].j2 = 0.5
+  jJointPos[1].j3 = 0.5
+  jJointPos[1].j4 = 0.5
+  jJointPos[1].j5 = 0.5
+  jJointPos[1].j6 = 0.5
+  
+  jJointPos[2].j1 = 1.0
+  jJointPos[2].j2 = 1.0
+  jJointPos[2].j3 = 1.0
+  jJointPos[2].j4 = 1.0
+  jJointPos[2].j5 = 1.0
+  jJointPos[2].j6 = 1.0
+  
+  jJointPos[3].j1 = 1.5
+  jJointPos[3].j2 = 1.5
+  jJointPos[3].j3 = 1.5
+  jJointPos[3].j4 = 1.5
+  jJointPos[3].j5 = 1.5
+  jJointPos[3].j6 = 1.5
+  
+  while (true)
+    
+  endWhile
+end]]></Code>
+  </Program>
+</Programs>

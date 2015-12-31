@@ -1,6 +1,6 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
-<Programs xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.staubli.com/robotics/VAL3/Program/2" >
-  <Program name="pushMotion" access="public" >
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Programs xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.staubli.com/robotics/VAL3/Program/2">
+  <Program name="pushMotion" access="public">
     <Locals>
       <Local name="l_bOk" type="bool" xsi:type="array" size="1" />
       <Local name="l_nCounter" type="num" xsi:type="array" size="1" />
@@ -11,29 +11,29 @@
     case 11
       mTrajPt.nSequence=rosTrajPtMsg.jointTrajPt.nSeq
 
-      mTrajPt.jJointRx.j1=rosTrajPtMsg.jointTrajPt.nJoints[0]
-      mTrajPt.jJointRx.j2=rosTrajPtMsg.jointTrajPt.nJoints[1]
-      mTrajPt.jJointRx.j3=rosTrajPtMsg.jointTrajPt.nJoints[2]
-      mTrajPt.jJointRx.j4=rosTrajPtMsg.jointTrajPt.nJoints[3]
-      mTrajPt.jJointRx.j5=rosTrajPtMsg.jointTrajPt.nJoints[4]
-      mTrajPt.jJointRx.j6=rosTrajPtMsg.jointTrajPt.nJoints[5]
+      mTrajPt.jJointRx.j1=rosTrajPtMsg.jointTrajPt.nJoints[0] * nRad2Deg
+      mTrajPt.jJointRx.j2=rosTrajPtMsg.jointTrajPt.nJoints[1] * nRad2Deg
+      mTrajPt.jJointRx.j3=rosTrajPtMsg.jointTrajPt.nJoints[2] * nRad2Deg
+      mTrajPt.jJointRx.j4=rosTrajPtMsg.jointTrajPt.nJoints[3] * nRad2Deg
+      mTrajPt.jJointRx.j5=rosTrajPtMsg.jointTrajPt.nJoints[4] * nRad2Deg
+      mTrajPt.jJointRx.j6=rosTrajPtMsg.jointTrajPt.nJoints[5] * nRad2Deg
 
-      mTrajPt.mDesc.vel=rosTrajPtMsg.jointTrajPt.nVelocity
-      mTrajPt.nDuration=rosTrajPtMsg.jointTrajPt.nDuration
+      mTrajPt.mDesc.vel=rosTrajPtMsg.jointTrajPt.nVelocity * nRad2Deg
+      mTrajPt.nDuration=rosTrajPtMsg.jointTrajPt.nDuration * nRad2Deg
 
     break
     case 14
       mTrajPt.nSequence=rosTrajPtFMsg.jointTrajPtFull.nSeq
       mTrajPt.nDuration=rosTrajPtFMsg.jointTrajPtFull.nTime
-      mTrajPt.jJointRx.j1=rosTrajPtFMsg.jointTrajPtFull.nPositions[0]
-      mTrajPt.jJointRx.j2=rosTrajPtFMsg.jointTrajPtFull.nPositions[1]
-      mTrajPt.jJointRx.j3=rosTrajPtFMsg.jointTrajPtFull.nPositions[2]
-      mTrajPt.jJointRx.j4=rosTrajPtFMsg.jointTrajPtFull.nPositions[3]
-      mTrajPt.jJointRx.j5=rosTrajPtFMsg.jointTrajPtFull.nPositions[4]
-      mTrajPt.jJointRx.j6=rosTrajPtFMsg.jointTrajPtFull.nPositions[5]
+      mTrajPt.jJointRx.j1=rosTrajPtFMsg.jointTrajPtFull.nPositions[0] * nRad2Deg
+      mTrajPt.jJointRx.j2=rosTrajPtFMsg.jointTrajPtFull.nPositions[1] * nRad2Deg
+      mTrajPt.jJointRx.j3=rosTrajPtFMsg.jointTrajPtFull.nPositions[2] * nRad2Deg
+      mTrajPt.jJointRx.j4=rosTrajPtFMsg.jointTrajPtFull.nPositions[3] * nRad2Deg
+      mTrajPt.jJointRx.j5=rosTrajPtFMsg.jointTrajPtFull.nPositions[4] * nRad2Deg
+      mTrajPt.jJointRx.j6=rosTrajPtFMsg.jointTrajPtFull.nPositions[5] * nRad2Deg
 
-      mTrajPt.mDesc.vel=rosTrajPtFMsg.jointTrajPtFull.nVelocities[0]
-      mTrajPt.mDesc.accel=rosTrajPtFMsg.jointTrajPtFull.nAccelerations[0]
+      mTrajPt.mDesc.vel=rosTrajPtFMsg.jointTrajPtFull.nVelocities[0] * nRad2Deg
+      mTrajPt.mDesc.accel=rosTrajPtFMsg.jointTrajPtFull.nAccelerations[0] * nRad2Deg
       mTrajPt.mDesc.decel=mTrajPt.mDesc.accel
     break
     default
@@ -45,8 +45,13 @@
     bStopNow=true
   else
     // only push motion into buffer if not a STOP message
-
-    call libTrajPtBuffer:push(mTrajPt,l_bOk)
+    // and if joint positions are within software joint limits
+    if (isInRange(mTrajPt.jJointRx))
+      call libTrajPtBuffer:push(mTrajPt,l_bOk)
+    else
+      l_bOk = false
+    endIf
+    
     if (l_bOk==false)
       // could not push trajectory point into buffer
       // thus ACK should flag FAILURE, but only if comm type is request
@@ -63,6 +68,7 @@
         endSwitch
       endIf
     endIf
+    
   endIf
 
   // move on to state 5: send Ack

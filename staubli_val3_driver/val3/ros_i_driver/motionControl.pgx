@@ -18,34 +18,28 @@
       nMotionProgress = getMoveId()
       
       // process trajectory point from trajectory buffer
-      if (libTrajPtBuffer:nElems > 4)
+      if (libTrajPtBuffer:nElems > 0)
         call libTrajPtBuffer:pop(l_mTrajPt, l_bFlag)
         if (l_bFlag)
           nPtsPopped = nPtsPopped + 1
           call libMoveBuffer:push(l_mTrajPt, l_bFlag)
-          if (l_bFlag == false)
-            //nMovePts = nMovePts + 1
-          endIf
         endIf
       endIf
       
       // process motion command from move buffer
-      // move buffer should have elements previously interpolated
-      // to ensure they are 4 ms apart
-      if (libMoveBuffer:nElems > 6)
+      // @TODO move buffer should have elements previously interpolated to ensure they are 4 ms apart
+      if (libMoveBuffer:nElems > 0)
         call libMoveBuffer:pop(l_motion, l_bFlag)
         if (l_bFlag)
-          nMovePts = nMovePts + 1
-//          if ((nMotionProgress-nMoveId) > 0.0)
-//            nMoveId = movej(l_motion.jJointRx, tTool, l_motion.mDesc)
-//            waitEndMove()
-//            nMotionProgress = getMoveId()
-//            // if this is the last motion command, call waitEndMove()
-//            // to ensure point is reached
-//            if (l_motion.nSequence == -1)
-//              waitEndMove()
-//            endIf
-//          endIf
+          if (l_motion.jJointRx != herej())
+            nMovePts = nMovePts + 1
+            // @TODO potentially set move id acording to sequence value
+            nMoveId = movej(l_motion.jJointRx, tTool, l_motion.mDesc)
+            // if last motion command of trajectory, ensure point is reached
+            if (l_motion.nSequence == -1)
+              waitEndMove()
+            endIf
+          endIf
         endIf
       endIf
     else
