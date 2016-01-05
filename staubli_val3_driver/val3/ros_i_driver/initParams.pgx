@@ -1,17 +1,17 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
-<Programs xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.staubli.com/robotics/VAL3/Program/2" >
-  <Program name="initParams" access="public" >
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Programs xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.staubli.com/robotics/VAL3/Program/2">
+  <Program name="initParams" access="public">
     <Locals>
       <Local name="l_nRetVal" type="num" xsi:type="array" size="1" />
     </Locals>
     <Code><![CDATA[begin
-  l_nRetVal=sioCtrl(siTcpIpMotion,"timeout",2)
+  l_nRetVal=sioCtrl(siTcpIpMotion,"timeout",0.1)
   if (l_nRetVal!=0)
     popUpMsg("Error while setting consumer timeout")
     //return ?
   endIf
 
-  l_nRetVal=sioCtrl(siTcpIpFbk,"timeout",2)
+  l_nRetVal=sioCtrl(siTcpIpFbk,"timeout",0.1)
   if (l_nRetVal!=0)
     popUpMsg("Error while setting producer timeout")
     //return ?

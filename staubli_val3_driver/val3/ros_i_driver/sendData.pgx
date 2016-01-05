@@ -1,10 +1,10 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
-<Programs xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.staubli.com/robotics/VAL3/Program/2" >
-  <Program name="sendData" access="public" >
-    <Parameters xmlns="http://www.staubli.com/robotics/VAL3/Param/1" >
-      <Parameter name="x_sTcpSocket" type="sio" use="reference" xsi:type="element" dimensions="1" />
-      <Parameter name="x_nData" type="num" use="reference" xsi:type="array" dimensions="1" />
-      <Parameter name="x_nFlag" type="num" use="reference" xsi:type="element" dimensions="1" />
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Programs xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.staubli.com/robotics/VAL3/Program/2">
+  <Program name="sendData" access="public">
+    <Parameters xmlns="http://www.staubli.com/robotics/VAL3/Param/1">
+      <Parameter name="x_sTcpSocket" type="sio" xsi:type="element" use="reference" />
+      <Parameter name="x_nData" type="num" xsi:type="array" use="reference" />
+      <Parameter name="x_nFlag" type="num" xsi:type="element" use="reference" />
     </Parameters>
     <Locals>
       <Local name="l_nRetVal" type="num" xsi:type="array" size="1" />
@@ -13,7 +13,8 @@
   // send data via socket connection...
   // but only if connection is alive, or
   // if heartbeat is not expected
-  if (x_nFlag==1 or bCheckHeartbeat==false)
+  //if (x_nFlag==1 or bCheckHeartbeat==false)
+  if (x_nFlag == 1)
     l_nRetVal=sioSet(x_sTcpSocket,x_nData)
     if (l_nRetVal==-1)
       if (x_nFlag==1)
@@ -22,14 +23,14 @@
     elseIf (l_nRetVal<size(x_nData))
       popUpMsg("Error while sending data")
       x_nFlag=-1
-    elseIf (bCheckHeartbeat==false)
+    //elseIf (bCheckHeartbeat==false)
       // once data is sent over an open connection,
       // flag it as connected...
       // however, it will never be possible to detect
       // disconnections because the status goes into
       // CLOSE_WAIT, but sioSet() keeps writing data
       // to the socket...
-      x_nFlag=1
+      //x_nFlag=1
     endIf
   endIf
 end]]></Code>

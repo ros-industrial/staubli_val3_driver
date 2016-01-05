@@ -1,11 +1,11 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
-<Programs xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.staubli.com/robotics/VAL3/Program/2" >
-  <Program name="recvData" access="public" >
-    <Parameters xmlns="http://www.staubli.com/robotics/VAL3/Param/1" >
-      <Parameter name="x_sTcpSocket" type="sio" use="reference" xsi:type="element" dimensions="1" />
-      <Parameter name="x_nData" type="num" use="reference" xsi:type="array" dimensions="1" />
-      <Parameter name="x_nConnFlag" type="num" use="reference" xsi:type="element" dimensions="1" />
-      <Parameter name="x_bValidFlag" type="bool" use="reference" xsi:type="element" dimensions="1" />
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Programs xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.staubli.com/robotics/VAL3/Program/2">
+  <Program name="recvData" access="public">
+    <Parameters xmlns="http://www.staubli.com/robotics/VAL3/Param/1">
+      <Parameter name="x_sTcpSocket" type="sio" xsi:type="element" use="reference" />
+      <Parameter name="x_nData" type="num" xsi:type="array" use="reference" />
+      <Parameter name="x_nConnFlag" type="num" xsi:type="element" use="reference" />
+      <Parameter name="x_bValidFlag" type="bool" xsi:type="element" use="reference" />
     </Parameters>
     <Locals>
       <Local name="l_nByte" type="num" xsi:type="array" size="1" />
@@ -35,6 +35,7 @@
       return
     elseIf (l_nIndex>1)
       popUpMsg("sioGet() returned > 1")
+      return
       //else
       //  popUpMsg("sioGet() returned 0")
     endIf

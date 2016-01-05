@@ -1,6 +1,6 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
-<Programs xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.staubli.com/robotics/VAL3/Program/2" >
-  <Program name="recvHeartbeat" access="public" >
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Programs xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.staubli.com/robotics/VAL3/Program/2">
+  <Program name="recvHeartbeat" access="public">
     <Locals>
       <Local name="l_nByte" type="num" xsi:type="array" size="1" />
       <Local name="l_nBytesRecv" type="num" xsi:type="array" size="1" />
@@ -9,30 +9,50 @@
       <Local name="l_nIndex" type="num" xsi:type="array" size="1" />
     </Locals>
     <Code><![CDATA[begin
-  while (bCheckHeartbeat)
-    // attempt to receive heartbeat
+  while (true)
     l_nBytesRecv=0
     l_nIndex=0
-    while (l_nBytesRecv<4)
-      l_nIndex=sioGet(siTcpIpFbk,l_nByte)
+    // if heartbeat is expected (used with mock client)
+    if (bCheckHeartbeat)
+      // attempt to receive heartbeat
+      while (l_nBytesRecv<4)
+        l_nIndex=sioGet(siTcpIpFbk,l_nByte)
+        if (l_nIndex==1)
+          l_nHtbtB[l_nBytesRecv]=l_nByte
+          l_nBytesRecv=l_nBytesRecv+l_nIndex
+        elseIf (l_nIndex==-1)
+          // error or timeout, indicate only if connection previously established
+          if (nDataOut==1)
+            nDataOut=-1
+            // close connection properly (to avoid CLOSE_WAIT)
+            clearBuffer(siTcpIpFbk)
+          endIf
+        endIf
+      endWhile
+      // received 4 bytes
+      l_nIndex=fromBinary(l_nHtbtB,4,"-4l",l_nHtbt)
       if (l_nIndex==1)
-        l_nHtbtB[l_nBytesRecv]=l_nByte
-        l_nBytesRecv=l_nBytesRecv+l_nIndex
-      elseIf (l_nIndex==-1)
-        // error or timeout, indicate only if connection previously established
-        if (nDataOut==1)
-          nDataOut=-1
-          // close connection properly (to avoid CLOSE_WAIT)
-          clearBuffer(siTcpIpFbk)
+        // confirm heartbeat value -> ensure it is connected
+        if (l_nHtbt==11002)
+          nDataOut=1
         endIf
       endIf
-    endWhile
-    // received 4 bytes
-    l_nIndex=fromBinary(l_nHtbtB,4,"-4l",l_nHtbt)
-    if (l_nIndex==1)
-      // confirm heartbeat value -> ensure it is connected
-      if (l_nHtbt==11002)
-        nDataOut=1
+    else
+      // no heartbeat is expected (used with generic industrial_robot_client)
+      l_nIndex = sioGet(siTcpIpFbk, l_nByte)
+      if (l_nIndex == -1)
+        // connection not established or connection lost
+        if (nDataOut == 1)
+          nDataOut = -1
+        endIf
+      else
+        // it means l_nIndex >= 0: connection established
+        if (nDataOut == 0)
+          // delay data output to avoid sync issues with client
+          delay(1.0)
+        endIf
+        // flag connection as established
+        nDataOut = 1
       endIf
     endIf
   endWhile
