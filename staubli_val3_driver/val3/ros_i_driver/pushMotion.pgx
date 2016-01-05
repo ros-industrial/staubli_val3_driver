@@ -18,8 +18,8 @@
       mTrajPt.jJointRx.j5=rosTrajPtMsg.jointTrajPt.nJoints[4] * nRad2Deg
       mTrajPt.jJointRx.j6=rosTrajPtMsg.jointTrajPt.nJoints[5] * nRad2Deg
 
-      mTrajPt.mDesc.vel=rosTrajPtMsg.jointTrajPt.nVelocity * nRad2Deg
-      mTrajPt.nDuration=rosTrajPtMsg.jointTrajPt.nDuration * nRad2Deg
+      mTrajPt.mDesc.vel=rosTrajPtMsg.jointTrajPt.nVelocity
+      mTrajPt.nDuration=rosTrajPtMsg.jointTrajPt.nDuration
 
     break
     case 14
@@ -32,8 +32,8 @@
       mTrajPt.jJointRx.j5=rosTrajPtFMsg.jointTrajPtFull.nPositions[4] * nRad2Deg
       mTrajPt.jJointRx.j6=rosTrajPtFMsg.jointTrajPtFull.nPositions[5] * nRad2Deg
 
-      mTrajPt.mDesc.vel=rosTrajPtFMsg.jointTrajPtFull.nVelocities[0] * nRad2Deg
-      mTrajPt.mDesc.accel=rosTrajPtFMsg.jointTrajPtFull.nAccelerations[0] * nRad2Deg
+      mTrajPt.mDesc.vel=rosTrajPtFMsg.jointTrajPtFull.nVelocities[0]
+      mTrajPt.mDesc.accel=rosTrajPtFMsg.jointTrajPtFull.nAccelerations[0]
       mTrajPt.mDesc.decel=mTrajPt.mDesc.accel
     break
     default

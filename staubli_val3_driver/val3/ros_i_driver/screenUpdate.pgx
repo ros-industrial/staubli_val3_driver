@@ -99,7 +99,8 @@
     endSwitch
     
     // sequence task
-    delay(0)
+    //delay(0)
+    delay(0.5)
   endWhile
 end]]></Code>
   </Program>
