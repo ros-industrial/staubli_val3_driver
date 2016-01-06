@@ -10,29 +10,39 @@
   switch rosGenericMsg.header.nMsgType
     case 11
       mTrajPt.nSequence=rosTrajPtMsg.jointTrajPt.nSeq
-
+      // ROS joint position values are in rad, but VAL3 uses degrees
       mTrajPt.jJointRx.j1=rosTrajPtMsg.jointTrajPt.nJoints[0] * nRad2Deg
       mTrajPt.jJointRx.j2=rosTrajPtMsg.jointTrajPt.nJoints[1] * nRad2Deg
       mTrajPt.jJointRx.j3=rosTrajPtMsg.jointTrajPt.nJoints[2] * nRad2Deg
       mTrajPt.jJointRx.j4=rosTrajPtMsg.jointTrajPt.nJoints[3] * nRad2Deg
       mTrajPt.jJointRx.j5=rosTrajPtMsg.jointTrajPt.nJoints[4] * nRad2Deg
       mTrajPt.jJointRx.j6=rosTrajPtMsg.jointTrajPt.nJoints[5] * nRad2Deg
-
-      mTrajPt.mDesc.vel=rosTrajPtMsg.jointTrajPt.nVelocity
+      // from industrial_robot_client/src/joint_trajectory_interface.cpp
+      // JointTrajectoryInterface::trajectory_to_msgs()
+      // JointTrajectoryInterface::calc_speed()
+      // velocity is converted to a scalar value representing % of max velocity,
+      // such that 0.2 = 20% of maximum joint speed
+      mTrajPt.mDesc.vel=rosTrajPtMsg.jointTrajPt.nVelocity * 100.0
       mTrajPt.nDuration=rosTrajPtMsg.jointTrajPt.nDuration
 
     break
     case 14
       mTrajPt.nSequence=rosTrajPtFMsg.jointTrajPtFull.nSeq
       mTrajPt.nDuration=rosTrajPtFMsg.jointTrajPtFull.nTime
+      // ROS joint position values are in rad, but VAL3 uses degrees
       mTrajPt.jJointRx.j1=rosTrajPtFMsg.jointTrajPtFull.nPositions[0] * nRad2Deg
       mTrajPt.jJointRx.j2=rosTrajPtFMsg.jointTrajPtFull.nPositions[1] * nRad2Deg
       mTrajPt.jJointRx.j3=rosTrajPtFMsg.jointTrajPtFull.nPositions[2] * nRad2Deg
       mTrajPt.jJointRx.j4=rosTrajPtFMsg.jointTrajPtFull.nPositions[3] * nRad2Deg
       mTrajPt.jJointRx.j5=rosTrajPtFMsg.jointTrajPtFull.nPositions[4] * nRad2Deg
       mTrajPt.jJointRx.j6=rosTrajPtFMsg.jointTrajPtFull.nPositions[5] * nRad2Deg
-
-      mTrajPt.mDesc.vel=rosTrajPtFMsg.jointTrajPtFull.nVelocities[0]
+      // from industrial_robot_client/src/joint_trajectory_interface.cpp
+      // JointTrajectoryInterface::trajectory_to_msgs()
+      // JointTrajectoryInterface::calc_speed()
+      // velocity is converted to a scalar value representing % of max velocity,
+      // such that 0.2 = 20% of maximum joint speed
+      mTrajPt.mDesc.vel=rosTrajPtFMsg.jointTrajPtFull.nVelocities[0] * 100.0
+      // not sure about accelerations as yet
       mTrajPt.mDesc.accel=rosTrajPtFMsg.jointTrajPtFull.nAccelerations[0]
       mTrajPt.mDesc.decel=mTrajPt.mDesc.accel
     break
