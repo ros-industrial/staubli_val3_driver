@@ -22,7 +22,7 @@
       // JointTrajectoryInterface::calc_speed()
       // velocity is converted to a scalar value representing % of max velocity,
       // such that 0.2 = 20% of maximum joint speed
-      mTrajPt.mDesc.vel=rosTrajPtMsg.jointTrajPt.nVelocity * 100.0
+      mTrajPt.mDesc.vel= limit((rosTrajPtMsg.jointTrajPt.nVelocity * 100), 0, 100)
       mTrajPt.nDuration=rosTrajPtMsg.jointTrajPt.nDuration
 
     break
@@ -41,7 +41,7 @@
       // JointTrajectoryInterface::calc_speed()
       // velocity is converted to a scalar value representing % of max velocity,
       // such that 0.2 = 20% of maximum joint speed
-      mTrajPt.mDesc.vel=rosTrajPtFMsg.jointTrajPtFull.nVelocities[0] * 100.0
+      mTrajPt.mDesc.vel= limit((rosTrajPtFMsg.jointTrajPtFull.nVelocities[0] * 100), 0, 100)
       // not sure about accelerations as yet
       mTrajPt.mDesc.accel=rosTrajPtFMsg.jointTrajPtFull.nAccelerations[0]
       mTrajPt.mDesc.decel=mTrajPt.mDesc.accel
@@ -56,7 +56,8 @@
   else
     // only push motion into buffer if not a STOP message
     // and if joint positions are within software joint limits
-    if (isInRange(mTrajPt.jJointRx))
+    // and if velocity is greater than zero (beucase movej() will not accept vel <= 0)
+    if (isInRange(mTrajPt.jJointRx) and mTrajPt.mDesc.vel > 0)
       call libTrajPtBuffer:push(mTrajPt,l_bOk)
     else
       l_bOk = false
