@@ -38,7 +38,7 @@
     <Program file="stop.pgx" />
   </Programs>
   <Database>
-    <Data file="ros_i_driver.dtx" />
+    <Data file="ros_server.dtx" />
   </Database>
   <Libraries>
     <Library alias="libMoveBuffer" path="Disk://MotionQueue/MotionQueue.pjx" autoload="true" password="" />
