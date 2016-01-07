@@ -1,7 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Programs xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.staubli.com/robotics/VAL3/Program/2">
   <Program name="dataStreamer" access="public">
-    <Code><![CDATA[begin 
+    <Locals>
+      <Local name="l_nThrottle" type="num" xsi:type="array" size="1" />
+    </Locals>
+    <Code><![CDATA[begin
+  l_nThrottle = 0
   while (bSendData)
     // fetch current joint positions
     jCurrPose=herej()
@@ -9,11 +13,16 @@
     call encodeJState()
     call sendJState()
 
-    // fetch robot status
-    call fetchStatus()
-    // encode and send ROS simple_message ID 13: robot status
-    call encodeStatus()
-    call sendStatus()
+    // send Robot Status messages 10 times slower than Joint State
+    if (l_nThrottle == 10)
+      // fetch robot status
+      call fetchStatus()
+      // encode and send ROS simple_message ID 13: robot status
+      call encodeStatus()
+      call sendStatus()
+      l_nThrottle = 0
+    endIf
+    l_nThrottle = l_nThrottle + 1
     
     // sequence task
     delay(0)
