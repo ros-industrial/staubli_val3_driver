@@ -50,17 +50,32 @@
   // ensure motion buffer is empty
   call libTrajPtBuffer:clear()
   call libMoveBuffer:clear()
-  
-  // before anything else, enable power (only works if robot is in remote mode)
-  //enablePower()
-  //if (watch(isPowered(), 5) == false)
-  //  popUpMsg("Arm power could not be enabled")
-  //endIf
 
   // flush buffer of incoming socket
   clearBuffer(siTcpIpMotion)
   // flush buffer of outgoing socket
   clearBuffer(siTcpIpFbk)
+  
+  // check if robot is not in emergency stop and wait until estop is reset
+  if (esStatus() == 2)
+    popUpMsg("Please reset E-Stop")
+    wait(esStatus() < 2)
+  endIf
+  
+  // before anything else, enable power (only works if robot is in remote mode)
+  if (!isPowered())
+    if (workingMode() >= 4)
+      do
+        enablePower()
+        delay(2)
+      until isPowered()
+    else
+      popUpMsg("Power must be enabled manually")
+    endIf
+  endIf
+  
+  // reset motion, potentially setting a start joint position for calling autoConnect() in the future
+  resetMotion()
 
   // create joint state and robot status streamer task to send data to industrial_robot_client
   taskCreateSync sStreamTaskName, nFbkPeriod, bFbkOverrun, dataStreamer()
