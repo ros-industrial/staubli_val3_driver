@@ -78,10 +78,10 @@
     put(scMonitor, nMotionProgress)
     
     // display heartbeat status
-    gotoxy(scMonitor, 0,8)
-    put(scMonitor, "Heartbeat status:")
-    gotoxy(scMonitor, 18,8)
-    put(scMonitor, nDataOut)
+    //gotoxy(scMonitor, 0,8)
+    //put(scMonitor, "Heartbeat status:")
+    //gotoxy(scMonitor, 18,8)
+    //put(scMonitor, nDataOut)
     
     // update debug status
     gotoxy(scMonitor, 18,10)
