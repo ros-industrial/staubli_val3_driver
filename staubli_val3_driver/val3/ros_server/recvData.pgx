@@ -33,11 +33,13 @@
         clearBuffer(x_sTcpSocket)
       endIf
       return
-    elseIf (l_nIndex>1)
-      popUpMsg("sioGet() returned > 1")
+    elseIf (l_nIndex == 0)
+      // sioGet() returns returns 0 when connection is alive, thus set flag
+      x_nConnFlag = 1
+    else
+      // either < -1 or > 1
+      popUpMsg("sioGet() returned " + toString("", l_nIndex))
       return
-      //else
-      //  popUpMsg("sioGet() returned 0")
     endIf
   endWhile
   x_bValidFlag=true
