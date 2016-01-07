@@ -47,12 +47,13 @@
         endIf
       else
         // it means l_nIndex >= 0: connection established
-        if (nDataOut == 0)
+        // check if connection had not already been established
+        if (nDataOut != 1)
           // delay data output to avoid sync issues with client
           delay(1.0)
+          // flag connection as established
+          nDataOut = 1
         endIf
-        // flag connection as established
-        nDataOut = 1
       endIf
     endIf
   endWhile
