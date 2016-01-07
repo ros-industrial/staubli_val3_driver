@@ -2,16 +2,18 @@
 <Programs xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.staubli.com/robotics/VAL3/Program/2">
   <Program name="start">
     <Code><![CDATA[begin 
-  // feedback task will run every 32 ms (approx. 31 Hz)
-  nFbkPeriod=0.032
-  //nFbkPeriod = 0.05
-  //nFbkPeriod = 1.0
+  // feedback task will run every 20ms (50Hz)
+  nFbkPeriod=0.02
+  //nFbkPeriod = 0.032 // 30Hz
+  //nFbkPeriod = 0.05  // 20Hz
+  //nFbkPeriod = 1.0   //  1Hz
   
-  // motion task will run every 12 ms (approx. 83 Hz)
-  //nMotionPeriod=0.012
-  //nMotionPeriod = 0.05
+  // motion control task will run every 4ms (250Hz)
   nMotionPeriod = 0.004
+  //nMotionPeriod=0.012  // 83Hz
+  //nMotionPeriod = 0.05 // 20Hz
   
+  // data (trajectory) reception task will run every 4ms (250Hz)
   nTrajReception = 0.004
   // not in use at the moment
   nScreenUpdate = 1.0
