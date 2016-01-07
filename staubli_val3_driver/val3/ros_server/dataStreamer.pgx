@@ -13,8 +13,8 @@
     call encodeJState()
     call sendJState()
 
-    // send Robot Status messages 10 times slower than Joint State
-    if (l_nThrottle == 10)
+    // send Robot Status messages 5 times slower than Joint State
+    if (l_nThrottle == 5)
       // fetch robot status
       call fetchStatus()
       // encode and send ROS simple_message ID 13: robot status
