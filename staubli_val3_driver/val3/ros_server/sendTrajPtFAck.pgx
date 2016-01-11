@@ -1,6 +1,6 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
-<Programs xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.staubli.com/robotics/VAL3/Program/2" >
-  <Program name="sendTrajPtFAck" access="public" >
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Programs xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.staubli.com/robotics/VAL3/Program/2">
+  <Program name="sendTrajPtFAck" access="public">
     <Locals>
       <Local name="l_nRetVal" type="num" xsi:type="array" size="1" />
     </Locals>
@@ -10,46 +10,6 @@
   // send message header (msg type, comm type, reply code)
   call sendData(siTcpIpMotion,rosTrajPtFAck.header.nData,nDataIn)
   call sendData(siTcpIpMotion,rosTrajPtFAck.body.nData,nDataIn)
-
-
-  //  // send message length (prefix)
-  //  l_nRetVal = sioSet(siTcpIpMotion, rosTrajPtFAck.prefix.nData)
-  //  if (l_nRetVal == -1)
-  //    putln("10000: not connected")
-  //    return
-  //  elseIf (l_nRetVal < 4)
-  //    popUpMsg("Error while sending prefix")
-  //  endIf
-  //
-  //  nBytesSent = size(rosTrajPtFAck.prefix.nData)
-  //
-  //  // send message header (msg type, comm type, reply code)
-  //  l_nRetVal = sioSet(siTcpIpMotion, rosTrajPtFAck.header.nData)
-  //  if (l_nRetVal == -1)
-  //    putln("10000: connection lost")
-  //    return
-  //  elseIf (l_nRetVal < 12)
-  //    popUpMsg("Error while sending msg header")
-  //  endIf
-  //  
-  //  nBytesSent = nBytesSent + size(rosTrajPtFAck.header.nData)
-  //  
-  //  // send message body (data)
-  //  // reply_code can only be = 1 (Success) or = 2 (Failure)
-  //  if (rosTrajPtFAck.header.nReplyCode == 2)
-  //    l_nRetVal = sioSet(siTcpIpMotion, rosTrajPtFAck.body.nData)
-  //  elseIf (rosTrajPtFAck.header.nReplyCode == 1)
-  //    l_nRetVal = sioSet(siTcpIpMotion, rosTrajPtFMsg.body.nData)
-  //  endIf
-  //  
-  //  if (l_nRetVal == -1)
-  //    putln("10000: connection lost")
-  //    return
-  //  elseIf (l_nRetVal < 136)
-  //    popUpMsg("Error while sending msg body")
-  //  endIf
-  //  
-  //  nBytesSent = nBytesSent + size(rosTrajPtFAck.body.nData)
 end]]></Code>
   </Program>
 </Programs>

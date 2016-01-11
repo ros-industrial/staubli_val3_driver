@@ -1,27 +1,7 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
-<Programs xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.staubli.com/robotics/VAL3/Program/2" >
-  <Program name="setupRosMsgs" access="public" >
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Programs xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.staubli.com/robotics/VAL3/Program/2">
+  <Program name="setupRosMsgs" access="public">
     <Code><![CDATA[begin
-  // Joint trajectory point message
-  //rosMsgJointTraj.header.nMsgType=14
-  //rosMsgJointTraj.header.nCommType=1
-  //rosMsgJointTraj.header.nReplyCode=0
-
-  // Feedback of joint position/velocity/acceleration
-  // prefix length = 12 + 132 = 144
-  //rosMsgJointFbk.prefix.nLength=144
-  //rosMsgJointFbk.header.nMsgType=15
-  //rosMsgJointFbk.header.nCommType=1
-  //rosMsgJointFbk.header.nReplyCode=0
-
-  // robot_id
-  //rosMsgJointFbk.body.nData[0] = 0
-  // valid_fields
-  //rosMsgJointFbk.body.nData[1] = 2
-  // time
-  //rosMsgJointFbk.body.nData[2] = 3.2
-
-
   // Joint state message (ID 10)
   // prefix length = 12 + 44
   rosJointMsg.prefix.nLength=56

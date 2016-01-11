@@ -1,6 +1,6 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
-<Programs xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.staubli.com/robotics/VAL3/Program/2" >
-  <Program name="recvMsgHeader" access="public" >
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Programs xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.staubli.com/robotics/VAL3/Program/2">
+  <Program name="recvMsgHeader" access="public">
     <Locals>
       <Local name="l_bFlag" type="bool" xsi:type="array" size="1" />
     </Locals>
@@ -18,38 +18,6 @@
     // error: reset state to 0: receive header
     nDataInState=0
   endIf
-
-
-  //  // attempt to receive message header
-  //  l_nBytesRecv = 0
-  //  l_nIndex = 0
-  //
-  //  while (l_nBytesRecv < 16)
-  //    l_nIndex = sioGet(siTcpIpMotion, l_nByte)
-  //    if (l_nIndex == -1)
-  //      if (l_nBytesRecv == 0)
-  //        // 11000: client is not connected?
-  //        if (nDataIn == 1)
-  //          nDataIn = -1
-  //        endIf
-  //      else
-  //        // 11000: connection lost
-  //        if (nDataIn == 1)
-  //          nDataIn = -1
-  //        endIf
-  //      endIf
-  //      bValidMsgHeader = false
-  //      return
-  //    elseIf (l_nIndex == 1)
-  //      if (l_nBytesRecv < 4)
-  //        rosGenericMsg.prefix.nData[l_nBytesRecv] = l_nByte
-  //      else
-  //        rosGenericMsg.header.nData[l_nBytesRecv-4] = l_nByte
-  //      endIf
-  //      l_nBytesRecv = l_nBytesRecv + l_nIndex
-  //    endIf
-  //  endWhile
-  //  bValidMsgHeader = true
 end]]></Code>
   </Program>
 </Programs>

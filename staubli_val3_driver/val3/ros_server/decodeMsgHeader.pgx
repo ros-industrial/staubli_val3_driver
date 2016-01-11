@@ -1,6 +1,6 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
-<Programs xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.staubli.com/robotics/VAL3/Program/2" >
-  <Program name="decodeMsgHeader" access="public" >
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Programs xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.staubli.com/robotics/VAL3/Program/2">
+  <Program name="decodeMsgHeader" access="public">
     <Locals>
       <Local name="l_nRetVal" type="num" xsi:type="array" size="1" />
     </Locals>
@@ -34,15 +34,6 @@
   // no errors detected whilst decoding prefix and header
   // move on to state 2: receive msg body
   nDataInState=2
-
-  //put("length: ")
-  //putln(toString("", rosGenericMsg.prefix.nLength))
-  //put("msg_type: ")
-  //putln(toString("", rosGenericMsg.header.nMsgType))
-  //put("comm_type: ")
-  //putln(toString("", rosGenericMsg.header.nCommType))
-  //put("reply_code: ")
-  //putln(toString("", rosGenericMsg.header.nReplyCode))
 end]]></Code>
   </Program>
 </Programs>

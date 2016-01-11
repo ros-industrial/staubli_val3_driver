@@ -1,33 +1,11 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
-<Programs xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.staubli.com/robotics/VAL3/Program/2" >
-  <Program name="encodeJointFbk" access="public" >
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Programs xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.staubli.com/robotics/VAL3/Program/2">
+  <Program name="encodeJointFbk" access="public">
     <Locals>
       <Local name="l_nRetVal" type="num" xsi:type="array" size="1" />
     </Locals>
     <Code><![CDATA[begin
-  // encode prefix length
-  //l_nRetVal=toBinary(rosMsgJointFbk.prefix.nLength, 1, "-4l", nLengthB)
 
-  // encode header
-  //l_nRetVal=toBinary(rosMsgJointFbk.header.nMsgType, 1, "-4l", nMsgTypeB) 
-  //l_nRetVal=toBinary(rosMsgJointFbk.header.nCommType, 1, "-4l", nCommTypeB)
-  //l_nRetVal=toBinary(rosMsgJointFbk.header.nReplyCode, 1, "-4l", nReplyCodeB)
-
-  // encode first 3 variables of body message (data)
-  //l_nRetVal=toBinary(rosMsgJointFbk.body.nData, 1, "-4l", nRobotIdB)
-  //l_nRetVal=toBinary(rosMsgJointFbk.body.nData[1], 1, "-4l", nValidFieldsB)
-  //l_nRetVal=toBinary(rosMsgJointFbk.body.nData[2], 1, "4.0l", nTimeB)
-
-  // assuming the remaining elements have zeros assigned by default
-  //rosMsgJointFbk.body.nData[3] = jCurrPose.j1
-  //rosMsgJointFbk.body.nData[4] = jCurrPose.j2
-  //rosMsgJointFbk.body.nData[5] = jCurrPose.j3
-  //rosMsgJointFbk.body.nData[6] = jCurrPose.j4
-  //rosMsgJointFbk.body.nData[7] = jCurrPose.j5
-  //rosMsgJointFbk.body.nData[8] = jCurrPose.j6
-
-  // encode 30 values representing Positions[10], Velocities[10] and Accelerations[10]
-  //l_nRetVal=toBinary(rosMsgJointFbk.body.nData[3], 30, "4.0l", nPosVelAccB)
 end]]></Code>
   </Program>
 </Programs>

@@ -1,26 +1,8 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
-<Programs xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.staubli.com/robotics/VAL3/Program/2" >
-  <Program name="fbkStreamer" access="public" >
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Programs xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.staubli.com/robotics/VAL3/Program/2">
+  <Program name="fbkStreamer" access="public">
     <Code><![CDATA[begin
-  //bStream = true
-  call setupRosMsgs()
-  //while (bStream)
-  while (true)
-    // fetch robot status
-    //call fetchStatus()
 
-    // encode and send ROS simple message ID 13: robot status
-    //call encodeStatus()
-    //call sendRosMsg(rosMsgStatus)
-
-    // fetch current joint values
-    jCurrPose=herej()
-
-    // encode and send ROS simple_message ID 15: joint feedback
-    call encodeJointFbk()
-    call sendJointFbk()
-    delay(0)
-  endWhile
 end]]></Code>
   </Program>
 </Programs>

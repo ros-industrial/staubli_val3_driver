@@ -1,107 +1,11 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
-<Programs xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.staubli.com/robotics/VAL3/Program/2" >
-  <Program name="sendJointFbk" access="public" >
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Programs xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.staubli.com/robotics/VAL3/Program/2">
+  <Program name="sendJointFbk" access="public">
     <Locals>
       <Local name="l_nRetVal" type="num" xsi:type="array" size="1" />
     </Locals>
     <Code><![CDATA[begin
-  // send message length (prefix)
-  l_nRetVal=sioSet(siTcpIpFbk,nLengthB)
-  if (l_nRetVal==-1)
-    putln("Client not connected")
-    return
-  elseIf (l_nRetVal<4)
-    popUpMsg("Error while sending prefix")
-  endIf
 
-  nBytesSent=size(nLengthB)
-
-  // send message header (msg type, comm type, reply code)
-  l_nRetVal=sioSet(siTcpIpFbk,nMsgTypeB)
-  if (l_nRetVal==-1)
-    putln("Client disconnected")
-    //bStream = false
-    return
-  elseIf (l_nRetVal<4)
-    popUpMsg("Error while sending msg type")
-  endIf
-
-  nBytesSent=nBytesSent+size(nMsgTypeB)
-
-  l_nRetVal=sioSet(siTcpIpFbk,nCommTypeB)
-  if (l_nRetVal==-1)
-    putln("Client disconnected")
-    //bStream = false
-    return
-  elseIf (l_nRetVal<4)
-    popUpMsg("Error while sending comm type")
-  endIf
-
-  nBytesSent=nBytesSent+size(nCommTypeB)
-
-  l_nRetVal=sioSet(siTcpIpFbk,nReplyCodeB)
-  if (l_nRetVal==-1)
-    putln("Client disconnected")
-    //bStream = false
-    return
-  elseIf (l_nRetVal<4)
-    popUpMsg("Error while sending reply code")
-  endIf
-
-  nBytesSent=nBytesSent+size(nReplyCodeB)
-
-  // send message body (data)
-  // send robotId
-  l_nRetVal=sioSet(siTcpIpFbk,nRobotIdB)
-  if (l_nRetVal==-1)
-    putln("client disconnected")
-    //bStream = false
-    return
-  elseIf (l_nRetVal<4)
-    popUpMsg("Error while sending robot ID")
-  endIf
-
-  nBytesSent=nBytesSent+size(nRobotIdB)
-
-  // send validFields
-  l_nRetVal=sioSet(siTcpIpFbk,nValidFieldsB)
-  if (l_nRetVal==-1)
-    putln("client disconnected")
-    //bStream = false
-    return
-  elseIf (l_nRetVal<4)
-    popUpMsg("Error while sending valid fields")
-  endIf
-
-  nBytesSent=nBytesSent+size(nValidFieldsB)
-
-  // send Time
-  l_nRetVal=sioSet(siTcpIpFbk,nTimeB)
-  if (l_nRetVal==-1)
-    putln("client disconnected")
-    //bStream = false
-    return
-  elseIf (l_nRetVal<4)
-    popUpMsg("Error while sending timestamp")
-  endIf
-
-  nBytesSent=nBytesSent+size(nTimeB)
-
-  // send positions[], velocities[] and accelerations[]
-  l_nRetVal=sioSet(siTcpIpFbk,nPosVelAccB)
-  if (l_nRetVal==-1)
-    putln("Client disconnected")
-    //bStream = false
-    return
-  elseIf (l_nRetVal<size(nPosVelAccB))
-    popUpMsg("Error while sending msg body")
-  endIf
-
-  nBytesSent=nBytesSent+size(nPosVelAccB)
-
-  //put("Joint status sent: ")
-  //putln(nBytesSent)
-  //bStream = false
 end]]></Code>
   </Program>
 </Programs>
