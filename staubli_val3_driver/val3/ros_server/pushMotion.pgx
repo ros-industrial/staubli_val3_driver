@@ -50,7 +50,8 @@
     break
   endSwitch
 
-  if (mTrajPt.nSequence==-2)
+  // see github.com/ros-industrial/industrial_core/simple_message/include/simple_message/joint_traj_pt.h
+  if (mTrajPt.nSequence==-4)
     // set flag to stop immediately
     bStopNow=true
   else
