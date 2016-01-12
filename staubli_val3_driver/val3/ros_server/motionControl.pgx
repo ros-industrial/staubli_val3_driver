@@ -36,7 +36,7 @@
             // @TODO potentially set move id acording to sequence value
             nMoveId = movej(l_motion.jJointRx, tTool, l_motion.mDesc)
             // if last motion command of trajectory, ensure point is reached
-            if (l_motion.nSequence == -1)
+            if (l_motion.nSequence == -3)
               waitEndMove()
             endIf
           endIf
