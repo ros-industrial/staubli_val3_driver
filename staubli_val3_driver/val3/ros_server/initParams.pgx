@@ -5,13 +5,13 @@
       <Local name="l_nRetVal" type="num" xsi:type="array" size="1" />
     </Locals>
     <Code><![CDATA[begin
-  l_nRetVal=sioCtrl(siTcpIpMotion,"timeout",0.1)
+  l_nRetVal=sioCtrl(siTcpIpMotion,"timeout",-1)
   if (l_nRetVal!=0)
     popUpMsg("Error while setting consumer timeout")
     //return ?
   endIf
 
-  l_nRetVal=sioCtrl(siTcpIpFbk,"timeout",0.1)
+  l_nRetVal=sioCtrl(siTcpIpFbk,"timeout",-1)
   if (l_nRetVal!=0)
     popUpMsg("Error while setting producer timeout")
     //return ?
