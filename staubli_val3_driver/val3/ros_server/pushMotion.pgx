@@ -55,6 +55,13 @@
     // set flag to stop immediately
     bStopNow=true
   else
+    // check whether velocity value should be overwritten with value set on teach pendant
+    if (bOverwriteVel == true)
+      // overwrite velocity (and acceleration - ?)
+      mTrajPt.mDesc.vel = getMonitorSpeed()
+      mTrajPt.mDesc.accel = 99999
+      mTrajPt.mDesc.decel = 99999
+    endIf
     // only push motion into buffer if not a STOP message
     // and if joint positions are within software joint limits
     // and if velocity is greater than zero (beucase movej() will not accept vel <= 0)
