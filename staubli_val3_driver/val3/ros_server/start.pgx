@@ -40,6 +40,7 @@
   bSendData = true
   bRecvData = true
   bCheckHeartbeat = false
+  bOverwriteVel = false
   
   nPtsPopped = 0
   nMovePts = 0
@@ -82,6 +83,7 @@
   
   // create trajectory point task to receive data from industrial_robot_client
   taskCreateSync sTrajPtTaskName, nTrajReception, bTrajPtOverrun, dataReceiver()
+  //taskCreate sTrajPtTaskName, 100, dataReceiver()
   
   // create motion task to synchronously apply motion commands to robot
   taskCreateSync sMotionTaskName, nMotionPeriod, bMotionOverrun, motionControl()
