@@ -34,8 +34,11 @@
       endIf
       return
     elseIf (l_nIndex == 0)
-      // sioGet() returns returns 0 when connection is alive, thus set flag
+      // sioGet() returns 0 when connection is alive, thus set flag
       x_nConnFlag = 1
+      if (l_nBytesRecv == 0)
+        return
+      endIf
     else
       // either < -1 or > 1
       popUpMsg("sioGet() returned " + toString("", l_nIndex))
