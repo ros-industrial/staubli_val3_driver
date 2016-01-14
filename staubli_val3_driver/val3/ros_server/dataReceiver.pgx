@@ -20,9 +20,11 @@
     // The desirable behaviour is to receive and decode a full message, push motion
     // into buffer and then send ACK to client WITHIN ONE ITERATION of while(),
     // hence the if statement sequence below
+    nStartTime = clock()
     if (nDataInState==0)
       call recvMsgHeader()
     endIf
+    nHeaderTime = clock() - nStartTime
     if (nDataInState==1)
       call decodeMsgHeader()
     endIf
@@ -39,7 +41,8 @@
       call encodeAck()
       call sendAck()
     endIf
-
+    nElapsedTime = clock() - nStartTime - nHeaderTime
+    
     // assert state machine is working OK
     if (nDataInState<0 or nDataInState>5)
       popUpMsg("Data reception state machine error")
@@ -47,6 +50,8 @@
 
     // sequence task
     delay(0)
+
+
   endWhile
 end]]></Code>
   </Program>
