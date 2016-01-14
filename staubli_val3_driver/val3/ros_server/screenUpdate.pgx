@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Programs xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.staubli.com/robotics/VAL3/Program/2">
   <Program name="screenUpdate" access="public">
-    <Code><![CDATA[begin
+    <Code><![CDATA[begin  
   userPage(scMonitor)
   cls(scMonitor)
   title(scMonitor, "ROS-I server")
@@ -9,6 +9,22 @@
   while (true)
     // clear screen
     cls(scMonitor)
+    
+    // toggle velocity overwrite upon release of F1 key
+    nKey = getKey(scMonitor)
+    if (nKey == 277 and bOverwriteVel == false)
+      if (libMoveBuffer:nElems == 0)
+        bOverwriteVel = true
+      else
+        popUpMsg("Motion buffer not empty; cannot enable V/OW")
+      endIf
+    elseIf (nKey == 278 and bOverwriteVel == true)
+      if (libMoveBuffer:nElems == 0)
+        bOverwriteVel = false
+      else
+        popUpMsg("Motion buffer not empty; cannot disable V/OW")
+      endIf
+    endIf
     
     // update connection status on port 11000
     gotoxy(scMonitor, 0,0)
@@ -67,24 +83,39 @@
     gotoxy(scMonitor, 24,4)
     put(scMonitor, nMovePts)
     
+    // display velocity overwrite status
+    gotoxy(scMonitor, 0,5)
+    put(scMonitor, "Velocity overwrite:")
+    gotoxy(scMonitor, 20,5)
+    if (bOverwriteVel == true)
+      put(scMonitor, "enabled")
+    else
+      put(scMonitor, "disabled")
+    endIf
+    
     // display nMoveId and nMotionProgress
-    gotoxy(scMonitor, 0,6)
+    gotoxy(scMonitor, 0,7)
     put(scMonitor, "moveId:")
-    gotoxy(scMonitor, 8,6)
+    gotoxy(scMonitor, 8,7)
     put(scMonitor, nMoveId)
-    gotoxy(scMonitor, 13,6)
+    gotoxy(scMonitor, 13,7)
     put(scMonitor, "progress:")
-    gotoxy(scMonitor, 23,6)
+    gotoxy(scMonitor, 23,7)
     put(scMonitor, nMotionProgress)
     
-    // display heartbeat status
-    //gotoxy(scMonitor, 0,8)
-    //put(scMonitor, "Heartbeat status:")
-    //gotoxy(scMonitor, 18,8)
-    //put(scMonitor, nDataOut)
+    // display time between valid trajectory point received and ACK sent
+    gotoxy(scMonitor, 0,9)
+    put(scMonitor, "recvMsgHeader:")
+    gotoxy(scMonitor, 15,9)
+    put(scMonitor, toString(".4", nHeaderTime))
+    
+    gotoxy(scMonitor, 0,10)
+    put(scMonitor, "other states:")
+    gotoxy(scMonitor, 15,10)
+    put(scMonitor, toString(".4", nElapsedTime))
     
     // update debug status
-    gotoxy(scMonitor, 18,10)
+    gotoxy(scMonitor, 18,12)
     switch nDebugStatus
       case 0
         put(scMonitor, "[+]")
@@ -97,6 +128,12 @@
       default
       break
     endSwitch
+    
+    // add Function keys labels
+    gotoxy(scMonitor, 30,13)
+    put(scMonitor, "V/ON")
+    gotoxy(scMonitor, 35,13)
+    put(scMonitor, "V/OFF")
     
     // sequence task
     //delay(0)
