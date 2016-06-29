@@ -41,16 +41,16 @@
     <Data file="ros_server.dtx" />
   </Database>
   <Libraries>
-    <Library alias="libMoveBuffer" path="Disk://MotionQueue/MotionQueue.pjx" autoload="true" password="" />
-    <Library alias="libTrajPtBuffer" path="Disk://TrajectoryQueue/TrajectoryQueue.pjx" autoload="true" password="" />
+    <Library alias="libMoveBuffer" path="Disk://ros_libs/MotionQueue/MotionQueue.pjx" autoload="true" password="" />
+    <Library alias="libTrajPtBuffer" path="Disk://ros_libs/TrajectoryQueue/TrajectoryQueue.pjx" autoload="true" password="" />
   </Libraries>
   <Types>
-    <Type name="RosSimpleMsg" path="Disk://RosSimpleMsg/RosSimpleMsg.pjx" />
-    <Type name="RobotStatusMsg" path="Disk://RobotStatusMsg/RobotStatusMsg.pjx" />
-    <Type name="JointStateMsg" path="Disk://JointStateMsg/JointStateMsg.pjx" />
-    <Type name="JointTrajPtMsg" path="Disk://JointTrajPtMsg/JointTrajPtMsg.pjx" />
-    <Type name="JointTrajPtFMsg" path="Disk://JointTrajPtFMsg/JointTrajPtFMsg.pjx" />
-    <Type name="JointFbkMsg" path="Disk://JointFbkMsg/JointFbkMsg.pjx" />
-    <Type name="MotionBuffer" path="Disk://MotionBuffer/MotionBuffer.pjx" />
+    <Type name="RosSimpleMsg" path="Disk://ros_libs/RosSimpleMsg/RosSimpleMsg.pjx" />
+    <Type name="RobotStatusMsg" path="Disk://ros_libs/RobotStatusMsg/RobotStatusMsg.pjx" />
+    <Type name="JointStateMsg" path="Disk://ros_libs/JointStateMsg/JointStateMsg.pjx" />
+    <Type name="JointTrajPtMsg" path="Disk://ros_libs/JointTrajPtMsg/JointTrajPtMsg.pjx" />
+    <Type name="JointTrajPtFMsg" path="Disk://ros_libs/JointTrajPtFMsg/JointTrajPtFMsg.pjx" />
+    <Type name="JointFbkMsg" path="Disk://ros_libs/JointFbkMsg/JointFbkMsg.pjx" />
+    <Type name="MotionBuffer" path="Disk://ros_libs/MotionBuffer/MotionBuffer.pjx" />
   </Types>
 </Project>

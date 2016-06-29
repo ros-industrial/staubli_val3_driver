@@ -6,13 +6,11 @@
     <Program file="stop.pgx" />
   </Programs>
   <Database>
-    <Data file="JointTrajPtMsg.dtx" />
+    <Data file="RosSimpleMsg.dtx" />
   </Database>
   <Libraries />
   <Types>
-    <Type name="Body" path="Disk://Body/Body.pjx" />
-    <Type name="Header" path="Disk://Header/Header.pjx" />
-    <Type name="Prefix" path="Disk://Prefix/Prefix.pjx" />
-    <Type name="JointTrajPt" path="Disk://JointTrajPt/JointTrajPt.pjx" />
+    <Type name="Prefix" path="Disk://ros_libs/Prefix/Prefix.pjx" />
+    <Type name="Header" path="Disk://ros_libs/Header/Header.pjx" />
   </Types>
 </Project>

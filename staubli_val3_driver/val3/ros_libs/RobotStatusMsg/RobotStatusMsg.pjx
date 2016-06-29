@@ -6,13 +6,13 @@
     <Program file="stop.pgx" />
   </Programs>
   <Database>
-    <Data file="JointTrajPtFMsg.dtx" />
+    <Data file="RobotStatusMsg.dtx" />
   </Database>
   <Libraries />
   <Types>
-    <Type name="Body" path="Disk://Body/Body.pjx" />
-    <Type name="Header" path="Disk://Header/Header.pjx" />
-    <Type name="Prefix" path="Disk://Prefix/Prefix.pjx" />
-    <Type name="JointTrajPtFull" path="Disk://JointTrajPtFull/JointTrajPtFull.pjx" />
+    <Type name="RobotStatus" path="Disk://ros_libs/RobotStatus/RobotStatus.pjx" />
+    <Type name="Prefix" path="Disk://ros_libs/Prefix/Prefix.pjx" />
+    <Type name="Header" path="Disk://ros_libs/Header/Header.pjx" />
+    <Type name="Body" path="Disk://ros_libs/Body/Body.pjx" />
   </Types>
 </Project>

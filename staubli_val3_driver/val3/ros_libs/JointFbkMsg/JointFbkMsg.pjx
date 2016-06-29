@@ -2,17 +2,17 @@
 <Project xmlns="http://www.staubli.com/robotics/VAL3/Project/3">
   <Parameters version="s7.7.2" stackSize="5000" millimeterUnit="true" />
   <Programs>
-    <Program file="clear.pgx" />
-    <Program file="pop.pgx" />
-    <Program file="push.pgx" />
     <Program file="start.pgx" />
     <Program file="stop.pgx" />
   </Programs>
   <Database>
-    <Data file="TrajectoryQueue.dtx" />
+    <Data file="JointFbkMsg.dtx" />
   </Database>
   <Libraries />
   <Types>
-    <Type name="MotionBuffer" path="Disk://MotionBuffer/MotionBuffer.pjx" />
+    <Type name="Body" path="Disk://ros_libs/Body/Body.pjx" />
+    <Type name="Header" path="Disk://ros_libs/Header/Header.pjx" />
+    <Type name="Prefix" path="Disk://ros_libs/Prefix/Prefix.pjx" />
+    <Type name="JointFeedback" path="Disk://ros_libs/JointFeedback/JointFeedback.pjx" />
   </Types>
 </Project>
