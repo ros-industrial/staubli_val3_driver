@@ -1,20 +1,19 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
-<Project xmlns="http://www.staubli.com/robotics/VAL3/Project/3" >
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://www.staubli.com/robotics/VAL3/Project/3">
   <Parameters version="s7.7.2" stackSize="5000" millimeterUnit="true" />
   <Programs>
     <Program file="dataReceiver.pgx" />
     <Program file="dataStreamer.pgx" />
-    <Program file="decTrajPt.pgx" />
-    <Program file="decTrajPtFull.pgx" />
     <Program file="decodeMsgBody.pgx" />
     <Program file="decodeMsgHeader.pgx" />
+    <Program file="decTrajPt.pgx" />
+    <Program file="decTrajPtFull.pgx" />
+    <Program file="encodeAck.pgx" />
+    <Program file="encodeJointFbk.pgx" />
+    <Program file="encodeJState.pgx" />
+    <Program file="encodeStatus.pgx" />
     <Program file="encTrajPtAck.pgx" />
     <Program file="encTrajPtFAck.pgx" />
-    <Program file="encodeAck.pgx" />
-    <Program file="encodeJState.pgx" />
-    <Program file="encodeJointFbk.pgx" />
-    <Program file="encodeStatus.pgx" />
-    <Program file="fbkStreamer.pgx" />
     <Program file="fetchStatus.pgx" />
     <Program file="initParams.pgx" />
     <Program file="motionControl.pgx" />
@@ -28,8 +27,8 @@
     <Program file="screenUpdate.pgx" />
     <Program file="sendAck.pgx" />
     <Program file="sendData.pgx" />
-    <Program file="sendJState.pgx" />
     <Program file="sendJointFbk.pgx" />
+    <Program file="sendJState.pgx" />
     <Program file="sendStatus.pgx" />
     <Program file="sendTrajPtAck.pgx" />
     <Program file="sendTrajPtFAck.pgx" />
@@ -41,8 +40,8 @@
     <Data file="ros_server.dtx" />
   </Database>
   <Libraries>
-    <Library alias="libMoveBuffer" path="Disk://ros_libs/MotionQueue/MotionQueue.pjx" autoload="true" password="" />
-    <Library alias="libTrajPtBuffer" path="Disk://ros_libs/TrajectoryQueue/TrajectoryQueue.pjx" autoload="true" password="" />
+    <Library alias="libMoveBuffer" path="Disk://ros_libs/MotionQueue/MotionQueue.pjx" />
+    <Library alias="libTrajPtBuffer" path="Disk://ros_libs/TrajectoryQueue/TrajectoryQueue.pjx" />
   </Libraries>
   <Types>
     <Type name="RosSimpleMsg" path="Disk://ros_libs/RosSimpleMsg/RosSimpleMsg.pjx" />
