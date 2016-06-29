@@ -59,8 +59,9 @@
     if (bOverwriteVel == true)
       // overwrite velocity (and acceleration - ?)
       mTrajPt.mDesc.vel = getMonitorSpeed()
-      mTrajPt.mDesc.accel = 99999
-      mTrajPt.mDesc.decel = 99999
+      // explicitly setting accel and decel to VAL3 default values
+      mTrajPt.mDesc.accel = 9999
+      mTrajPt.mDesc.decel = 9999
     endIf
     // only push motion into buffer if not a STOP message
     // and if joint positions are within software joint limits
