@@ -39,7 +39,6 @@
   // flags to control tasks: should start sending/receiving
   bSendData = true
   bRecvData = true
-  bCheckHeartbeat = false
   bOverwriteVel = false
   
   nPtsPopped = 0
