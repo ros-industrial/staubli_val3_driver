@@ -17,9 +17,6 @@
   nTrajReception = 0.004
   // not in use at the moment
   nScreenUpdate = 1.0
-  
-  nDeg2Rad = 3.14159265359 / 180.0
-  nRad2Deg = 180.0 / 3.14159265359
 
   sStreamTaskName = "streamerTask"
   sTrajPtTaskName = "trajPtTask"
