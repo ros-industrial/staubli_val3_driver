@@ -5,13 +5,8 @@
       <Local name="l_nRetVal" type="num" xsi:type="array" size="1" />
     </Locals>
     <Code><![CDATA[begin
-  // encode prefix length
-  l_nRetVal=toBinary(rosJointMsg.prefix.nLength,1,"-4l",rosJointMsg.prefix.nData)
-
-  // encode header
-  l_nRetVal=toBinary(rosJointMsg.header.nMsgType,1,"-4l",rosJointMsg.header.nData)
-  l_nRetVal=toBinary(rosJointMsg.header.nCommType,1,"-4l",rosJointMsg.header.nData[4])
-  l_nRetVal=toBinary(rosJointMsg.header.nReplyCode,1,"-4l",rosJointMsg.header.nData[8])
+  // encode 'prefix' and 'header'
+  call encPrefixHeader(rosJointMsg.prefix, rosJointMsg.header)
 
   // encode 'sequence' variable of body message (data)
   l_nRetVal=toBinary(rosJointMsg.jointState.nSeq,1,"-4l",rosJointMsg.body.nData)
