@@ -14,17 +14,17 @@
     l_nIndex = sioGet(siTcpIpFbk, l_nByte)
     if (l_nIndex == -1)
       // connection not established or connection lost
-      if (nDataOut == 1)
-        nDataOut = -1
+      if (nOutConnFlag == 1)
+        nOutConnFlag = -1
       endIf
     else
       // it means l_nIndex >= 0: connection established
       // check if connection had not already been established
-      if (nDataOut != 1)
+      if (nOutConnFlag != 1)
         // delay data output to avoid sync issues with client
         delay(1.0)
         // flag connection as established
-        nDataOut = 1
+        nOutConnFlag = 1
       endIf
     endIf
   endWhile

@@ -6,10 +6,10 @@
     </Locals>
     <Code><![CDATA[begin
   // send message length (prefix)
-  call sendData(siTcpIpMotion,rosTrajPtFAck.prefix.nData,nDataIn)
+  call sendData(siTcpIpMotion,rosTrajPtFAck.prefix.nData,nInConnFlag)
   // send message header (msg type, comm type, reply code)
-  call sendData(siTcpIpMotion,rosTrajPtFAck.header.nData,nDataIn)
-  call sendData(siTcpIpMotion,rosTrajPtFAck.body.nData,nDataIn)
+  call sendData(siTcpIpMotion,rosTrajPtFAck.header.nData,nInConnFlag)
+  call sendData(siTcpIpMotion,rosTrajPtFAck.body.nData,nInConnFlag)
 end]]></Code>
   </Program>
 </Programs>

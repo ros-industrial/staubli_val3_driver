@@ -29,9 +29,9 @@
   // setup prefix and header of ROS messages
   call setupRosMsgs()
   
-  // socket connections: initially disconnected
-  nDataIn = 0
-  nDataOut = 0
+  // socket connection status flags: initially disconnected
+  nInConnFlag = 0
+  nOutConnFlag = 0
   
   // flags to control tasks: should start sending/receiving
   bSendData = true

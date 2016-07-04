@@ -1,6 +1,6 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
-<Programs xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.staubli.com/robotics/VAL3/Program/2" >
-  <Program name="recvMsgBody" access="public" >
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Programs xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.staubli.com/robotics/VAL3/Program/2">
+  <Program name="recvMsgBody" access="public">
     <Locals>
       <Local name="l_bFlag" type="bool" xsi:type="array" size="1" />
     </Locals>
@@ -20,10 +20,10 @@
 
   if (l_bFlag)
     // move on to state 3: decode msg body
-    nDataInState=3
+    nMsgRecvState=3
   else
     // error whilst receiving msg body, reset state machine
-    nDataInState=0
+    nMsgRecvState=0
   endIf
 end]]></Code>
   </Program>

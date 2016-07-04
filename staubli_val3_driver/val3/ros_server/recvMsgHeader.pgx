@@ -6,17 +6,17 @@
     </Locals>
     <Code><![CDATA[begin
   // attempt to receive message prefix and header
-  call recvData(siTcpIpMotion,rosGenericMsg.prefix.nData,nDataIn,l_bFlag)
+  call recvData(siTcpIpMotion,rosGenericMsg.prefix.nData,nInConnFlag,l_bFlag)
   if (l_bFlag)
-    call recvData(siTcpIpMotion,rosGenericMsg.header.nData,nDataIn,l_bFlag)
+    call recvData(siTcpIpMotion,rosGenericMsg.header.nData,nInConnFlag,l_bFlag)
   endIf
 
   if (l_bFlag)
     // move on to state 1: decode header
-    nDataInState=1
+    nMsgRecvState=1
   else
     // error: reset state to 0: receive header
-    nDataInState=0
+    nMsgRecvState=0
   endIf
 end]]></Code>
   </Program>

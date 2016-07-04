@@ -11,7 +11,7 @@
   rosTrajPtFMsg.header.nCommType=rosGenericMsg.header.nCommType
   rosTrajPtFMsg.header.nReplyCode=rosGenericMsg.header.nReplyCode
 
-  call recvData(siTcpIpMotion,rosTrajPtFMsg.body.nData,nDataIn,x_bFlag)
+  call recvData(siTcpIpMotion,rosTrajPtFMsg.body.nData,nInConnFlag,x_bFlag)
 end]]></Code>
   </Program>
 </Programs>

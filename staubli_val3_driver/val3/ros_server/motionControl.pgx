@@ -13,7 +13,7 @@
 
   while (true)
     // check connection status, and whether to stop motion
-    if (nDataIn == 1 and nDataOut == 1 and bStopNow == false)
+    if (nInConnFlag == 1 and nOutConnFlag == 1 and bStopNow == false)
       
       nMotionProgress = getMoveId()
       
@@ -33,7 +33,7 @@
         if (l_bFlag)
           if (l_motion.jJointRx != herej())
             nMovePts = nMovePts + 1
-            // @TODO potentially set move id acording to sequence value
+            // @TODO potentially set move id according to sequence value
             nMoveId = movej(l_motion.jJointRx, tTool, l_motion.mDesc)
           endIf
         endIf

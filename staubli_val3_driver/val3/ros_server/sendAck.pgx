@@ -1,6 +1,6 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
-<Programs xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.staubli.com/robotics/VAL3/Program/2" >
-  <Program name="sendAck" access="public" >
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Programs xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.staubli.com/robotics/VAL3/Program/2">
+  <Program name="sendAck" access="public">
     <Code><![CDATA[begin
   switch rosGenericMsg.header.nMsgType
     case 11
@@ -15,7 +15,7 @@
 
   // regardless of result from sending ACK
   // reset state machine to receive new messages
-  nDataInState=0
+  nMsgRecvState=0
 end]]></Code>
   </Program>
 </Programs>

@@ -1,13 +1,13 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
-<Programs xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.staubli.com/robotics/VAL3/Program/2" >
-  <Program name="sendStatus" access="public" >
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Programs xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.staubli.com/robotics/VAL3/Program/2">
+  <Program name="sendStatus" access="public">
     <Locals>
       <Local name="l_nRetVal" type="num" xsi:type="array" size="1" />
     </Locals>
     <Code><![CDATA[begin
-  call sendData(siTcpIpFbk,rosStatusMsg.prefix.nData,nDataOut)
-  call sendData(siTcpIpFbk,rosStatusMsg.header.nData,nDataOut)
-  call sendData(siTcpIpFbk,rosStatusMsg.body.nData,nDataOut)
+  call sendData(siTcpIpFbk,rosStatusMsg.prefix.nData,nOutConnFlag)
+  call sendData(siTcpIpFbk,rosStatusMsg.header.nData,nOutConnFlag)
+  call sendData(siTcpIpFbk,rosStatusMsg.body.nData,nOutConnFlag)
 end]]></Code>
   </Program>
 </Programs>

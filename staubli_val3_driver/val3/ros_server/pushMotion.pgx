@@ -86,7 +86,7 @@
   endIf
 
   // move on to state 5: send Ack
-  nDataInState=5
+  nMsgRecvState=5
 end]]></Code>
   </Program>
 </Programs>

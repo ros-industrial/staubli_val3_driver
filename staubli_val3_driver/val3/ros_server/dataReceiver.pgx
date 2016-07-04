@@ -9,7 +9,7 @@
   // 3: decode body
   // 4: push motion into buffer
   // 5: send ACK
-  nDataInState=0
+  nMsgRecvState=0
 
   while (bRecvData)
     // usually for state machines a switch-case statement is a neat implementation
@@ -21,30 +21,30 @@
     // into buffer and then send ACK to client WITHIN ONE ITERATION of while(),
     // hence the if statement sequence below
     nStartTime = clock()
-    if (nDataInState==0)
+    if (nMsgRecvState==0)
       call recvMsgHeader()
     endIf
     nHeaderTime = clock() - nStartTime
-    if (nDataInState==1)
+    if (nMsgRecvState==1)
       call decodeMsgHeader()
     endIf
-    if (nDataInState==2)
+    if (nMsgRecvState==2)
       call recvMsgBody()
     endIf
-    if (nDataInState==3)
+    if (nMsgRecvState==3)
       call decodeMsgBody()
     endIf
-    if (nDataInState==4)
+    if (nMsgRecvState==4)
       call pushMotion()
     endIf
-    if (nDataInState==5)
+    if (nMsgRecvState==5)
       call encodeAck()
       call sendAck()
     endIf
     nElapsedTime = clock() - nStartTime - nHeaderTime
     
     // assert state machine is working OK
-    if (nDataInState<0 or nDataInState>5)
+    if (nMsgRecvState<0 or nMsgRecvState>5)
       popUpMsg("Data reception state machine error")
     endIf
 

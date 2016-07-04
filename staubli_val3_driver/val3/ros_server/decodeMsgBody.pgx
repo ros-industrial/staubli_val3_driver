@@ -20,7 +20,7 @@
 
   if (l_bFlag)
     // move on to state 4: push motion into buffer
-    nDataInState=4
+    nMsgRecvState=4
   else
     // error whilst decoding msg body...
     if (rosGenericMsg.header.nCommType==2)
@@ -35,10 +35,10 @@
         break
       endSwitch
       // jump to state 5: sendAck()
-      nDataInState=5
+      nMsgRecvState=5
     else
       // reset state machine, since no ACK is required
-      nDataInState=0
+      nMsgRecvState=0
     endIf
   endIf
 end]]></Code>
