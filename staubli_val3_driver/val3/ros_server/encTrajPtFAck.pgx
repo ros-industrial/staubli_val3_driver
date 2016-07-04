@@ -8,20 +8,13 @@
   // encode 'prefix' and 'header'
   call encPrefixHeader(rosTrajPtFAck.prefix, rosTrajPtFAck.header)
 
-  // encodings below are commented out (apart from robotId and sequence) to save CPU time, since values are all zeros
-
   // encode body message (data)
   l_nRetVal=toBinary(rosTrajPtFAck.jointTrajPtFull.nRobotId,1,"-4l",rosTrajPtFAck.body.nData)
   l_nRetVal=toBinary(rosTrajPtFAck.jointTrajPtFull.nSeq,1,"-4l",rosTrajPtFAck.body.nData[4])
   //l_nRetVal = toBinary(rosTrajPtFAck.jointTrajPtFull.nValidFields, 1, "-4l", rosTrajPtFAck.body.nData[8])
   //l_nRetVal = toBinary(rosTrajPtFAck.jointTrajPtFull.nTime, 1, "4.0l", rosTrajPtFAck.body.nData[12])
 
-  // encode 10 values representing positions[10]
-  //l_nRetVal = toBinary(rosTrajPtFAck.jointTrajPtFull.nPositions, 10, "4.0l", rosTrajPtFAck.body.nData[16])
-  // encode 10 values representing velocities[10]
-  //l_nRetVal = toBinary(rosTrajPtFAck.jointTrajPtFull.nVelocities, 10, "4.0l", rosTrajPtFAck.body.nData[56])
-  // encode 10 values representing accelerations[10]
-  //l_nRetVal = toBinary(rosTrajPtFAck.jointTrajPtFull.nAccelerations, 10, "4.0l", rosTrajPtFAck.body.nData[96])
+  // encodings of 'positions[10]', velocities[10]' and accelerations[10]' ignored to save CPU time, since values are all zeros
 end]]></Code>
   </Program>
 </Programs>

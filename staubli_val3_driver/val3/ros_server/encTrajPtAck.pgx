@@ -11,16 +11,7 @@
   // encode 'sequence' variable of body message (data)
   l_nRetVal=toBinary(rosTrajPtAck.jointTrajPt.nSeq,1,"-4l",rosTrajPtAck.body.nData)
 
-  // encodings below are commented out to save CPU time, since values are all zeros
-
-  // encode 10 values representing joints[10]
-  //l_nRetVal = toBinary(rosTrajPtAck.jointTrajPt.nJoints, 10, "4.0l", rosTrajPtAck.body.nData[4])
-
-  // encode 'velocity' variable of body message (data)
-  //l_nRetVal = toBinary(rosTrajPtAck.jointTrajPt.nVelocity, 1, "4.0l", rosTrajPtAck.body.nData[44])
-
-  // encode 'duration' variable of body message (data)
-  //l_nRetVal = toBinary(rosTrajPtAck.jointTrajPt.nDuration, 1, "4.0l", rosTrajPtAck.body.nData[48])
+  // encodings of 'joints[10]', 'velocity' and 'duration' ignored to save CPU time, since values are all zeros
 end]]></Code>
   </Program>
 </Programs>
