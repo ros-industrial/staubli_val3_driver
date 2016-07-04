@@ -1,6 +1,6 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
-<Programs xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.staubli.com/robotics/VAL3/Program/2" >
-  <Program name="encodeJState" access="public" >
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Programs xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.staubli.com/robotics/VAL3/Program/2">
+  <Program name="encodeJState" access="public">
     <Locals>
       <Local name="l_nRetVal" type="num" xsi:type="array" size="1" />
     </Locals>
@@ -16,7 +16,7 @@
   // encode 'sequence' variable of body message (data)
   l_nRetVal=toBinary(rosJointMsg.jointState.nSeq,1,"-4l",rosJointMsg.body.nData)
 
-  // assuming the remaining elements have zeros assigned by default
+  // assuming the remaining elements (6-9) have zeros assigned by default
   rosJointMsg.jointState.nJoints[0]=jCurrPose.j1*nDeg2Rad
   rosJointMsg.jointState.nJoints[1]=jCurrPose.j2*nDeg2Rad
   rosJointMsg.jointState.nJoints[2]=jCurrPose.j3*nDeg2Rad
