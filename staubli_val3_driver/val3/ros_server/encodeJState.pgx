@@ -11,13 +11,7 @@
   // encode 'sequence' variable of body message (data)
   l_nRetVal=toBinary(rosJointMsg.jointState.nSeq,1,"-4l",rosJointMsg.body.nData)
 
-  // assuming the remaining elements (6-9) have zeros assigned by default
-  rosJointMsg.jointState.nJoints[0]=jCurrPose.j1*nDeg2Rad
-  rosJointMsg.jointState.nJoints[1]=jCurrPose.j2*nDeg2Rad
-  rosJointMsg.jointState.nJoints[2]=jCurrPose.j3*nDeg2Rad
-  rosJointMsg.jointState.nJoints[3]=jCurrPose.j4*nDeg2Rad
-  rosJointMsg.jointState.nJoints[4]=jCurrPose.j5*nDeg2Rad
-  rosJointMsg.jointState.nJoints[5]=jCurrPose.j6*nDeg2Rad
+  call toJointArrayRad(jCurrPose, rosJointMsg.jointState.nJoints)
 
   // encode 10 values representing joints[10]
   l_nRetVal=toBinary(rosJointMsg.jointState.nJoints,10,"4.0l",rosJointMsg.body.nData[4])
