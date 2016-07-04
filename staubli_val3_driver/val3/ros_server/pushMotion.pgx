@@ -10,13 +10,10 @@
   switch rosGenericMsg.header.nMsgType
     case 11
       mTrajPt.nSequence=rosTrajPtMsg.jointTrajPt.nSeq
+      
       // ROS joint position values are in rad, but VAL3 uses degrees
-      mTrajPt.jJointRx.j1=rosTrajPtMsg.jointTrajPt.nJoints[0] * nRad2Deg
-      mTrajPt.jJointRx.j2=rosTrajPtMsg.jointTrajPt.nJoints[1] * nRad2Deg
-      mTrajPt.jJointRx.j3=rosTrajPtMsg.jointTrajPt.nJoints[2] * nRad2Deg
-      mTrajPt.jJointRx.j4=rosTrajPtMsg.jointTrajPt.nJoints[3] * nRad2Deg
-      mTrajPt.jJointRx.j5=rosTrajPtMsg.jointTrajPt.nJoints[4] * nRad2Deg
-      mTrajPt.jJointRx.j6=rosTrajPtMsg.jointTrajPt.nJoints[5] * nRad2Deg
+      call toJointRxDeg(rosTrajPtMsg.jointTrajPt.nJoints, mTrajPt.jJointRx)
+      
       // from industrial_robot_client/src/joint_trajectory_interface.cpp
       // JointTrajectoryInterface::trajectory_to_msgs()
       // JointTrajectoryInterface::calc_speed()
@@ -29,13 +26,10 @@
     case 14
       mTrajPt.nSequence=rosTrajPtFMsg.jointTrajPtFull.nSeq
       mTrajPt.nDuration=rosTrajPtFMsg.jointTrajPtFull.nTime
+      
       // ROS joint position values are in rad, but VAL3 uses degrees
-      mTrajPt.jJointRx.j1=rosTrajPtFMsg.jointTrajPtFull.nPositions[0] * nRad2Deg
-      mTrajPt.jJointRx.j2=rosTrajPtFMsg.jointTrajPtFull.nPositions[1] * nRad2Deg
-      mTrajPt.jJointRx.j3=rosTrajPtFMsg.jointTrajPtFull.nPositions[2] * nRad2Deg
-      mTrajPt.jJointRx.j4=rosTrajPtFMsg.jointTrajPtFull.nPositions[3] * nRad2Deg
-      mTrajPt.jJointRx.j5=rosTrajPtFMsg.jointTrajPtFull.nPositions[4] * nRad2Deg
-      mTrajPt.jJointRx.j6=rosTrajPtFMsg.jointTrajPtFull.nPositions[5] * nRad2Deg
+      call toJointRxDeg(rosTrajPtFMsg.jointTrajPtFull.nPositions, mTrajPt.jJointRx)
+      
       // from industrial_robot_client/src/joint_trajectory_interface.cpp
       // JointTrajectoryInterface::trajectory_to_msgs()
       // JointTrajectoryInterface::calc_speed()
