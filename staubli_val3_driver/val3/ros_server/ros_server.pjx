@@ -12,6 +12,7 @@
     <Program file="encodeJointFbk.pgx" />
     <Program file="encodeJState.pgx" />
     <Program file="encodeStatus.pgx" />
+    <Program file="encPrefixHeader.pgx" />
     <Program file="encTrajPtAck.pgx" />
     <Program file="encTrajPtFAck.pgx" />
     <Program file="fetchStatus.pgx" />
@@ -51,5 +52,7 @@
     <Type name="JointTrajPtFMsg" path="Disk://ros_libs/JointTrajPtFMsg/JointTrajPtFMsg.pjx" />
     <Type name="JointFbkMsg" path="Disk://ros_libs/JointFbkMsg/JointFbkMsg.pjx" />
     <Type name="MotionBuffer" path="Disk://ros_libs/MotionBuffer/MotionBuffer.pjx" />
+    <Type name="Header" path="Disk://ros_libs/Header/Header.pjx" />
+    <Type name="Prefix" path="Disk://ros_libs/Prefix/Prefix.pjx" />
   </Types>
 </Project>
