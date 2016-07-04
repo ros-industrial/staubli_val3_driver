@@ -36,6 +36,8 @@
     <Program file="setupRosMsgs.pgx" />
     <Program file="start.pgx" />
     <Program file="stop.pgx" />
+    <Program file="toJointArrayRad.pgx" />
+    <Program file="toJointRxDeg.pgx" />
   </Programs>
   <Database>
     <Data file="ros_server.dtx" />

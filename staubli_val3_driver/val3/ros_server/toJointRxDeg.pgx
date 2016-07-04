@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Programs xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.staubli.com/robotics/VAL3/Program/2">
+  <Program name="toJointRxDeg" access="public">
+    <Parameters xmlns="http://www.staubli.com/robotics/VAL3/Param/1">
+      <Parameter name="x_nJointArray" type="num" xsi:type="array" use="reference" />
+      <Parameter name="x_jJointRx" type="jointRx" xsi:type="element" use="reference" />
+    </Parameters>
+    <Locals>
+      <Local name="l_nRad2Deg" type="num" xsi:type="array" size="1" />
+    </Locals>
+    <Code><![CDATA[begin
+  l_nRad2Deg = 57.2957795131
+  
+  x_jJointRx.j1 = x_nJointArray[0] * l_nRad2Deg
+  x_jJointRx.j2 = x_nJointArray[1] * l_nRad2Deg
+  x_jJointRx.j3 = x_nJointArray[2] * l_nRad2Deg
+  x_jJointRx.j4 = x_nJointArray[3] * l_nRad2Deg
+  x_jJointRx.j5 = x_nJointArray[4] * l_nRad2Deg
+  x_jJointRx.j6 = x_nJointArray[5] * l_nRad2Deg
+end]]></Code>
+  </Program>
+</Programs>
