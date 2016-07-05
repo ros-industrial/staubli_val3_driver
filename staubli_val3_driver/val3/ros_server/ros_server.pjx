@@ -30,6 +30,7 @@
     <Program file="sendData.pgx" />
     <Program file="sendJointFbk.pgx" />
     <Program file="sendJState.pgx" />
+    <Program file="sendRosMsg.pgx" />
     <Program file="sendStatus.pgx" />
     <Program file="sendTrajPtAck.pgx" />
     <Program file="sendTrajPtFAck.pgx" />
@@ -56,5 +57,6 @@
     <Type name="MotionBuffer" path="Disk://ros_libs/MotionBuffer/MotionBuffer.pjx" />
     <Type name="Header" path="Disk://ros_libs/Header/Header.pjx" />
     <Type name="Prefix" path="Disk://ros_libs/Prefix/Prefix.pjx" />
+    <Type name="Body" path="Disk://ros_libs/Body/Body.pjx" />
   </Types>
 </Project>
