@@ -4,10 +4,10 @@
     <Code><![CDATA[begin
   switch rosGenericMsg.header.nMsgType
     case 11
-      call sendTrajPtAck()
+      call sendRosMsg(siTcpIpMotion, rosTrajPtAck.prefix, rosTrajPtAck.header, rosTrajPtAck.body, nInConnFlag)
     break
     case 14
-      call sendTrajPtFAck()
+      call sendRosMsg(siTcpIpMotion, rosTrajPtFAck.prefix, rosTrajPtFAck.header, rosTrajPtFAck.body, nInConnFlag)
     break
     default
     break
