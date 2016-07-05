@@ -1,20 +1,17 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Programs xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.staubli.com/robotics/VAL3/Program/2">
   <Program name="encodeJState" access="public">
-    <Locals>
-      <Local name="l_nRetVal" type="num" xsi:type="array" size="1" />
-    </Locals>
     <Code><![CDATA[begin
   // encode 'prefix' and 'header'
   call encPrefixHeader(rosJointMsg.prefix, rosJointMsg.header)
 
   // encode 'sequence' variable of body message (data)
-  l_nRetVal=toBinary(rosJointMsg.jointState.nSeq,1,"-4l",rosJointMsg.body.nData)
+  toBinary(rosJointMsg.jointState.nSeq,1,"-4l",rosJointMsg.body.nData)
 
   call toJointArrayRad(jCurrPose, rosJointMsg.jointState.nJoints)
 
   // encode 10 values representing joints[10]
-  l_nRetVal=toBinary(rosJointMsg.jointState.nJoints,10,"4.0l",rosJointMsg.body.nData[4])
+  toBinary(rosJointMsg.jointState.nJoints,10,"4.0l",rosJointMsg.body.nData[4])
 end]]></Code>
   </Program>
 </Programs>

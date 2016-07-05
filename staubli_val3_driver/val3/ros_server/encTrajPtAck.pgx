@@ -1,15 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Programs xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.staubli.com/robotics/VAL3/Program/2">
   <Program name="encTrajPtAck" access="public">
-    <Locals>
-      <Local name="l_nRetVal" type="num" xsi:type="array" size="1" />
-    </Locals>
     <Code><![CDATA[begin
   // encode 'prefix' and 'header'
   call encPrefixHeader(rosTrajPtAck.prefix, rosTrajPtAck.header)
 
   // encode 'sequence' variable of body message (data)
-  l_nRetVal=toBinary(rosTrajPtAck.jointTrajPt.nSeq,1,"-4l",rosTrajPtAck.body.nData)
+  toBinary(rosTrajPtAck.jointTrajPt.nSeq,1,"-4l",rosTrajPtAck.body.nData)
 
   // encodings of 'joints[10]', 'velocity' and 'duration' ignored to save CPU time, since values are all zeros
 end]]></Code>

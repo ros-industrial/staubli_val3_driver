@@ -5,17 +5,14 @@
       <Parameter name="x_pPrefix" type="Prefix" xsi:type="element" use="reference" />
       <Parameter name="x_hHeader" type="Header" xsi:type="element" use="reference" />
     </Parameters>
-    <Locals>
-      <Local name="l_nRetVal" type="num" xsi:type="array" size="1" />
-    </Locals>
     <Code><![CDATA[begin
   // encode prefix length
-  l_nRetVal=toBinary(x_pPrefix.nLength,1,"-4l",x_pPrefix.nData)
+  toBinary(x_pPrefix.nLength,1,"-4l",x_pPrefix.nData)
 
   // encode header data
-  l_nRetVal=toBinary(x_hHeader.nMsgType,1,"-4l",x_hHeader.nData)
-  l_nRetVal=toBinary(x_hHeader.nCommType,1,"-4l",x_hHeader.nData[4])
-  l_nRetVal=toBinary(x_hHeader.nReplyCode,1,"-4l",x_hHeader.nData[8])
+  toBinary(x_hHeader.nMsgType,1,"-4l",x_hHeader.nData)
+  toBinary(x_hHeader.nCommType,1,"-4l",x_hHeader.nData[4])
+  toBinary(x_hHeader.nReplyCode,1,"-4l",x_hHeader.nData[8])
 end]]></Code>
   </Program>
 </Programs>
