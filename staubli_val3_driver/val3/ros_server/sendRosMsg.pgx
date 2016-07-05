@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Programs xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.staubli.com/robotics/VAL3/Program/2">
+  <Program name="sendRosMsg" access="public">
+    <Parameters xmlns="http://www.staubli.com/robotics/VAL3/Param/1">
+      <Parameter name="x_sTcpSocket" type="sio" xsi:type="element" use="reference" />
+      <Parameter name="x_pPrefix" type="Prefix" xsi:type="element" use="reference" />
+      <Parameter name="x_hHeader" type="Header" xsi:type="element" use="reference" />
+      <Parameter name="x_bBody" type="Body" xsi:type="element" use="reference" />
+      <Parameter name="x_nConnFlag" type="num" xsi:type="element" use="reference" />
+    </Parameters>
+    <Code><![CDATA[begin
+  call sendData(x_sTcpSocket, x_pPrefix.nData, x_nConnFlag)
+  call sendData(x_sTcpSocket, x_hHeader.nData, x_nConnFlag)
+  call sendData(x_sTcpSocket, x_bBody.nData, x_nConnFlag)
+end]]></Code>
+  </Program>
+</Programs>
