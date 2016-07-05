@@ -28,12 +28,7 @@
     <Program file="screenUpdate.pgx" />
     <Program file="sendAck.pgx" />
     <Program file="sendData.pgx" />
-    <Program file="sendJointFbk.pgx" />
-    <Program file="sendJState.pgx" />
     <Program file="sendRosMsg.pgx" />
-    <Program file="sendStatus.pgx" />
-    <Program file="sendTrajPtAck.pgx" />
-    <Program file="sendTrajPtFAck.pgx" />
     <Program file="setupRosMsgs.pgx" />
     <Program file="start.pgx" />
     <Program file="stop.pgx" />
