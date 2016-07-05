@@ -11,7 +11,7 @@
     jCurrPose=herej()
     // encode and send ROS simple_message ID 10: joint state
     call encodeJState()
-    call sendJState()
+    call sendRosMsg(siTcpIpFbk, rosJointMsg.prefix, rosJointMsg.header, rosJointMsg.body, nOutConnFlag)
 
     // send Robot Status messages 5 times slower than Joint State
     if (l_nThrottle == 5)
@@ -19,7 +19,7 @@
       call fetchStatus()
       // encode and send ROS simple_message ID 13: robot status
       call encodeStatus()
-      call sendStatus()
+      call sendRosMsg(siTcpIpFbk, rosStatusMsg.prefix, rosStatusMsg.header, rosStatusMsg.body, nOutConnFlag)
       l_nThrottle = 0
     endIf
     l_nThrottle = l_nThrottle + 1
