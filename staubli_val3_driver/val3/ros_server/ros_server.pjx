@@ -9,7 +9,6 @@
     <Program file="decTrajPt.pgx" />
     <Program file="decTrajPtFull.pgx" />
     <Program file="encodeAck.pgx" />
-    <Program file="encodeJointFbk.pgx" />
     <Program file="encodeJState.pgx" />
     <Program file="encodeStatus.pgx" />
     <Program file="encPrefixHeader.pgx" />
