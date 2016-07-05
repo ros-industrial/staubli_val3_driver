@@ -11,7 +11,7 @@
   // 5: send ACK
   nMsgRecvState=0
 
-  while (bRecvData)
+  while (true)
     // usually for state machines a switch-case statement is a neat implementation
     // HOWEVER, at every iteration of while() this task is sequenced and only called
     // after whatever ms is was defined when created.
