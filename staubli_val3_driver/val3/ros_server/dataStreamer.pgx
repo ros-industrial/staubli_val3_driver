@@ -3,14 +3,15 @@
   <Program name="dataStreamer" access="public">
     <Locals>
       <Local name="l_nThrottle" type="num" xsi:type="array" size="1" />
+      <Local name="l_jCurrPose" type="jointRx" xsi:type="array" size="1" />
     </Locals>
     <Code><![CDATA[begin
   l_nThrottle = 0
   while (bSendData == true)
     // fetch current joint positions
-    jCurrPose=herej()
+    l_jCurrPose=herej()
     // encode and send ROS simple_message ID 10: joint state
-    call encodeJState()
+    call encodeJState(l_jCurrPose)
     call sendRosMsg(siTcpIpFbk, rosJointMsg.prefix, rosJointMsg.header, rosJointMsg.body, nOutConnFlag)
 
     // send Robot Status messages 5 times slower than Joint State
