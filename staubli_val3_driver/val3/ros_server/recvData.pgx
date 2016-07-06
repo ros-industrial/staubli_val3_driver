@@ -25,7 +25,7 @@
     l_nIndex=sioGet(x_sTcpSocket,l_nByte)
     if (l_nIndex==1)
       x_nData[l_nBytesRecv]=l_nByte
-      l_nBytesRecv=l_nBytesRecv+l_nIndex
+      l_nBytesRecv=l_nBytesRecv+1
       // received a byte, set flag to indicate connection
       x_nConnFlag=1
     elseIf (l_nIndex==-1)
