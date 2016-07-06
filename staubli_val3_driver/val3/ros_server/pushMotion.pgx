@@ -5,63 +5,64 @@
       <Local name="l_bOk" type="bool" xsi:type="array" size="1" />
       <Local name="l_nCounter" type="num" xsi:type="array" size="1" />
       <Local name="l_nJointError" type="num" xsi:type="array" size="1" />
+      <Local name="l_mTrajPt" type="MotionBuffer" xsi:type="array" size="1" />
     </Locals>
     <Code><![CDATA[begin
   switch rosGenericMsg.header.nMsgType
     case 11
-      mTrajPt.nSequence=rosTrajPtMsg.jointTrajPt.nSeq
+      l_mTrajPt.nSequence=rosTrajPtMsg.jointTrajPt.nSeq
       
       // ROS joint position values are in rad, but VAL3 uses degrees
-      call toJointRxDeg(rosTrajPtMsg.jointTrajPt.nJoints, mTrajPt.jJointRx)
+      call toJointRxDeg(rosTrajPtMsg.jointTrajPt.nJoints, l_mTrajPt.jJointRx)
       
       // from industrial_robot_client/src/joint_trajectory_interface.cpp
       // JointTrajectoryInterface::trajectory_to_msgs()
       // JointTrajectoryInterface::calc_speed()
       // velocity is converted to a scalar value representing % of max velocity,
       // such that 0.2 = 20% of maximum joint speed
-      mTrajPt.mDesc.vel= limit((rosTrajPtMsg.jointTrajPt.nVelocity * 100), 0, 100)
-      mTrajPt.nDuration=rosTrajPtMsg.jointTrajPt.nDuration
+      l_mTrajPt.mDesc.vel= limit((rosTrajPtMsg.jointTrajPt.nVelocity * 100), 0, 100)
+      l_mTrajPt.nDuration=rosTrajPtMsg.jointTrajPt.nDuration
 
     break
     case 14
-      mTrajPt.nSequence=rosTrajPtFMsg.jointTrajPtFull.nSeq
-      mTrajPt.nDuration=rosTrajPtFMsg.jointTrajPtFull.nTime
+      l_mTrajPt.nSequence=rosTrajPtFMsg.jointTrajPtFull.nSeq
+      l_mTrajPt.nDuration=rosTrajPtFMsg.jointTrajPtFull.nTime
       
       // ROS joint position values are in rad, but VAL3 uses degrees
-      call toJointRxDeg(rosTrajPtFMsg.jointTrajPtFull.nPositions, mTrajPt.jJointRx)
+      call toJointRxDeg(rosTrajPtFMsg.jointTrajPtFull.nPositions, l_mTrajPt.jJointRx)
       
       // from industrial_robot_client/src/joint_trajectory_interface.cpp
       // JointTrajectoryInterface::trajectory_to_msgs()
       // JointTrajectoryInterface::calc_speed()
       // velocity is converted to a scalar value representing % of max velocity,
       // such that 0.2 = 20% of maximum joint speed
-      mTrajPt.mDesc.vel= limit((rosTrajPtFMsg.jointTrajPtFull.nVelocities[0] * 100), 0, 100)
+      l_mTrajPt.mDesc.vel= limit((rosTrajPtFMsg.jointTrajPtFull.nVelocities[0] * 100), 0, 100)
       // not sure about accelerations as yet
-      mTrajPt.mDesc.accel=rosTrajPtFMsg.jointTrajPtFull.nAccelerations[0]
-      mTrajPt.mDesc.decel=mTrajPt.mDesc.accel
+      l_mTrajPt.mDesc.accel=rosTrajPtFMsg.jointTrajPtFull.nAccelerations[0]
+      l_mTrajPt.mDesc.decel=l_mTrajPt.mDesc.accel
     break
     default
     break
   endSwitch
 
   // see github.com/ros-industrial/industrial_core/simple_message/include/simple_message/joint_traj_pt.h
-  if (mTrajPt.nSequence==-4)
+  if (l_mTrajPt.nSequence==-4)
     // set flag to stop immediately
     bStopNow=true
   else
     // check whether velocity value should be overwritten with value set on teach pendant
     if (bOverwriteVel == true)
       // overwrite velocity (and acceleration - ?)
-      mTrajPt.mDesc.vel = getMonitorSpeed()
+      l_mTrajPt.mDesc.vel = getMonitorSpeed()
       // explicitly setting accel and decel to VAL3 default values
-      mTrajPt.mDesc.accel = 9999
-      mTrajPt.mDesc.decel = 9999
+      l_mTrajPt.mDesc.accel = 9999
+      l_mTrajPt.mDesc.decel = 9999
     endIf
     // only push motion into buffer if not a STOP message
     // and if joint positions are within software joint limits
     // and if velocity is greater than zero (beucase movej() will not accept vel <= 0)
-    if (isInRange(mTrajPt.jJointRx) and mTrajPt.mDesc.vel > 0)
-      call libTrajPtBuffer:push(mTrajPt,l_bOk)
+    if (isInRange(l_mTrajPt.jJointRx) and l_mTrajPt.mDesc.vel > 0)
+      call libTrajPtBuffer:push(l_mTrajPt,l_bOk)
     else
       l_bOk = false
     endIf
