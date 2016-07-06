@@ -1,7 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Programs xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.staubli.com/robotics/VAL3/Program/2">
   <Program name="screenUpdate" access="public">
+    <Locals>
+      <Local name="l_nKey" type="num" xsi:type="array" size="1" />
+      <Local name="l_nExecStatus" type="num" xsi:type="array" size="1" />
+    </Locals>
     <Code><![CDATA[begin  
+  l_nExecStatus = 0
   userPage(scMonitor)
   cls(scMonitor)
   title(scMonitor, "ROS-I server")
@@ -11,14 +16,14 @@
     cls(scMonitor)
     
     // toggle velocity overwrite upon release of F1 key
-    nKey = getKey(scMonitor)
-    if (nKey == 277 and bOverwriteVel == false)
+    l_nKey = getKey(scMonitor)
+    if (l_nKey == 277 and bOverwriteVel == false)
       if (libMoveBuffer:nElems == 0)
         bOverwriteVel = true
       else
         popUpMsg("Motion buffer not empty; cannot enable V/OW")
       endIf
-    elseIf (nKey == 278 and bOverwriteVel == true)
+    elseIf (l_nKey == 278 and bOverwriteVel == true)
       if (libMoveBuffer:nElems == 0)
         bOverwriteVel = false
       else
@@ -116,14 +121,14 @@
     
     // update debug status
     gotoxy(scMonitor, 18,12)
-    switch nDebugStatus
+    switch l_nExecStatus
       case 0
         put(scMonitor, "[+]")
-        nDebugStatus = 1
+        l_nExecStatus = 1
       break
       case 1
         put(scMonitor, "[-]")
-        nDebugStatus = 0
+        l_nExecStatus = 0
       break
       default
       break

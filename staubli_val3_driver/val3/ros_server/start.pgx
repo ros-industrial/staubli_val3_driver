@@ -1,22 +1,28 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Programs xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.staubli.com/robotics/VAL3/Program/2">
   <Program name="start">
+    <Locals>
+      <Local name="l_nFbkPeriod" type="num" xsi:type="array" size="1" />
+      <Local name="l_nMotionPeriod" type="num" xsi:type="array" size="1" />
+      <Local name="l_nTrajPeriod" type="num" xsi:type="array" size="1" />
+      <Local name="l_nScreenUpdate" type="num" xsi:type="array" size="1" />
+    </Locals>
     <Code><![CDATA[begin 
   // feedback task will run every 20ms (50Hz)
-  nFbkPeriod=0.02
-  //nFbkPeriod = 0.032 // 30Hz
-  //nFbkPeriod = 0.05  // 20Hz
-  //nFbkPeriod = 1.0   //  1Hz
+  l_nFbkPeriod=0.02
+  //l_nFbkPeriod = 0.032 // 30Hz
+  //l_nFbkPeriod = 0.05  // 20Hz
+  //l_nFbkPeriod = 1.0   //  1Hz
   
   // motion control task will run every 4ms (250Hz)
-  nMotionPeriod = 0.004
-  //nMotionPeriod=0.012  // 83Hz
-  //nMotionPeriod = 0.05 // 20Hz
+  l_nMotionPeriod = 0.004
+  //l_nMotionPeriod=0.012  // 83Hz
+  //l_nMotionPeriod = 0.05 // 20Hz
   
   // data (trajectory) reception task will run every 4ms (250Hz)
-  nTrajReception = 0.004
+  l_nTrajPeriod = 0.004
   // not in use at the moment
-  nScreenUpdate = 1.0
+  l_nScreenUpdate = 1.0
 
   sStreamTaskName = "streamerTask"
   sTrajPtTaskName = "trajPtTask"
@@ -33,15 +39,11 @@
   nInConnFlag = 0
   nOutConnFlag = 0
   
-  // flags to control tasks: should start sending/receiving
-  bSendData = true
+  // flag defining whether velocity to be overwritten to max. vel.
   bOverwriteVel = false
   
   nPtsPopped = 0
   nMovePts = 0
-  
-  // debug status
-  nDebugStatus = 0
   
   // ensure motion buffer is empty
   call libTrajPtBuffer:clear()
@@ -74,17 +76,17 @@
   resetMotion()
 
   // create joint state and robot status streamer task to send data to industrial_robot_client
-  taskCreateSync sStreamTaskName, nFbkPeriod, bFbkOverrun, dataStreamer()
+  taskCreateSync sStreamTaskName, l_nFbkPeriod, bFbkOverrun, dataStreamer()
   
   // create trajectory point task to receive data from industrial_robot_client
-  taskCreateSync sTrajPtTaskName, nTrajReception, bTrajPtOverrun, dataReceiver()
+  taskCreateSync sTrajPtTaskName, l_nTrajPeriod, bTrajPtOverrun, dataReceiver()
   //taskCreate sTrajPtTaskName, 100, dataReceiver()
   
   // create motion task to synchronously apply motion commands to robot
-  taskCreateSync sMotionTaskName, nMotionPeriod, bMotionOverrun, motionControl()
+  taskCreateSync sMotionTaskName, l_nMotionPeriod, bMotionOverrun, motionControl()
 
   // create synchronous task to update screen
-  //taskCreateSync sScreenTaskName, nScreenUpdate, bScreenOverrun, screenUpdate()
+  //taskCreateSync sScreenTaskName, l_nScreenUpdate, bScreenOverrun, screenUpdate()
   taskCreate sScreenTaskName, 10, screenUpdate()
   
   // create asynchronous task to receive heartbeat on port 11002
