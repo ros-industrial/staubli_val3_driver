@@ -3,6 +3,7 @@
   <Program name="dataReceiver" access="public">
     <Locals>
       <Local name="l_nStartTime" type="num" xsi:type="array" size="1" />
+      <Local name="l_nMsgRecvState" type="num" xsi:type="array" size="1" />
     </Locals>
     <Code><![CDATA[begin
   // state machine at initial state
@@ -12,7 +13,7 @@
   // 3: decode body
   // 4: push motion into buffer
   // 5: send ACK
-  nMsgRecvState=0
+  l_nMsgRecvState=0
 
   while (true)
     // usually for state machines a switch-case statement is a neat implementation
@@ -24,30 +25,30 @@
     // into buffer and then send ACK to client WITHIN ONE ITERATION of while(),
     // hence the if statement sequence below
     l_nStartTime = clock()
-    if (nMsgRecvState==0)
-      call recvMsgHeader()
+    if (l_nMsgRecvState==0)
+      call recvMsgHeader(l_nMsgRecvState)
     endIf
     nHeaderTime = clock() - l_nStartTime
-    if (nMsgRecvState==1)
-      call decodeMsgHeader()
+    if (l_nMsgRecvState==1)
+      call decodeMsgHeader(l_nMsgRecvState)
     endIf
-    if (nMsgRecvState==2)
-      call recvMsgBody()
+    if (l_nMsgRecvState==2)
+      call recvMsgBody(l_nMsgRecvState)
     endIf
-    if (nMsgRecvState==3)
-      call decodeMsgBody()
+    if (l_nMsgRecvState==3)
+      call decodeMsgBody(l_nMsgRecvState)
     endIf
-    if (nMsgRecvState==4)
-      call pushMotion()
+    if (l_nMsgRecvState==4)
+      call pushMotion(l_nMsgRecvState)
     endIf
-    if (nMsgRecvState==5)
+    if (l_nMsgRecvState==5)
       call encodeAck()
-      call sendAck()
+      call sendAck(l_nMsgRecvState)
     endIf
     nElapsedTime = clock() - l_nStartTime - nHeaderTime
     
     // assert state machine is working OK
-    if (nMsgRecvState<0 or nMsgRecvState>5)
+    if (l_nMsgRecvState<0 or l_nMsgRecvState>5)
       popUpMsg("Data reception state machine error")
     endIf
 

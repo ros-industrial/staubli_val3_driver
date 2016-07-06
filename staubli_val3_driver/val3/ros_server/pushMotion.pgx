@@ -1,6 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Programs xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.staubli.com/robotics/VAL3/Program/2">
   <Program name="pushMotion" access="public">
+    <Parameters xmlns="http://www.staubli.com/robotics/VAL3/Param/1">
+      <Parameter name="x_nMsgRecvState" type="num" xsi:type="element" use="reference" />
+    </Parameters>
     <Locals>
       <Local name="l_bOk" type="bool" xsi:type="array" size="1" />
       <Local name="l_nCounter" type="num" xsi:type="array" size="1" />
@@ -87,7 +90,7 @@
   endIf
 
   // move on to state 5: send Ack
-  nMsgRecvState=5
+  x_nMsgRecvState=5
 end]]></Code>
   </Program>
 </Programs>

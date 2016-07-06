@@ -1,6 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Programs xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.staubli.com/robotics/VAL3/Program/2">
   <Program name="recvMsgHeader" access="public">
+    <Parameters xmlns="http://www.staubli.com/robotics/VAL3/Param/1">
+      <Parameter name="x_nMsgRecvState" type="num" xsi:type="element" use="reference" />
+    </Parameters>
     <Locals>
       <Local name="l_bFlag" type="bool" xsi:type="array" size="1" />
     </Locals>
@@ -13,10 +16,10 @@
 
   if (l_bFlag == true)
     // move on to state 1: decode header
-    nMsgRecvState=1
+    x_nMsgRecvState=1
   else
     // error: reset state to 0: receive header
-    nMsgRecvState=0
+    x_nMsgRecvState=0
   endIf
 end]]></Code>
   </Program>
