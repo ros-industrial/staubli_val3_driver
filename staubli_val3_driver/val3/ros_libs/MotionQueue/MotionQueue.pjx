@@ -3,7 +3,6 @@
   <Parameters version="s7.7.2" stackSize="5000" millimeterUnit="true" />
   <Programs>
     <Program file="clear.pgx" />
-    <Program file="getNumElements.pgx" />
     <Program file="pop.pgx" />
     <Program file="push.pgx" />
     <Program file="start.pgx" />
