@@ -69,7 +69,7 @@
     else
       l_bOk = false
     endIf
-
+    
     if (l_bOk==false)
       // could not push trajectory point into buffer
       // thus ACK should flag FAILURE, but only if comm type is request
@@ -86,11 +86,15 @@
         endSwitch
       endIf
     endIf
-
   endIf
-
-  // move on to state 5: send Ack
-  x_nMsgRecvState=5
+  // check whether ACK should be sent
+  if (rosGenericMsg.header.nCommType == 2)
+    // comm type request requires ACK
+    x_nMsgRecvState = 5
+  else
+    // other comm types (e.g., topic) does not require ACK, hence skip state
+    x_nMsgRecvState = 0
+  endIf
 end]]></Code>
   </Program>
 </Programs>
