@@ -8,13 +8,11 @@
   l_nRetVal=sioCtrl(siTcpIpMotion,"timeout",-1)
   if (l_nRetVal!=0)
     popUpMsg("Error while setting consumer timeout")
-    //return ?
   endIf
 
   l_nRetVal=sioCtrl(siTcpIpFbk,"timeout",-1)
   if (l_nRetVal!=0)
     popUpMsg("Error while setting producer timeout")
-    //return ?
   endIf
 end]]></Code>
   </Program>
