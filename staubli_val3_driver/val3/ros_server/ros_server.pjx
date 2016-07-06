@@ -38,8 +38,7 @@
     <Data file="ros_server.dtx" />
   </Database>
   <Libraries>
-    <Library alias="libMoveBuffer" path="Disk://ros_libs/MotionQueue/MotionQueue.pjx" />
-    <Library alias="libTrajPtBuffer" path="Disk://ros_libs/TrajectoryQueue/TrajectoryQueue.pjx" />
+    <Library alias="libQueueFuncs" path="Disk://ros_libs/QueueFuncs/QueueFuncs.pjx" />
   </Libraries>
   <Types>
     <Type name="RosSimpleMsg" path="Disk://ros_libs/RosSimpleMsg/RosSimpleMsg.pjx" />
@@ -48,9 +47,10 @@
     <Type name="JointTrajPtMsg" path="Disk://ros_libs/JointTrajPtMsg/JointTrajPtMsg.pjx" />
     <Type name="JointTrajPtFMsg" path="Disk://ros_libs/JointTrajPtFMsg/JointTrajPtFMsg.pjx" />
     <Type name="JointFbkMsg" path="Disk://ros_libs/JointFbkMsg/JointFbkMsg.pjx" />
-    <Type name="MotionBuffer" path="Disk://ros_libs/MotionBuffer/MotionBuffer.pjx" />
+    <Type name="MotionCmd" path="Disk://ros_libs/MotionCmd/MotionCmd.pjx" />
     <Type name="Header" path="Disk://ros_libs/Header/Header.pjx" />
     <Type name="Prefix" path="Disk://ros_libs/Prefix/Prefix.pjx" />
     <Type name="Body" path="Disk://ros_libs/Body/Body.pjx" />
+    <Type name="Queue" path="Disk://ros_libs/Queue/Queue.pjx" />
   </Types>
 </Project>

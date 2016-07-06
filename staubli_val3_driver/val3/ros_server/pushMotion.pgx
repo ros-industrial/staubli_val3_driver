@@ -8,16 +8,16 @@
       <Local name="l_bOk" type="bool" xsi:type="array" size="1" />
       <Local name="l_nCounter" type="num" xsi:type="array" size="1" />
       <Local name="l_nJointError" type="num" xsi:type="array" size="1" />
-      <Local name="l_mTrajPt" type="MotionBuffer" xsi:type="array" size="1" />
+      <Local name="l_mTrajPt" type="MotionCmd" xsi:type="array" size="1" />
     </Locals>
     <Code><![CDATA[begin
   switch rosGenericMsg.header.nMsgType
     case 11
       l_mTrajPt.nSequence=rosTrajPtMsg.jointTrajPt.nSeq
-      
+
       // ROS joint position values are in rad, but VAL3 uses degrees
       call toJointRxDeg(rosTrajPtMsg.jointTrajPt.nJoints, l_mTrajPt.jJointRx)
-      
+
       // from industrial_robot_client/src/joint_trajectory_interface.cpp
       // JointTrajectoryInterface::trajectory_to_msgs()
       // JointTrajectoryInterface::calc_speed()
@@ -30,10 +30,10 @@
     case 14
       l_mTrajPt.nSequence=rosTrajPtFMsg.jointTrajPtFull.nSeq
       l_mTrajPt.nDuration=rosTrajPtFMsg.jointTrajPtFull.nTime
-      
+
       // ROS joint position values are in rad, but VAL3 uses degrees
       call toJointRxDeg(rosTrajPtFMsg.jointTrajPtFull.nPositions, l_mTrajPt.jJointRx)
-      
+
       // from industrial_robot_client/src/joint_trajectory_interface.cpp
       // JointTrajectoryInterface::trajectory_to_msgs()
       // JointTrajectoryInterface::calc_speed()
@@ -65,11 +65,11 @@
     // and if joint positions are within software joint limits
     // and if velocity is greater than zero (beucase movej() will not accept vel <= 0)
     if (isInRange(l_mTrajPt.jJointRx) and l_mTrajPt.mDesc.vel > 0)
-      call libTrajPtBuffer:push(l_mTrajPt,l_bOk)
+      call libQueueFuncs:push(qTrajPtBuffer,l_mTrajPt,l_bOk)
     else
       l_bOk = false
     endIf
-    
+
     if (l_bOk==false)
       // could not push trajectory point into buffer
       // thus ACK should flag FAILURE, but only if comm type is request
@@ -86,7 +86,7 @@
         endSwitch
       endIf
     endIf
-    
+
   endIf
 
   // move on to state 5: send Ack

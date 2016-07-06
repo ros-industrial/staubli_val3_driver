@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Programs xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.staubli.com/robotics/VAL3/Program/2">
+  <Program name="pop" access="public">
+    <Parameters xmlns="http://www.staubli.com/robotics/VAL3/Param/1">
+      <Parameter name="x_qQueue" type="Queue" xsi:type="element" use="reference" />
+      <Parameter name="x_mCmd" type="MotionCmd" xsi:type="element" use="reference" />
+      <Parameter name="x_bRes" type="bool" xsi:type="element" use="reference" />
+    </Parameters>
+    <Code><![CDATA[begin
+  if (x_qQueue.nElems > 0)
+    x_mCmd = x_qQueue.buffer[x_qQueue.nPop]
+    x_qQueue.nElems = x_qQueue.nElems - 1
+    x_qQueue.nPop = x_qQueue.nPop + 1
+    if (x_qQueue.nPop >= size(x_qQueue.buffer))
+      x_qQueue.nPop = 0
+    endIf
+    x_bRes = true
+  else
+    x_bRes = false
+  endIf
+end]]></Code>
+  </Program>
+</Programs>

@@ -44,10 +44,6 @@
   
   nPtsPopped = 0
   nMovePts = 0
-  
-  // ensure motion buffer is empty
-  call libTrajPtBuffer:clear()
-  call libMoveBuffer:clear()
 
   // flush buffer of incoming socket
   clearBuffer(siTcpIpMotion)

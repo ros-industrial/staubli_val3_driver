@@ -2,11 +2,12 @@
 <Programs xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.staubli.com/robotics/VAL3/Program/2">
   <Program name="motionControl" access="public">
     <Locals>
-      <Local name="l_mTrajPt" type="MotionBuffer" xsi:type="array" size="1" />
+      <Local name="l_mTrajPt" type="MotionCmd" xsi:type="array" size="1" />
       <Local name="l_bFlag" type="bool" xsi:type="array" size="1" />
-      <Local name="l_motion" type="MotionBuffer" xsi:type="array" size="1" />
+      <Local name="l_motion" type="MotionCmd" xsi:type="array" size="1" />
       <Local name="l_nTime" type="num" xsi:type="array" size="1" />
       <Local name="l_bStopAndClean" type="bool" xsi:type="array" size="1" />
+      <Local name="l_nElems" type="num" xsi:type="array" size="1" />
     </Locals>
     <Code><![CDATA[begin
   nMoveId = -1
@@ -14,22 +15,24 @@
   while (true)
     // check connection status, and whether to stop motion
     if (nInConnFlag == 1 and nOutConnFlag == 1 and bStopNow == false)
-      
+
       nMotionProgress = getMoveId()
-      
+
       // process trajectory point from trajectory buffer
-      if (libTrajPtBuffer:nElems > 0)
-        call libTrajPtBuffer:pop(l_mTrajPt, l_bFlag)
+      call libQueueFuncs:getNumElems(qTrajPtBuffer, l_nElems)
+      if (l_nElems > 0)
+        call libQueueFuncs:pop(qTrajPtBuffer,l_mTrajPt, l_bFlag)
         if (l_bFlag == true)
           nPtsPopped = nPtsPopped + 1
-          call libMoveBuffer:push(l_mTrajPt, l_bFlag)
+          call libQueueFuncs:push(qMoveBuffer,l_mTrajPt,l_bFlag)
         endIf
       endIf
-      
+
       // process motion command from move buffer
       // @TODO move buffer should have elements previously interpolated to ensure they are 4 ms apart
-      if (libMoveBuffer:nElems > 0)
-        call libMoveBuffer:pop(l_motion, l_bFlag)
+      call libQueueFuncs:getNumElems(qMoveBuffer, l_nElems)
+      if (l_nElems > 0)
+        call libQueueFuncs:pop(qMoveBuffer,l_motion,l_bFlag)
         if (l_bFlag == true)
           if (l_motion.jJointRx != herej())
             nMovePts = nMovePts + 1
@@ -42,15 +45,15 @@
       // stop immediately -- resetMotion() also resets moveId
       resetMotion()
       // clear buffers
-      call libTrajPtBuffer:clear()
-      call libMoveBuffer:clear()
+      call libQueueFuncs:clear(qTrajPtBuffer)
+      call libQueueFuncs:clear(qMoveBuffer)
       bStopNow = false
-      
+
       // debug
       nPtsPopped = 0
       nMovePts = 0
     endIf
-    
+
     // sequence task
     delay(0)
   endWhile

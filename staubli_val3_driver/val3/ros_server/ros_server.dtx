@@ -277,5 +277,183 @@
     <Data name="nElapsedTime" access="public" xsi:type="array" type="num" size="1" />
     <Data name="nHeaderTime" access="public" xsi:type="array" type="num" size="1" />
     <Data name="bOverwriteVel" access="public" xsi:type="array" type="bool" size="1" />
+    <Data name="qMoveBuffer" access="public" xsi:type="array" type="Queue" size="1">
+      <Value key="0">
+        <Field name="nPush" xsi:type="array" type="num" size="1" />
+        <Field name="nPop" xsi:type="array" type="num" size="1" />
+        <Field name="nElems" xsi:type="array" type="num" size="1" />
+        <Field name="buffer" xsi:type="array" type="MotionCmd" size="10">
+          <Value key="0">
+            <Field name="mDesc" xsi:type="array" type="mdesc" size="1">
+              <Value key="0" leave="0" reach="0" />
+            </Field>
+            <Field name="nDuration" xsi:type="array" type="num" size="1" />
+            <Field name="nSequence" xsi:type="array" type="num" size="1" />
+            <Field name="jJointRx" xsi:type="array" type="jointRx" size="1" />
+          </Value>
+          <Value key="1">
+            <Field name="mDesc" xsi:type="array" type="mdesc" size="1">
+              <Value key="0" leave="0" reach="0" />
+            </Field>
+            <Field name="nDuration" xsi:type="array" type="num" size="1" />
+            <Field name="nSequence" xsi:type="array" type="num" size="1" />
+            <Field name="jJointRx" xsi:type="array" type="jointRx" size="1" />
+          </Value>
+          <Value key="2">
+            <Field name="mDesc" xsi:type="array" type="mdesc" size="1">
+              <Value key="0" leave="0" reach="0" />
+            </Field>
+            <Field name="nDuration" xsi:type="array" type="num" size="1" />
+            <Field name="nSequence" xsi:type="array" type="num" size="1" />
+            <Field name="jJointRx" xsi:type="array" type="jointRx" size="1" />
+          </Value>
+          <Value key="3">
+            <Field name="mDesc" xsi:type="array" type="mdesc" size="1">
+              <Value key="0" leave="0" reach="0" />
+            </Field>
+            <Field name="nDuration" xsi:type="array" type="num" size="1" />
+            <Field name="nSequence" xsi:type="array" type="num" size="1" />
+            <Field name="jJointRx" xsi:type="array" type="jointRx" size="1" />
+          </Value>
+          <Value key="4">
+            <Field name="mDesc" xsi:type="array" type="mdesc" size="1">
+              <Value key="0" leave="0" reach="0" />
+            </Field>
+            <Field name="nDuration" xsi:type="array" type="num" size="1" />
+            <Field name="nSequence" xsi:type="array" type="num" size="1" />
+            <Field name="jJointRx" xsi:type="array" type="jointRx" size="1" />
+          </Value>
+          <Value key="5">
+            <Field name="mDesc" xsi:type="array" type="mdesc" size="1">
+              <Value key="0" leave="0" reach="0" />
+            </Field>
+            <Field name="nDuration" xsi:type="array" type="num" size="1" />
+            <Field name="nSequence" xsi:type="array" type="num" size="1" />
+            <Field name="jJointRx" xsi:type="array" type="jointRx" size="1" />
+          </Value>
+          <Value key="6">
+            <Field name="mDesc" xsi:type="array" type="mdesc" size="1">
+              <Value key="0" leave="0" reach="0" />
+            </Field>
+            <Field name="nDuration" xsi:type="array" type="num" size="1" />
+            <Field name="nSequence" xsi:type="array" type="num" size="1" />
+            <Field name="jJointRx" xsi:type="array" type="jointRx" size="1" />
+          </Value>
+          <Value key="7">
+            <Field name="mDesc" xsi:type="array" type="mdesc" size="1">
+              <Value key="0" leave="0" reach="0" />
+            </Field>
+            <Field name="nDuration" xsi:type="array" type="num" size="1" />
+            <Field name="nSequence" xsi:type="array" type="num" size="1" />
+            <Field name="jJointRx" xsi:type="array" type="jointRx" size="1" />
+          </Value>
+          <Value key="8">
+            <Field name="mDesc" xsi:type="array" type="mdesc" size="1">
+              <Value key="0" leave="0" reach="0" />
+            </Field>
+            <Field name="nDuration" xsi:type="array" type="num" size="1" />
+            <Field name="nSequence" xsi:type="array" type="num" size="1" />
+            <Field name="jJointRx" xsi:type="array" type="jointRx" size="1" />
+          </Value>
+          <Value key="9">
+            <Field name="mDesc" xsi:type="array" type="mdesc" size="1">
+              <Value key="0" leave="0" reach="0" />
+            </Field>
+            <Field name="nDuration" xsi:type="array" type="num" size="1" />
+            <Field name="nSequence" xsi:type="array" type="num" size="1" />
+            <Field name="jJointRx" xsi:type="array" type="jointRx" size="1" />
+          </Value>
+        </Field>
+      </Value>
+    </Data>
+    <Data name="qTrajPtBuffer" access="public" xsi:type="array" type="Queue" size="1">
+      <Value key="0">
+        <Field name="nPush" xsi:type="array" type="num" size="1" />
+        <Field name="nPop" xsi:type="array" type="num" size="1" />
+        <Field name="nElems" xsi:type="array" type="num" size="1" />
+        <Field name="buffer" xsi:type="array" type="MotionCmd" size="10">
+          <Value key="0">
+            <Field name="mDesc" xsi:type="array" type="mdesc" size="1">
+              <Value key="0" leave="0" reach="0" />
+            </Field>
+            <Field name="nDuration" xsi:type="array" type="num" size="1" />
+            <Field name="nSequence" xsi:type="array" type="num" size="1" />
+            <Field name="jJointRx" xsi:type="array" type="jointRx" size="1" />
+          </Value>
+          <Value key="1">
+            <Field name="mDesc" xsi:type="array" type="mdesc" size="1">
+              <Value key="0" leave="0" reach="0" />
+            </Field>
+            <Field name="nDuration" xsi:type="array" type="num" size="1" />
+            <Field name="nSequence" xsi:type="array" type="num" size="1" />
+            <Field name="jJointRx" xsi:type="array" type="jointRx" size="1" />
+          </Value>
+          <Value key="2">
+            <Field name="mDesc" xsi:type="array" type="mdesc" size="1">
+              <Value key="0" leave="0" reach="0" />
+            </Field>
+            <Field name="nDuration" xsi:type="array" type="num" size="1" />
+            <Field name="nSequence" xsi:type="array" type="num" size="1" />
+            <Field name="jJointRx" xsi:type="array" type="jointRx" size="1" />
+          </Value>
+          <Value key="3">
+            <Field name="mDesc" xsi:type="array" type="mdesc" size="1">
+              <Value key="0" leave="0" reach="0" />
+            </Field>
+            <Field name="nDuration" xsi:type="array" type="num" size="1" />
+            <Field name="nSequence" xsi:type="array" type="num" size="1" />
+            <Field name="jJointRx" xsi:type="array" type="jointRx" size="1" />
+          </Value>
+          <Value key="4">
+            <Field name="mDesc" xsi:type="array" type="mdesc" size="1">
+              <Value key="0" leave="0" reach="0" />
+            </Field>
+            <Field name="nDuration" xsi:type="array" type="num" size="1" />
+            <Field name="nSequence" xsi:type="array" type="num" size="1" />
+            <Field name="jJointRx" xsi:type="array" type="jointRx" size="1" />
+          </Value>
+          <Value key="5">
+            <Field name="mDesc" xsi:type="array" type="mdesc" size="1">
+              <Value key="0" leave="0" reach="0" />
+            </Field>
+            <Field name="nDuration" xsi:type="array" type="num" size="1" />
+            <Field name="nSequence" xsi:type="array" type="num" size="1" />
+            <Field name="jJointRx" xsi:type="array" type="jointRx" size="1" />
+          </Value>
+          <Value key="6">
+            <Field name="mDesc" xsi:type="array" type="mdesc" size="1">
+              <Value key="0" leave="0" reach="0" />
+            </Field>
+            <Field name="nDuration" xsi:type="array" type="num" size="1" />
+            <Field name="nSequence" xsi:type="array" type="num" size="1" />
+            <Field name="jJointRx" xsi:type="array" type="jointRx" size="1" />
+          </Value>
+          <Value key="7">
+            <Field name="mDesc" xsi:type="array" type="mdesc" size="1">
+              <Value key="0" leave="0" reach="0" />
+            </Field>
+            <Field name="nDuration" xsi:type="array" type="num" size="1" />
+            <Field name="nSequence" xsi:type="array" type="num" size="1" />
+            <Field name="jJointRx" xsi:type="array" type="jointRx" size="1" />
+          </Value>
+          <Value key="8">
+            <Field name="mDesc" xsi:type="array" type="mdesc" size="1">
+              <Value key="0" leave="0" reach="0" />
+            </Field>
+            <Field name="nDuration" xsi:type="array" type="num" size="1" />
+            <Field name="nSequence" xsi:type="array" type="num" size="1" />
+            <Field name="jJointRx" xsi:type="array" type="jointRx" size="1" />
+          </Value>
+          <Value key="9">
+            <Field name="mDesc" xsi:type="array" type="mdesc" size="1">
+              <Value key="0" leave="0" reach="0" />
+            </Field>
+            <Field name="nDuration" xsi:type="array" type="num" size="1" />
+            <Field name="nSequence" xsi:type="array" type="num" size="1" />
+            <Field name="jJointRx" xsi:type="array" type="jointRx" size="1" />
+          </Value>
+        </Field>
+      </Value>
+    </Data>
   </Datas>
 </Database>

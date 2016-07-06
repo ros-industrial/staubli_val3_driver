@@ -1,9 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Programs xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.staubli.com/robotics/VAL3/Program/2">
   <Program name="clear" access="public">
+    <Parameters xmlns="http://www.staubli.com/robotics/VAL3/Param/1">
+      <Parameter name="x_qQueue" type="Queue" xsi:type="element" use="reference" />
+    </Parameters>
     <Code><![CDATA[begin
-  nElems = 0
-  nPush = nPop
+  x_qQueue.nElems = 0
+  x_qQueue.nPush = x_qQueue.nPop
 end]]></Code>
   </Program>
 </Programs>

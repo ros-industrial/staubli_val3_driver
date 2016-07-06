@@ -6,7 +6,7 @@
     <Program file="stop.pgx" />
   </Programs>
   <Database>
-    <Data file="MotionBuffer.dtx" />
+    <Data file="MotionCmd.dtx" />
   </Database>
   <Libraries />
 </Project>

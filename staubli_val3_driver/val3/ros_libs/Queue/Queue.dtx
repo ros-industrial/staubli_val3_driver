@@ -1,7 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Database xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.staubli.com/robotics/VAL3/Data/2">
   <Datas>
-    <Data name="buffer" access="private" xsi:type="array" type="MotionBuffer" size="10">
+    <Data name="nPush" access="public" xsi:type="array" type="num" size="1" />
+    <Data name="nPop" access="public" xsi:type="array" type="num" size="1" />
+    <Data name="nElems" access="public" xsi:type="array" type="num" size="1" />
+    <Data name="buffer" access="public" xsi:type="array" type="MotionCmd" size="10">
       <Value key="0">
         <Field name="mDesc" xsi:type="array" type="mdesc" size="1">
           <Value key="0" leave="0" reach="0" />
@@ -83,8 +86,5 @@
         <Field name="jJointRx" xsi:type="array" type="jointRx" size="1" />
       </Value>
     </Data>
-    <Data name="nElems" access="public" xsi:type="array" type="num" size="1" />
-    <Data name="nPop" access="private" xsi:type="array" type="num" size="1" />
-    <Data name="nPush" access="private" xsi:type="array" type="num" size="1" />
   </Datas>
 </Database>
