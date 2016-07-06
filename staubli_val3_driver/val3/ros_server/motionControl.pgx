@@ -20,7 +20,7 @@
       // process trajectory point from trajectory buffer
       if (libTrajPtBuffer:nElems > 0)
         call libTrajPtBuffer:pop(l_mTrajPt, l_bFlag)
-        if (l_bFlag)
+        if (l_bFlag == true)
           nPtsPopped = nPtsPopped + 1
           call libMoveBuffer:push(l_mTrajPt, l_bFlag)
         endIf
@@ -30,7 +30,7 @@
       // @TODO move buffer should have elements previously interpolated to ensure they are 4 ms apart
       if (libMoveBuffer:nElems > 0)
         call libMoveBuffer:pop(l_motion, l_bFlag)
-        if (l_bFlag)
+        if (l_bFlag == true)
           if (l_motion.jJointRx != herej())
             nMovePts = nMovePts + 1
             // @TODO potentially set move id according to sequence value

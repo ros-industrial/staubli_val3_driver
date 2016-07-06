@@ -7,11 +7,11 @@
     <Code><![CDATA[begin
   // attempt to receive message prefix and header
   call recvData(siTcpIpMotion,rosGenericMsg.prefix.nData,nInConnFlag,l_bFlag)
-  if (l_bFlag)
+  if (l_bFlag == true)
     call recvData(siTcpIpMotion,rosGenericMsg.header.nData,nInConnFlag,l_bFlag)
   endIf
 
-  if (l_bFlag)
+  if (l_bFlag == true)
     // move on to state 1: decode header
     nMsgRecvState=1
   else

@@ -18,7 +18,7 @@
     break
   endSwitch
 
-  if (l_bFlag)
+  if (l_bFlag == true)
     // move on to state 3: decode msg body
     nMsgRecvState=3
   else

@@ -6,7 +6,7 @@
     </Locals>
     <Code><![CDATA[begin
   l_nThrottle = 0
-  while (bSendData)
+  while (bSendData == true)
     // fetch current joint positions
     jCurrPose=herej()
     // encode and send ROS simple_message ID 10: joint state

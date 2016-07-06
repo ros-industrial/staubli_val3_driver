@@ -18,7 +18,7 @@
     break
   endSwitch
 
-  if (l_bFlag)
+  if (l_bFlag == true)
     // move on to state 4: push motion into buffer
     nMsgRecvState=4
   else
