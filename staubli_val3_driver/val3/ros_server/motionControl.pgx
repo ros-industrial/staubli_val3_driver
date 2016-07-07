@@ -15,9 +15,7 @@
   while (true)
     // check connection status, and whether to stop motion
     if (nInConnFlag == 1 and nOutConnFlag == 1 and bStopNow == false)
-
-      nMotionProgress = getMoveId()
-
+      
       // process trajectory point from trajectory buffer
       call libQueueFuncs:getNumElems(qTrajPtBuffer, l_nElems)
       if (l_nElems > 0)
@@ -27,7 +25,7 @@
           call libQueueFuncs:push(qMoveBuffer,l_mTrajPt,l_bFlag)
         endIf
       endIf
-
+      
       // process motion command from move buffer
       // @TODO move buffer should have elements previously interpolated to ensure they are 4 ms apart
       call libQueueFuncs:getNumElems(qMoveBuffer, l_nElems)
@@ -48,11 +46,13 @@
       call libQueueFuncs:clear(qTrajPtBuffer)
       call libQueueFuncs:clear(qMoveBuffer)
       bStopNow = false
-
+      
       // debug
       nPtsPopped = 0
       nMovePts = 0
     endIf
+      
+    nMotionProgress = getMoveId()
 
     // sequence task
     delay(0)
