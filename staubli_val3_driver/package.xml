@@ -28,6 +28,8 @@
 
   <exec_depend>industrial_robot_client</exec_depend>
 
+  <test_depend>roslaunch</test_depend>
+
   <export>
     <architecture_independent/>
   </export>

@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<launch>
+  <arg name="ip_str" value="127.0.0.1" />
+
+  <group ns="robot_state__">
+    <include file="$(find staubli_val3_driver)/launch/robot_state.launch">
+      <arg name="robot_ip" value="$(arg ip_str)" />
+    </include>
+  </group>
+
+  <group ns="robot_interface_streaming__">
+    <include file="$(find staubli_val3_driver)/launch/robot_interface_streaming.launch">
+      <arg name="robot_ip" value="$(arg ip_str)" />
+    </include>
+  </group>
+
+  <group ns="motion_streaming_interface__">
+    <include file="$(find staubli_val3_driver)/launch/motion_streaming_interface.launch">
+      <arg name="robot_ip" value="$(arg ip_str)" />
+    </include>
+  </group>
+</launch>
