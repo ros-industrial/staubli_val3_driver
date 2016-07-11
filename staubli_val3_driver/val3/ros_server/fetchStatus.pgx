@@ -1,0 +1,90 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Programs xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.staubli.com/robotics/VAL3/Program/2">
+  <Program name="fetchStatus" access="public">
+    <Code><![CDATA[begin
+  // Copyright (c) 2016, Ocado Technology - Robotics Research Team
+  //
+  // Licensed under the Apache License, Version 2.0 (the "License");
+  // you may not use this file except in compliance with the License.
+  // You may obtain a copy of the License at
+  //
+  //     http://www.apache.org/licenses/LICENSE-2.0
+  //
+  // Unless required by applicable law or agreed to in writing, software
+  // distributed under the License is distributed on an "AS IS" BASIS,
+  // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  // See the License for the specific language governing permissions and
+  // limitations under the License.
+
+
+
+  // fetch robot status data
+
+  // drives_powered
+  if (isPowered()==true)
+    rosStatusMsg.robotStatus.nDrivesPowered=1
+  else
+    rosStatusMsg.robotStatus.nDrivesPowered=0
+  endIf
+
+  // e-stopped
+  if (esStatus()==2)
+    rosStatusMsg.robotStatus.nEStopped=1
+  else
+    rosStatusMsg.robotStatus.nEStopped=0
+  endIf
+
+  // error_code
+  if (taskStatus(sMotionTaskName) > 1)
+    rosStatusMsg.robotStatus.nErrorCode = taskStatus(sMotionTaskName)
+  elseIf (taskStatus(sTrajPtTaskName) > 1)
+    rosStatusMsg.robotStatus.nErrorCode = taskStatus(sTrajPtTaskName)
+  elseIf (taskStatus(sStreamTaskName) > 1)
+    rosStatusMsg.robotStatus.nErrorCode = taskStatus(sStreamTaskName)
+  elseIf (taskStatus(sHtbtTaskName) > 1)
+    rosStatusMsg.robotStatus.nErrorCode = taskStatus(sHtbtTaskName)
+  elseIf (taskStatus(sScreenTaskName) > 1)
+    rosStatusMsg.robotStatus.nErrorCode = taskStatus(sScreenTaskName)
+  else
+    rosStatusMsg.robotStatus.nErrorCode = 0
+  endIf
+
+  // in_error
+  if (taskStatus(sTrajPtTaskName) == 1 and taskStatus(sMotionTaskName) == 1 and taskStatus(sStreamTaskName) == 1 and taskStatus(sScreenTaskName) == 1 and taskStatus(sHtbtTaskName) == 1)
+    rosStatusMsg.robotStatus.nInError = 0
+  else
+    rosStatusMsg.robotStatus.nInError = 1
+  endIf
+
+  // in_motion
+  if (isSettled()==true)
+    rosStatusMsg.robotStatus.nInMotion=0
+  else
+    rosStatusMsg.robotStatus.nInMotion=1
+  endIf
+
+  // mode (controller/pendant mode)
+  // according to industrial_msgs/RobotMode, possible values are:
+  // -1: unknown or unavailable
+  //  1: teach or manual mode
+  //  2: automatic mode (which I interpret as either local or remote)
+  if (workingMode() == 0)
+    rosStatusMsg.robotStatus.nMode = -1
+  elseIf (workingMode()==1 or workingMode()==2)
+    rosStatusMsg.robotStatus.nMode = 1
+  elseIf (workingMode()==3 or workingMode()==4)
+    rosStatusMsg.robotStatus.nMode = 2
+  endIf
+
+  // motion_possible:
+  // drives must be powered and e-stop must be off
+  // and dataReceiver and motionControl tasks must be
+  // running normally
+  if (isPowered() == true and esStatus() == 0 and taskStatus(sTrajPtTaskName) == 1 and taskStatus(sMotionTaskName) == 1)
+    rosStatusMsg.robotStatus.nMotionPossible=1
+  else
+    rosStatusMsg.robotStatus.nMotionPossible=0
+  endIf
+end]]></Code>
+  </Program>
+</Programs>

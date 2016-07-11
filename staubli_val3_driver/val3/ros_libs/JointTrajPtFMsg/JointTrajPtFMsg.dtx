@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Database xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.staubli.com/robotics/VAL3/Data/2">
+  <Datas>
+    <Data name="header" access="public" xsi:type="array" type="Header" size="1">
+      <Value key="0">
+        <Field name="nMsgType" xsi:type="array" type="num" size="1" />
+        <Field name="nCommType" xsi:type="array" type="num" size="1" />
+        <Field name="nReplyCode" xsi:type="array" type="num" size="1" />
+        <Field name="nData" xsi:type="array" type="num" size="12" />
+      </Value>
+    </Data>
+    <Data name="prefix" access="public" xsi:type="array" type="Prefix" size="1">
+      <Value key="0">
+        <Field name="nLength" xsi:type="array" type="num" size="1" />
+        <Field name="nData" xsi:type="array" type="num" size="4" />
+      </Value>
+    </Data>
+    <Data name="jointTrajPtFull" access="public" xsi:type="array" type="JointTrajPtFull" size="1">
+      <Value key="0">
+        <Field name="nRobotId" xsi:type="array" type="num" size="1" />
+        <Field name="nSeq" xsi:type="array" type="num" size="1" />
+        <Field name="nValidFields" xsi:type="array" type="num" size="1" />
+        <Field name="nTime" xsi:type="array" type="num" size="1" />
+        <Field name="nPositions" xsi:type="array" type="num" size="10" />
+        <Field name="nVelocities" xsi:type="array" type="num" size="10" />
+        <Field name="nAccelerations" xsi:type="array" type="num" size="10" />
+      </Value>
+    </Data>
+    <Data name="body" access="public" xsi:type="array" type="Body" size="1">
+      <Value key="0">
+        <Field name="nData" xsi:type="array" type="num" size="136" />
+      </Value>
+    </Data>
+  </Datas>
+</Database>

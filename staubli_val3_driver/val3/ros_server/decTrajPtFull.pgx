@@ -1,0 +1,94 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Programs xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.staubli.com/robotics/VAL3/Program/2" >
+  <Program name="decTrajPtFull" access="public" >
+    <Parameters xmlns="http://www.staubli.com/robotics/VAL3/Param/1" >
+      <Parameter name="x_bFlag" type="bool" use="reference" xsi:type="element" dimensions="1" />
+    </Parameters>
+    <Locals>
+      <Local name="l_nIndex" type="num" xsi:type="array" size="1" />
+      <Local name="l_nRetVal" type="num" xsi:type="array" size="1" />
+    </Locals>
+    <Code><![CDATA[begin
+  // Copyright (c) 2016, Ocado Technology - Robotics Research Team
+  //
+  // Licensed under the Apache License, Version 2.0 (the "License");
+  // you may not use this file except in compliance with the License.
+  // You may obtain a copy of the License at
+  //
+  //     http://www.apache.org/licenses/LICENSE-2.0
+  //
+  // Unless required by applicable law or agreed to in writing, software
+  // distributed under the License is distributed on an "AS IS" BASIS,
+  // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  // See the License for the specific language governing permissions and
+  // limitations under the License.
+
+
+
+  // decode message ID 14 body (data)
+
+  // assume failure to decode
+  rosTrajPtFAck.header.nReplyCode=2
+
+  // robotId
+  l_nRetVal=fromBinary(rosTrajPtFMsg.body.nData,4,"-4l",rosTrajPtFMsg.jointTrajPtFull.nRobotId)
+  if (l_nRetVal!=1)
+    x_bFlag=false
+    return
+  endIf
+
+  // sequence
+  l_nRetVal=fromBinary(rosTrajPtFMsg.body.nData,4,"-4l",rosTrajPtFMsg.jointTrajPtFull.nSeq)
+  if (l_nRetVal!=1)
+    x_bFlag=false
+    return
+  endIf
+
+  // valid fields
+  l_nRetVal=fromBinary(rosTrajPtFMsg.body.nData,4,"-4l",rosTrajPtFMsg.jointTrajPtFull.nValidFields)
+  if (l_nRetVal!=1)
+    x_bFlag=false
+    return
+  endIf
+
+  // time
+  l_nRetVal=fromBinary(rosTrajPtFMsg.body.nData,4,"4.0l",rosTrajPtFMsg.jointTrajPtFull.nTime)
+  if (l_nRetVal!=1)
+    x_bFlag=false
+    return
+  endIf
+
+  // positions[10]
+  for l_nIndex=0 to 9 step 1
+    l_nRetVal=fromBinary(rosTrajPtFMsg.body.nData[(l_nIndex*4)+16],4,"4.0l",rosTrajPtFMsg.jointTrajPtFull.nPositions[l_nIndex])
+    if (l_nRetVal!=1)
+      x_bFlag=false
+      return
+    endIf
+  endFor
+
+  // velocities[10]
+  for l_nIndex=0 to 9 step 1
+    l_nRetVal=fromBinary(rosTrajPtFMsg.body.nData[(l_nIndex*4)+56],4,"4.0l",rosTrajPtFMsg.jointTrajPtFull.nVelocities[l_nIndex])
+    if (l_nRetVal!=1)
+      x_bFlag=false
+      return
+    endIf
+  endFor
+
+  // accelerations[10]
+  for l_nIndex=0 to 9 step 1
+    l_nRetVal=fromBinary(rosTrajPtFMsg.body.nData[(l_nIndex*4)+96],4,"4.0l",rosTrajPtFMsg.jointTrajPtFull.nAccelerations[l_nIndex])
+    if (l_nRetVal!=1)
+      x_bFlag=false
+      return
+    endIf
+  endFor
+
+  // decoding successful
+  rosTrajPtFAck.header.nReplyCode=1
+  rosTrajPtFAck.jointTrajPtFull.nSeq=rosTrajPtFMsg.jointTrajPtFull.nSeq
+  x_bFlag=true
+end]]></Code>
+  </Program>
+</Programs>

@@ -1,0 +1,54 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Programs xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.staubli.com/robotics/VAL3/Program/2">
+  <Program name="dataStreamer" access="public">
+    <Locals>
+      <Local name="l_nThrottle" type="num" xsi:type="array" size="1" />
+      <Local name="l_jCurrPose" type="jointRx" xsi:type="array" size="1" />
+    </Locals>
+    <Code><![CDATA[begin
+  // Copyright (c) 2016, Ocado Technology - Robotics Research Team
+  //
+  // Licensed under the Apache License, Version 2.0 (the "License");
+  // you may not use this file except in compliance with the License.
+  // You may obtain a copy of the License at
+  //
+  //     http://www.apache.org/licenses/LICENSE-2.0
+  //
+  // Unless required by applicable law or agreed to in writing, software
+  // distributed under the License is distributed on an "AS IS" BASIS,
+  // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  // See the License for the specific language governing permissions and
+  // limitations under the License.
+
+
+
+  l_nThrottle = 0
+  while (true)
+    // only attempt to send data if flag indicates that connection is established
+    if (nOutConnFlag == 1)
+      // fetch current joint positions
+      l_jCurrPose=herej()
+      // encode and send ROS simple_message ID 10: joint state
+      call encodeJState(l_jCurrPose)
+      call sendRosMsg(siTcpIpFbk, rosJointMsg.prefix, rosJointMsg.header, rosJointMsg.body, nOutConnFlag)
+      
+      // send Robot Status messages 5 times slower than Joint State
+      if (l_nThrottle == 5)
+        // fetch robot status
+        call fetchStatus()
+        // encode and send ROS simple_message ID 13: robot status
+        call encodeStatus()
+        call sendRosMsg(siTcpIpFbk, rosStatusMsg.prefix, rosStatusMsg.header, rosStatusMsg.body, nOutConnFlag)
+        l_nThrottle = 0
+      endIf
+      l_nThrottle = l_nThrottle + 1
+    else
+      delay(0.1)
+    endIf
+    
+    // sequence task
+    delay(0)
+  endWhile
+end]]></Code>
+  </Program>
+</Programs>

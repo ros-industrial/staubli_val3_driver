@@ -1,0 +1,56 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://www.staubli.com/robotics/VAL3/Project/3">
+  <Parameters version="s7.7.2" stackSize="5000" millimeterUnit="true" />
+  <Programs>
+    <Program file="dataReceiver.pgx" />
+    <Program file="dataStreamer.pgx" />
+    <Program file="decodeMsgBody.pgx" />
+    <Program file="decodeMsgHeader.pgx" />
+    <Program file="decTrajPt.pgx" />
+    <Program file="decTrajPtFull.pgx" />
+    <Program file="encodeAck.pgx" />
+    <Program file="encodeJState.pgx" />
+    <Program file="encodeStatus.pgx" />
+    <Program file="encPrefixHeader.pgx" />
+    <Program file="encTrajPtAck.pgx" />
+    <Program file="encTrajPtFAck.pgx" />
+    <Program file="fetchStatus.pgx" />
+    <Program file="initParams.pgx" />
+    <Program file="motionControl.pgx" />
+    <Program file="pushMotion.pgx" />
+    <Program file="recvData.pgx" />
+    <Program file="recvHeartbeat.pgx" />
+    <Program file="recvMsgBody.pgx" />
+    <Program file="recvMsgHeader.pgx" />
+    <Program file="recvTrajPt.pgx" />
+    <Program file="recvTrajPtFull.pgx" />
+    <Program file="screenUpdate.pgx" />
+    <Program file="sendAck.pgx" />
+    <Program file="sendData.pgx" />
+    <Program file="sendRosMsg.pgx" />
+    <Program file="setupRosMsgs.pgx" />
+    <Program file="start.pgx" />
+    <Program file="stop.pgx" />
+    <Program file="toJointArrayRad.pgx" />
+    <Program file="toJointRxDeg.pgx" />
+  </Programs>
+  <Database>
+    <Data file="ros_server.dtx" />
+  </Database>
+  <Libraries>
+    <Library alias="libQueueFuncs" path="Disk://ros_libs/QueueFuncs/QueueFuncs.pjx" />
+  </Libraries>
+  <Types>
+    <Type name="RosSimpleMsg" path="Disk://ros_libs/RosSimpleMsg/RosSimpleMsg.pjx" />
+    <Type name="RobotStatusMsg" path="Disk://ros_libs/RobotStatusMsg/RobotStatusMsg.pjx" />
+    <Type name="JointStateMsg" path="Disk://ros_libs/JointStateMsg/JointStateMsg.pjx" />
+    <Type name="JointTrajPtMsg" path="Disk://ros_libs/JointTrajPtMsg/JointTrajPtMsg.pjx" />
+    <Type name="JointTrajPtFMsg" path="Disk://ros_libs/JointTrajPtFMsg/JointTrajPtFMsg.pjx" />
+    <Type name="JointFbkMsg" path="Disk://ros_libs/JointFbkMsg/JointFbkMsg.pjx" />
+    <Type name="MotionCmd" path="Disk://ros_libs/MotionCmd/MotionCmd.pjx" />
+    <Type name="Header" path="Disk://ros_libs/Header/Header.pjx" />
+    <Type name="Prefix" path="Disk://ros_libs/Prefix/Prefix.pjx" />
+    <Type name="Body" path="Disk://ros_libs/Body/Body.pjx" />
+    <Type name="Queue" path="Disk://ros_libs/Queue/Queue.pjx" />
+  </Types>
+</Project>

@@ -1,0 +1,78 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Programs xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.staubli.com/robotics/VAL3/Program/2">
+  <Program name="motionControl" access="public">
+    <Locals>
+      <Local name="l_mTrajPt" type="MotionCmd" xsi:type="array" size="1" />
+      <Local name="l_bFlag" type="bool" xsi:type="array" size="1" />
+      <Local name="l_motion" type="MotionCmd" xsi:type="array" size="1" />
+      <Local name="l_nTime" type="num" xsi:type="array" size="1" />
+      <Local name="l_bStopAndClean" type="bool" xsi:type="array" size="1" />
+      <Local name="l_nElems" type="num" xsi:type="array" size="1" />
+    </Locals>
+    <Code><![CDATA[begin
+  // Copyright (c) 2016, Ocado Technology - Robotics Research Team
+  //
+  // Licensed under the Apache License, Version 2.0 (the "License");
+  // you may not use this file except in compliance with the License.
+  // You may obtain a copy of the License at
+  //
+  //     http://www.apache.org/licenses/LICENSE-2.0
+  //
+  // Unless required by applicable law or agreed to in writing, software
+  // distributed under the License is distributed on an "AS IS" BASIS,
+  // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  // See the License for the specific language governing permissions and
+  // limitations under the License.
+
+
+
+  nMoveId = -1
+
+  while (true)
+    // check connection status, and whether to stop motion
+    if (nInConnFlag == 1 and nOutConnFlag == 1 and bStopNow == false)
+      
+      // process trajectory point from trajectory buffer
+      call libQueueFuncs:getNumElems(qTrajPtBuffer, l_nElems)
+      if (l_nElems > 0)
+        call libQueueFuncs:pop(qTrajPtBuffer,l_mTrajPt, l_bFlag)
+        if (l_bFlag == true)
+          nPtsPopped = nPtsPopped + 1
+          call libQueueFuncs:push(qMoveBuffer,l_mTrajPt,l_bFlag)
+        endIf
+      endIf
+      
+      // process motion command from move buffer
+      // @TODO move buffer should have elements previously interpolated to ensure they are 4 ms apart
+      call libQueueFuncs:getNumElems(qMoveBuffer, l_nElems)
+      if (l_nElems > 0)
+        call libQueueFuncs:pop(qMoveBuffer,l_motion,l_bFlag)
+        if (l_bFlag == true)
+          if (l_motion.jJointRx != herej())
+            nMovePts = nMovePts + 1
+            // @TODO potentially set move id according to sequence value
+            nMoveId = movej(l_motion.jJointRx, tTool, l_motion.mDesc)
+          endIf
+        endIf
+      endIf
+    else
+      // stop immediately -- resetMotion() also resets moveId
+      resetMotion()
+      // clear buffers
+      call libQueueFuncs:clear(qTrajPtBuffer)
+      call libQueueFuncs:clear(qMoveBuffer)
+      bStopNow = false
+      
+      // debug
+      nPtsPopped = 0
+      nMovePts = 0
+    endIf
+      
+    nMotionProgress = getMoveId()
+
+    // sequence task
+    delay(0)
+  endWhile
+end]]></Code>
+  </Program>
+</Programs>

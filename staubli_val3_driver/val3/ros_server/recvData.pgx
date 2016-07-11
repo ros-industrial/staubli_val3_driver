@@ -1,0 +1,70 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Programs xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.staubli.com/robotics/VAL3/Program/2">
+  <Program name="recvData" access="public">
+    <Parameters xmlns="http://www.staubli.com/robotics/VAL3/Param/1">
+      <Parameter name="x_sTcpSocket" type="sio" xsi:type="element" use="reference" />
+      <Parameter name="x_nData" type="num" xsi:type="array" use="reference" />
+      <Parameter name="x_nConnFlag" type="num" xsi:type="element" use="reference" />
+      <Parameter name="x_bValidFlag" type="bool" xsi:type="element" use="reference" />
+    </Parameters>
+    <Locals>
+      <Local name="l_nByte" type="num" xsi:type="array" size="1" />
+      <Local name="l_nBytesRecv" type="num" xsi:type="array" size="1" />
+      <Local name="l_nIndex" type="num" xsi:type="array" size="1" />
+    </Locals>
+    <Code><![CDATA[begin
+  // Copyright (c) 2016, Ocado Technology - Robotics Research Team
+  //
+  // Licensed under the Apache License, Version 2.0 (the "License");
+  // you may not use this file except in compliance with the License.
+  // You may obtain a copy of the License at
+  //
+  //     http://www.apache.org/licenses/LICENSE-2.0
+  //
+  // Unless required by applicable law or agreed to in writing, software
+  // distributed under the License is distributed on an "AS IS" BASIS,
+  // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  // See the License for the specific language governing permissions and
+  // limitations under the License.
+
+
+
+  // attempt to receive data on specified socket
+  
+  // x_nConnFlag holds the current connection status of x_sTcpSocket
+  
+  l_nBytesRecv=0
+  l_nIndex=0
+  x_bValidFlag=false
+
+  while (l_nBytesRecv<size(x_nData))
+    l_nIndex=sioGet(x_sTcpSocket,l_nByte)
+    if (l_nIndex==1)
+      x_nData[l_nBytesRecv]=l_nByte
+      l_nBytesRecv=l_nBytesRecv+1
+      // received a byte, set flag to indicate connection
+      x_nConnFlag=1
+    elseIf (l_nIndex==-1)
+      // error or timeout, indicate only if connection previously established
+      if (x_nConnFlag==1)
+        x_nConnFlag=-1
+        // close connection properly (to avoid CLOSE_WAIT)
+        clearBuffer(x_sTcpSocket)
+      endIf
+      return
+    elseIf (l_nIndex == 0)
+      // sioGet() returns 0 when connection is alive, thus set flag
+      x_nConnFlag = 1
+      if (l_nBytesRecv == 0)
+        return
+      endIf
+    else
+      // either < -1 or > 1
+      popUpMsg("sioGet() returned " + toString("", l_nIndex))
+      return
+    endIf
+  endWhile
+  x_bValidFlag=true
+end]]></Code>
+  </Program>
+</Programs>

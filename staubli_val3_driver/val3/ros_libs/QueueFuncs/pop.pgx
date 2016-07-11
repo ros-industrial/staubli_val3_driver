@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Programs xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.staubli.com/robotics/VAL3/Program/2">
+  <Program name="pop" access="public">
+    <Parameters xmlns="http://www.staubli.com/robotics/VAL3/Param/1">
+      <Parameter name="x_qQueue" type="Queue" xsi:type="element" use="reference" />
+      <Parameter name="x_mCmd" type="MotionCmd" xsi:type="element" use="reference" />
+      <Parameter name="x_bRes" type="bool" xsi:type="element" use="reference" />
+    </Parameters>
+    <Code><![CDATA[begin
+  // Copyright (c) 2016, Ocado Technology - Robotics Research Team
+  //
+  // Licensed under the Apache License, Version 2.0 (the "License");
+  // you may not use this file except in compliance with the License.
+  // You may obtain a copy of the License at
+  //
+  //     http://www.apache.org/licenses/LICENSE-2.0
+  //
+  // Unless required by applicable law or agreed to in writing, software
+  // distributed under the License is distributed on an "AS IS" BASIS,
+  // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  // See the License for the specific language governing permissions and
+  // limitations under the License.
+
+
+
+  if (x_qQueue.nElems > 0)
+    x_mCmd = x_qQueue.buffer[x_qQueue.nPop]
+    x_qQueue.nElems = x_qQueue.nElems - 1
+    x_qQueue.nPop = x_qQueue.nPop + 1
+    if (x_qQueue.nPop >= size(x_qQueue.buffer))
+      x_qQueue.nPop = 0
+    endIf
+    x_bRes = true
+  else
+    x_bRes = false
+  endIf
+end]]></Code>
+  </Program>
+</Programs>

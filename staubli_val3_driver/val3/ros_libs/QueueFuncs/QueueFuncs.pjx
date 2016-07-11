@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://www.staubli.com/robotics/VAL3/Project/3">
+  <Parameters version="s7.7.2" stackSize="5000" millimeterUnit="true" />
+  <Programs>
+    <Program file="clear.pgx" />
+    <Program file="getNumElems.pgx" />
+    <Program file="pop.pgx" />
+    <Program file="push.pgx" />
+    <Program file="start.pgx" />
+    <Program file="stop.pgx" />
+  </Programs>
+  <Database>
+    <Data file="QueueFuncs.dtx" />
+  </Database>
+  <Libraries />
+  <Types>
+    <Type name="Queue" path="Disk://ros_libs/Queue/Queue.pjx" />
+    <Type name="MotionCmd" path="Disk://ros_libs/MotionCmd/MotionCmd.pjx" />
+  </Types>
+</Project>

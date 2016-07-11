@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Programs xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.staubli.com/robotics/VAL3/Program/2">
+  <Program name="sendData" access="public">
+    <Parameters xmlns="http://www.staubli.com/robotics/VAL3/Param/1">
+      <Parameter name="x_sTcpSocket" type="sio" xsi:type="element" use="reference" />
+      <Parameter name="x_nData" type="num" xsi:type="array" use="reference" />
+      <Parameter name="x_nFlag" type="num" xsi:type="element" use="reference" />
+    </Parameters>
+    <Locals>
+      <Local name="l_nRetVal" type="num" xsi:type="array" size="1" />
+    </Locals>
+    <Code><![CDATA[begin
+  // Copyright (c) 2016, Ocado Technology - Robotics Research Team
+  //
+  // Licensed under the Apache License, Version 2.0 (the "License");
+  // you may not use this file except in compliance with the License.
+  // You may obtain a copy of the License at
+  //
+  //     http://www.apache.org/licenses/LICENSE-2.0
+  //
+  // Unless required by applicable law or agreed to in writing, software
+  // distributed under the License is distributed on an "AS IS" BASIS,
+  // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  // See the License for the specific language governing permissions and
+  // limitations under the License.
+
+
+
+  // send data via socket connection...
+  // but only if connection is alive
+  if (x_nFlag == 1)
+    l_nRetVal=sioSet(x_sTcpSocket,x_nData)
+    if (l_nRetVal==-1)
+      if (x_nFlag==1)
+        x_nFlag=-1
+      endIf
+    elseIf (l_nRetVal<size(x_nData))
+      popUpMsg("Error while sending data")
+      x_nFlag=-1
+    endIf
+  endIf
+end]]></Code>
+  </Program>
+</Programs>
