@@ -21,20 +21,20 @@ It is advisable to try this driver on Staubli's emulator first.
 ## Installation
 
 Installing the driver to a Staubli controller simply consists of transferring the
-contents of the `val3_driver` folder to the controller itself.
+contents of the `val3` folder to the controller itself.
 
 ### Clone this repository
 
-Clone branch `val3_server-devel` of [staubli_experimental](https://github.com/ocadotechnology/staubli_experimental):
+Clone branch `indigo-devel` of [staubli_experimental](https://github.com/ros-industrial/staubli_experimental):
 
 ```shell
-git clone https://github.com/ocadotechnology/staubli_experimental -b val3_server-devel
+git clone https://github.com/ros-industrial/staubli_experimental -b indigo-devel
 ```
 
 ### Transfer driver to Staubli CS8 controller
 
 There are several ways of transferring VAL3 applications to a Staubli controller.
-The simplest method is probably copying the contents of `val3_driver` folder into
+The simplest method is probably copying the contents of `val3` folder into
 a USB memory stick (<2GB given the CS8 limitations), plugging the stick to the
 controller and using the teach pendant to copy the folders.
 
@@ -43,7 +43,7 @@ controller and using the teach pendant to copy the folders.
 Although it is possible to edit the source files with any text editor (they are
 essentially XML files), it is advisable to use the Staubli Robotics Suite:
 
-* Copy contents of folder `val3_driver` into the `usrapp` folder of the Staubli cell
+* Copy contents of folder `val3` into the `usrapp` folder of the Staubli cell
 * Open the `ros_server` VAL3 project located inside the `ros_server` folder
 
 SRS offers autocompletion, syntax highlighting and syntax checking, amongst other
@@ -76,7 +76,7 @@ Two sockets (TCP Servers) are required. From `Main menu`:
 
 Check that:
 
-1. The contents of the `val3_driver` folder (both `ros_server` and `ros_libs` folders)
+1. The contents of the `val3` folder (both `ros_server` and `ros_libs` folders)
 have been transferred to the Staubli controller
 2. The VAL3 application `ros_server` has been loaded
 3. Both TCP Server sockets have been configured properly
@@ -91,7 +91,7 @@ if in manual mode).
 
 ### Run the industrial_robot_client node (ROS-I client)
 
-The `val3_server-devel` branch provides launch files (within the `staubli_val3_driver`
+The `indigo-devel` branch provides launch files (within the `staubli_val3_driver`
 ROS package). Simply run:
 
 ```shell
