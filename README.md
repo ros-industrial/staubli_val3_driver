@@ -1,5 +1,7 @@
 # Staubli experimental
 
+[![support level: community](http://img.shields.io/badge/support%20level-community-lightgray.png)](http://rosindustrial.org/news/2016/10/7/better-supporting-a-growing-ros-industrial-software-platform)
+
 Experimental packages for Staubli manipulators within [ROS-Industrial][].
 See the [ROS wiki][] page for more information.
 
