@@ -48,11 +48,9 @@
       if (l_nElems > 0)
         call libQueueFuncs:pop(qMoveBuffer,l_motion,l_bFlag)
         if (l_bFlag == true)
-          if (l_motion.jJointRx != herej())
-            nMovePts = nMovePts + 1
-            // @TODO potentially set move id according to sequence value
-            nMoveId = movej(l_motion.jJointRx, tTool, l_motion.mDesc)
-          endIf
+          nMovePts = nMovePts + 1
+          // @TODO potentially set move id according to sequence value
+          nMoveId = movej(l_motion.jJointRx, tTool, l_motion.mDesc)
         endIf
       endIf
     else
