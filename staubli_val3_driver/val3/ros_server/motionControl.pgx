@@ -49,6 +49,12 @@
         call libQueueFuncs:pop(qMoveBuffer,l_motion,l_bFlag)
         if (l_bFlag == true)
           nMovePts = nMovePts + 1
+          // contrary to what we did earlier, we unconditionally add the traj pt to the motion queue:
+          // there doesn't appear to be a way to compare the 'current pose' of the robot to the pts
+          // in the trajectory at the appropriate time (ie: when the robot is in motion and about to
+          // start executing the segment towards 'l_motion').
+          // Checking for dist(l_motion, herej()) (pseudo code) would not be correct as there will
+          // always be a delay in the data coming out of herej() and the actual pose of the robot.
           // @TODO potentially set move id according to sequence value
           nMoveId = movej(l_motion.jJointRx, tTool, l_motion.mDesc)
         endIf
