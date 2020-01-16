@@ -23,10 +23,10 @@ Installing the driver to a Staubli controller simply consists of transferring th
 
 ### Clone this repository
 
-Clone branch `indigo-devel` of [staubli_experimental](https://github.com/ros-industrial/staubli_experimental):
+Clone [staubli_val3_driver](https://github.com/ros-industrial/staubli_val3_driver) into the `src` space of your workspace:
 
 ```shell
-git clone https://github.com/ros-industrial/staubli_experimental -b indigo-devel
+git clone https://github.com/ros-industrial/staubli_val3_driver.git
 ```
 
 ### Transfer driver to Staubli CS8 controller
