@@ -1,10 +1,11 @@
 <?xml version="1.0"?>
+<?xml-model href="http://download.ros.org/schema/package_format2.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
 <package format="2">
   <name>staubli_val3_driver</name>
   <version>0.1.0</version>
   <description>
    <p>
-     ROS-Industrial VAL3 driver for interfacing with Staubli robot controllers.
+     ROS-Industrial VAL3 driver for interfacing with Staubli CS8 robot controllers.
    </p>
    <p>
      This package is part of the ROS-Industrial program and contains a VAL3
@@ -16,13 +17,12 @@
    </p>
   </description>
   <author email="murilo.martins@ocado.com">Murilo Martins</author>
-  <maintainer email="murilo.martins@ocado.com">Murilo Martins</maintainer>
   <maintainer email="g.a.vanderhoorn@tudelft.nl">G.A. vd. Hoorn (TU Delft Robotics Institute)</maintainer>
   <license>Apache 2.0</license>
 
   <url type="website">http://wiki.ros.org/staubli_val3_driver</url>
-  <url type="bugtracker">https://github.com/ros-industrial/staubli_experimental/issues</url>
-  <url type="repository">https://github.com/ros-industrial/staubli_experimental</url>
+  <url type="bugtracker">https://github.com/ros-industrial/staubli_val3_driver/issues</url>
+  <url type="repository">https://github.com/ros-industrial/staubli_val3_driver</url>
 
   <buildtool_depend>catkin</buildtool_depend>
 
