@@ -1,20 +1,22 @@
-# Staubli experimental
+# Staubli VAL3 driver
 
 [![support level: community](https://img.shields.io/badge/support%20level-community-lightgray.png)](http://rosindustrial.org/news/2016/10/7/better-supporting-a-growing-ros-industrial-software-platform)
 
-Experimental packages for Staubli manipulators within [ROS-Industrial][].
-See the [ROS wiki][] page for more information.
+
+## Overview
+
+This repository contains the `staubli_val3_driver` package which provides a set of VAL3 libraries and an application which together implement a [simple_message][] compatible server implementation.
+Together with the nodes in [industrial_robot_client][], this server can be used as a ROS 1 driver that allows motion control of Staubli CS8 controlled robots, by exposing a [FollowJointTrajectory][] [action][] server, which is compatible with MoveIt and other nodes that implement an action client.
 
 
-## Contents
+## Compatibility
 
-This repository contains packages that will be migrated to the [staubli][]
-repository after they have received sufficient testing. The contents of
-these packages are subject to change, without prior notice. Any available
-APIs are to be considered unstable and are not guaranteed to be complete
-and / or functional.
+The current version of the driver is compatible with CS8 controllers only.
+Future work may extend this to support CS9 controllers as well.
 
 
-[ROS-Industrial]: http://wiki.ros.org/Industrial
-[ROS wiki]: http://wiki.ros.org/staubli_experimental
-[staubli]: https://github.com/ros-industrial/staubli
+
+[simple_message]: http://wiki.ros.org/simple_message
+[industrial_robot_client]: http://wiki.ros.org/industrial_robot_client
+[FollowJointTrajectory]: http://docs.ros.org/api/control_msgs/html/action/FollowJointTrajectory.html
+[action]: http://wiki.ros.org/actionlib
