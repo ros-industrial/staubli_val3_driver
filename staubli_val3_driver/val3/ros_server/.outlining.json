@@ -1,0 +1,101 @@
+﻿{
+  "programs": [
+    {
+      "mode": 3,
+      "name": "decTrajPt",
+      "nodes": [
+        {
+          "start": 865,
+          "end": 918,
+          "isCollapsed": false
+        },
+        {
+          "start": 938,
+          "end": 1155,
+          "isCollapsed": false
+        },
+        {
+          "start": 1087,
+          "end": 1146,
+          "isCollapsed": false
+        },
+        {
+          "start": 1387,
+          "end": 1440,
+          "isCollapsed": false
+        },
+        {
+          "start": 1782,
+          "end": 1951,
+          "isCollapsed": false
+        },
+        {
+          "start": 2065,
+          "end": 2118,
+          "isCollapsed": false
+        }
+      ]
+    },
+    {
+      "mode": 3,
+      "name": "decTrajPtFull",
+      "nodes": [
+        {
+          "start": 875,
+          "end": 928,
+          "isCollapsed": false
+        },
+        {
+          "start": 1038,
+          "end": 1091,
+          "isCollapsed": false
+        },
+        {
+          "start": 1213,
+          "end": 1266,
+          "isCollapsed": false
+        },
+        {
+          "start": 1374,
+          "end": 1427,
+          "isCollapsed": false
+        },
+        {
+          "start": 1450,
+          "end": 1677,
+          "isCollapsed": false
+        },
+        {
+          "start": 1609,
+          "end": 1668,
+          "isCollapsed": false
+        },
+        {
+          "start": 1701,
+          "end": 2580,
+          "isCollapsed": false
+        },
+        {
+          "start": 1985,
+          "end": 2044,
+          "isCollapsed": false
+        },
+        {
+          "start": 2398,
+          "end": 2571,
+          "isCollapsed": false
+        },
+        {
+          "start": 2607,
+          "end": 2838,
+          "isCollapsed": false
+        },
+        {
+          "start": 2770,
+          "end": 2829,
+          "isCollapsed": false
+        }
+      ]
+    }
+  ]
+}
