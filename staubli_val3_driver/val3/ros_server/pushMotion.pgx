@@ -28,7 +28,7 @@
 
 
   switch rosGenericMsg.header.nMsgType
-    case 11
+    case nGenericMsgType["JOINT_TRAJ_PT"]
       l_mTrajPt.nSequence=rosTrajPtMsg.jointTrajPt.nSeq
 
       // ROS joint position values are in rad, but VAL3 uses degrees
@@ -43,7 +43,7 @@
       l_mTrajPt.nDuration=rosTrajPtMsg.jointTrajPt.nDuration
 
     break
-    case 14
+    case nGenericMsgType["JOINT_TRAJ_PT_FULL"]
       l_mTrajPt.nSequence=rosTrajPtFMsg.jointTrajPtFull.nSeq
       l_mTrajPt.nDuration=rosTrajPtFMsg.jointTrajPtFull.nTime
 
@@ -65,36 +65,36 @@
   endSwitch
 
   // see github.com/ros-industrial/industrial_core/simple_message/include/simple_message/joint_traj_pt.h
-  if (l_mTrajPt.nSequence==-4)
+  if(l_mTrajPt.nSequence==-4)
     // set flag to stop immediately
     bStopNow=true
   else
     // check whether velocity value should be overwritten with value set on teach pendant
-    if (bOverwriteVel == true)
+    if(bOverwriteVel == true)
       // overwrite velocity (and acceleration - ?)
-      l_mTrajPt.mDesc.vel = getMonitorSpeed()
+      //l_mTrajPt.mDesc.vel = getMonitorSpeed()
       // explicitly setting accel and decel to VAL3 default values
-      l_mTrajPt.mDesc.accel = 9999
-      l_mTrajPt.mDesc.decel = 9999
+      l_mTrajPt.mDesc.accel = mNomSpeed.accel
+      l_mTrajPt.mDesc.decel = mNomSpeed.decel
     endIf
     // only push motion into buffer if not a STOP message
     // and if joint positions are within software joint limits
     // and if velocity is greater than zero (beucase movej() will not accept vel <= 0)
-    if (isInRange(l_mTrajPt.jJointRx) and l_mTrajPt.mDesc.vel > 0)
+    if(isInRange(l_mTrajPt.jJointRx) and l_mTrajPt.mDesc.vel > 0)
       call libQueueFuncs:push(qTrajPtBuffer,l_mTrajPt,l_bOk)
     else
       l_bOk = false
     endIf
     
-    if (l_bOk==false)
+    if(l_bOk==false)
       // could not push trajectory point into buffer
       // thus ACK should flag FAILURE, but only if comm type is request
-      if (rosGenericMsg.header.nCommType==2)
+      if(rosGenericMsg.header.nCommType==nGenericMsgType["SERVICE_REQUEST"])
         switch rosGenericMsg.header.nMsgType
-          case 11
+          case nGenericMsgType["JOINT_TRAJ_PT"]
             rosTrajPtAck.header.nReplyCode=2
           break
-          case 14
+          case nGenericMsgType["JOINT_TRAJ_PT_FULL"]
             rosTrajPtFAck.header.nReplyCode=2
           break
           default
@@ -104,12 +104,12 @@
     endIf
   endIf
   // check whether ACK should be sent
-  if (rosGenericMsg.header.nCommType == 2)
+  if(rosGenericMsg.header.nCommType == nGenericMsgType["SERVICE_REQUEST"])
     // comm type request requires ACK
-    x_nMsgRecvState = 5
+    x_nMsgRecvState = nMsgState["Ack"]
   else
     // other comm types (e.g., topic) does not require ACK, hence skip state
-    x_nMsgRecvState = 0
+    x_nMsgRecvState = nMsgState["Reset"]
   endIf
 end]]></Code>
   </Program>

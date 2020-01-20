@@ -28,31 +28,31 @@
   l_nRetVal=fromBinary(rosGenericMsg.prefix.nData,4,"-4l",rosGenericMsg.prefix.nLength)
   if (l_nRetVal!=1)
     // error decoding prefix, reset state machine
-    x_nMsgRecvState=0
+    x_nMsgRecvState=nMsgState["Reset"]
     return
   endIf
   l_nRetVal=fromBinary(rosGenericMsg.header.nData,4,"-4l",rosGenericMsg.header.nMsgType)
   if (l_nRetVal!=1)
     // error decoding header (msg type), reset state machine
-    x_nMsgRecvState=0
+    x_nMsgRecvState=nMsgState["Reset"]
     return
   endIf
   l_nRetVal=fromBinary(rosGenericMsg.header.nData[4],4,"-4l",rosGenericMsg.header.nCommType)
   if (l_nRetVal!=1)
     // error decoding header (comm type), reset state machine
-    x_nMsgRecvState=0
+    x_nMsgRecvState=nMsgState["Reset"]
     return
   endIf
   l_nRetVal=fromBinary(rosGenericMsg.header.nData[8],4,"-4l",rosGenericMsg.header.nReplyCode)
   if (l_nRetVal!=1)
     // error decoding header (reply code), reset state machine
-    x_nMsgRecvState=0
+    x_nMsgRecvState=nMsgState["Reset"]
     return
   endIf
 
   // no errors detected whilst decoding prefix and header
   // move on to state 2: receive msg body
-  x_nMsgRecvState=2
+  x_nMsgRecvState=nMsgState["RecBody"]
 end]]></Code>
   </Program>
 </Programs>

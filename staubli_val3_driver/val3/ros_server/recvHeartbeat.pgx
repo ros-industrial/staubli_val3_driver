@@ -4,8 +4,6 @@
     <Locals>
       <Local name="l_nByte" type="num" xsi:type="array" size="1" />
       <Local name="l_nBytesRecv" type="num" xsi:type="array" size="1" />
-      <Local name="l_nHtbt" type="num" xsi:type="array" size="1" />
-      <Local name="l_nHtbtB" type="num" xsi:type="array" size="4" />
       <Local name="l_nIndex" type="num" xsi:type="array" size="1" />
     </Locals>
     <Code><![CDATA[begin

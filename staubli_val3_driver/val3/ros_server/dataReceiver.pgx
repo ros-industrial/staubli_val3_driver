@@ -29,7 +29,7 @@
   // 3: decode body
   // 4: push motion into buffer
   // 5: send ACK
-  l_nMsgRecvState=0
+  l_nMsgRecvState=nMsgState["RecHeader"]
 
   while (true)
     // usually for state machines a switch-case statement is a neat implementation
@@ -41,30 +41,30 @@
     // into buffer and then send ACK to client WITHIN ONE ITERATION of while(),
     // hence the if statement sequence below
     l_nStartTime = clock()
-    if (l_nMsgRecvState==0)
+    if (l_nMsgRecvState==nMsgState["RecHeader"])
       call recvMsgHeader(l_nMsgRecvState)
     endIf
     nHeaderTime = clock() - l_nStartTime
-    if (l_nMsgRecvState==1)
+    if (l_nMsgRecvState==nMsgState["DecHeader"])
       call decodeMsgHeader(l_nMsgRecvState)
     endIf
-    if (l_nMsgRecvState==2)
+    if (l_nMsgRecvState==nMsgState["RecBody"])
       call recvMsgBody(l_nMsgRecvState)
     endIf
-    if (l_nMsgRecvState==3)
+    if (l_nMsgRecvState==nMsgState["DecBody"])
       call decodeMsgBody(l_nMsgRecvState)
     endIf
-    if (l_nMsgRecvState==4)
+    if (l_nMsgRecvState==nMsgState["PushMotion"])
       call pushMotion(l_nMsgRecvState)
     endIf
-    if (l_nMsgRecvState==5)
+    if (l_nMsgRecvState==nMsgState["Ack"])
       call encodeAck()
       call sendAck(l_nMsgRecvState)
     endIf
     nElapsedTime = clock() - l_nStartTime - nHeaderTime
     
     // assert state machine is working OK
-    if (l_nMsgRecvState<0 or l_nMsgRecvState>5)
+    if (l_nMsgRecvState<nMsgState["RecHeader"] or l_nMsgRecvState>nMsgState["Ack"])
       popUpMsg("Data reception state machine error")
     endIf
 

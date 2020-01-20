@@ -32,7 +32,7 @@
       </Value>
     </Data>
     <Data name="tTool" access="public" xsi:type="array" type="tool" size="1">
-      <Value key="0" fatherId="flange[0]" ioLink="valve1" />
+      <Value key="0" fatherId="flange[0]" ioLink="ValveIO\valve1" />
     </Data>
     <Data name="sTrajPtTaskName" access="public" xsi:type="array" type="string" size="1" />
     <Data name="bTrajPtOverrun" access="public" xsi:type="array" type="bool" size="1" />
@@ -455,5 +455,21 @@
         </Field>
       </Value>
     </Data>
+    <Data name="nVel" access="private" xsi:type="array" type="num" size="2" />
+    <Data name="nMsgState" access="private" xsi:type="collection" type="num">
+      <Value key="RecHeader" />
+      <Value key="DecHeader" value="1" />
+      <Value key="RecBody" value="2" />
+      <Value key="DecBody" value="3" />
+      <Value key="PushMotion" value="4" />
+      <Value key="Ack" value="5" />
+      <Value key="Reset" />
+    </Data>
+    <Data name="nGenericMsgType" access="private" xsi:type="collection" type="num">
+      <Value key="JOINT_TRAJ_PT" value="11" />
+      <Value key="JOINT_TRAJ_PT_FULL" value="14" />
+      <Value key="SERVICE_REQUEST" value="2" />
+    </Data>
+    <Data name="mNomSpeed" access="private" xsi:type="array" type="mdesc" size="1" />
   </Datas>
 </Database>

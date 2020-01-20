@@ -27,10 +27,10 @@
   l_bFlag=false
 
   switch rosGenericMsg.header.nMsgType
-    case 11
+    case nGenericMsgType["JOINT_TRAJ_PT"]
       call recvTrajPt(l_bFlag)
     break
-    case 14
+    case nGenericMsgType["JOINT_TRAJ_PT_FULL"]
       call recvTrajPtFull(l_bFlag)
     break
     default
@@ -39,10 +39,10 @@
 
   if (l_bFlag == true)
     // move on to state 3: decode msg body
-    x_nMsgRecvState=3
+    x_nMsgRecvState=nMsgState["DecBody"]
   else
     // error whilst receiving msg body, reset state machine
-    x_nMsgRecvState=0
+    x_nMsgRecvState=nMsgState["Reset"]
   endIf
 end]]></Code>
   </Program>

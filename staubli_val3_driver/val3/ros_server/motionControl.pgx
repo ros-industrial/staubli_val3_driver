@@ -5,8 +5,6 @@
       <Local name="l_mTrajPt" type="MotionCmd" xsi:type="array" size="1" />
       <Local name="l_bFlag" type="bool" xsi:type="array" size="1" />
       <Local name="l_motion" type="MotionCmd" xsi:type="array" size="1" />
-      <Local name="l_nTime" type="num" xsi:type="array" size="1" />
-      <Local name="l_bStopAndClean" type="bool" xsi:type="array" size="1" />
       <Local name="l_nElems" type="num" xsi:type="array" size="1" />
     </Locals>
     <Code><![CDATA[begin
