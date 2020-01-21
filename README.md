@@ -9,13 +9,13 @@
 ## Overview
 
 This repository contains the `staubli_val3_driver` package which provides a set of VAL3 libraries and an application which together implement a [simple_message][] compatible server implementation.
-Together with the nodes in [industrial_robot_client][], this server can be used as a ROS 1 driver that allows motion control of Staubli CS8 controlled robots, by exposing a [FollowJointTrajectory][] [action][] server, which is compatible with MoveIt and other nodes that implement an action client.
+Together with the nodes in [industrial_robot_client][], this server can be used as a ROS 1 driver that allows motion control of Staubli CS8/CS8C controlled robots, by exposing a [FollowJointTrajectory][] [action][] server, which is compatible with MoveIt and other nodes that implement an action client.
 
 
 ## Compatibility
 
-The current version of the driver is compatible with CS8 controllers only.
-Future work may extend this to support CS9 controllers as well.
+The current version of the driver is compatible with CS8/CS8C controllers only.
+Future work is planned to extend this to support CS9 controllers as well.
 
 
 
