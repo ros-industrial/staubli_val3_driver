@@ -6,8 +6,14 @@
       <Local name="l_nMotionPeriod" type="num" xsi:type="array" size="1" />
       <Local name="l_nTrajPeriod" type="num" xsi:type="array" size="1" />
       <Local name="l_nScreenUpdate" type="num" xsi:type="array" size="1" />
+      <Local name="l_sVersionMajor" type="string" xsi:type="array" size="1" />
+      <Local name="l_nVersionMajor" type="num" xsi:type="array" size="1" />
+      <Local name="l_bOkMajor" type="bool" xsi:type="array" size="1" />
+      <Local name="l_sVersionMinor" type="string" xsi:type="array" size="1" />
+      <Local name="l_nVersionMinor" type="num" xsi:type="array" size="1" />
+      <Local name="l_bOkMinor" type="bool" xsi:type="array" size="1" />
     </Locals>
-    <Code><![CDATA[begin 
+    <Code><![CDATA[begin
   // Copyright (c) 2016, Ocado Technology - Robotics Research Team
   //
   // Licensed under the Apache License, Version 2.0 (the "License");
@@ -22,7 +28,20 @@
   // See the License for the specific language governing permissions and
   // limitations under the License.
 
+  // Check for VAL 3 version >= 7.7
 
+  l_sVersionMajor = mid(getVersion("VAL3"),1,1)
+  l_sVersionMinor = mid(getVersion("VAL3"),2,1)
+  toNum(l_sVersionMajor, l_nVersionMajor, l_bOkMajor)
+  toNum(l_sVersionMinor, l_nVersionMinor, l_bOkMinor)
+  if(!l_bOkMajor or !l_bOkMinor)
+    popUpMsg("Error reading VAL 3 version")
+    taskKill("ros_server~")
+  endIf
+  if( !((l_nVersionMajor == 7) and (l_nVersionMinor >= 7)))
+    popUpMsg("Error: VAL 3 version is < 7.7")
+    taskKill("ros_server~")
+  endIf
 
   // feedback task will run every 20ms (50Hz)
   l_nFbkPeriod=0.02
@@ -67,14 +86,14 @@
   clearBuffer(siTcpIpFbk)
   
   // check if robot is not in emergency stop and wait until estop is reset
-  if (esStatus() == 2)
+  if(esStatus() == 2)
     popUpMsg("Please reset E-Stop")
     wait(esStatus() < 2)
   endIf
   
   // before anything else, enable power (only works if robot is in remote mode)
-  if (!isPowered())
-    if (workingMode() >= 4)
+  if(!isPowered())
+    if(workingMode() >= 4)
       do
         enablePower()
         delay(2)

@@ -233,6 +233,47 @@
           "isCollapsed": false
         }
       ]
+    },
+    {
+      "mode": 3,
+      "name": "start",
+      "nodes": [
+        {
+          "start": 899,
+          "end": 1009,
+          "isCollapsed": false
+        },
+        {
+          "start": 1012,
+          "end": 1151,
+          "isCollapsed": false
+        },
+        {
+          "start": 2340,
+          "end": 2428,
+          "isCollapsed": false
+        },
+        {
+          "start": 2514,
+          "end": 2705,
+          "isCollapsed": false
+        },
+        {
+          "start": 2535,
+          "end": 2697,
+          "isCollapsed": false
+        },
+        {
+          "start": 2564,
+          "end": 2629,
+          "isCollapsed": false
+        },
+        {
+          "start": 2634,
+          "end": 2687,
+          "isCollapsed": false
+        }
+      ]
     }
   ]
 }
