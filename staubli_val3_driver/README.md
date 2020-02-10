@@ -14,7 +14,7 @@ It is advisable to try this driver on the emulator in [Staubli Robotics Suite (S
 * VAL3 version s7.7.2 or greater
   * this is very important, since this implementation uses return values of `sioGet()`
     only available from s7.7.2 onwards
-* Staubli Robotics Suite 2019 (not required but strongly reccomended)
+* Staubli Robotics Suite 2019 (not required but strongly recommended)
 
 ## Installation
 
