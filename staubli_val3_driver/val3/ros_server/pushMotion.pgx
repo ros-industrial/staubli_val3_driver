@@ -106,10 +106,10 @@
   // check whether ACK should be sent
   if(rosGenericMsg.header.nCommType == nGenericMsgType["SERVICE_REQUEST"])
     // comm type request requires ACK
-    x_nMsgRecvState = nMsgState["Ack"]
+    x_nMsgRecvState = nAck
   else
     // other comm types (e.g., topic) does not require ACK, hence skip state
-    x_nMsgRecvState = nMsgState["Reset"]
+    x_nMsgRecvState = nReset
   endIf
 end]]></Code>
   </Program>

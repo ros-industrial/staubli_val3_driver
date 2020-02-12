@@ -32,10 +32,10 @@
 
   if (l_bFlag == true)
     // move on to state 1: decode header
-    x_nMsgRecvState=nMsgState["DecHeader"]
+    x_nMsgRecvState=nDecHeader
   else
     // error: reset state to 0: receive header
-    x_nMsgRecvState=nMsgState["Reset"]
+    x_nMsgRecvState=nReset
   endIf
 end]]></Code>
   </Program>

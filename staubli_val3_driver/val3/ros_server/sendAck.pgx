@@ -34,7 +34,7 @@
 
   // regardless of result from sending ACK
   // reset state machine to receive new messages
-  x_nMsgRecvState=nMsgState["Reset"]
+  x_nMsgRecvState=nReset
 end]]></Code>
   </Program>
 </Programs>

@@ -456,20 +456,28 @@
       </Value>
     </Data>
     <Data name="nVel" access="private" xsi:type="array" type="num" size="2" />
-    <Data name="nMsgState" access="private" xsi:type="collection" type="num">
-      <Value key="RecHeader" />
-      <Value key="DecHeader" value="1" />
-      <Value key="RecBody" value="2" />
-      <Value key="DecBody" value="3" />
-      <Value key="PushMotion" value="4" />
-      <Value key="Ack" value="5" />
-      <Value key="Reset" />
-    </Data>
     <Data name="nGenericMsgType" access="private" xsi:type="collection" type="num">
       <Value key="JOINT_TRAJ_PT" value="11" />
       <Value key="JOINT_TRAJ_PT_FULL" value="14" />
       <Value key="SERVICE_REQUEST" value="2" />
     </Data>
     <Data name="mNomSpeed" access="private" xsi:type="array" type="mdesc" size="1" />
+    <Data name="nRecHeader" access="private" xsi:type="array" type="num" size="1" />
+    <Data name="nDecHeader" access="private" xsi:type="array" type="num" size="1">
+      <Value key="0" value="1" />
+    </Data>
+    <Data name="nRecBody" access="private" xsi:type="array" type="num" size="1">
+      <Value key="0" value="2" />
+    </Data>
+    <Data name="nDecBody" access="private" xsi:type="array" type="num" size="1">
+      <Value key="0" value="3" />
+    </Data>
+    <Data name="nPushMotion" access="private" xsi:type="array" type="num" size="1">
+      <Value key="0" value="4" />
+    </Data>
+    <Data name="nAck" access="private" xsi:type="array" type="num" size="1">
+      <Value key="0" value="5" />
+    </Data>
+    <Data name="nReset" access="private" xsi:type="array" type="num" size="1" />
   </Datas>
 </Database>

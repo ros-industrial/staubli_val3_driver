@@ -39,10 +39,10 @@
 
   if (l_bFlag == true)
     // move on to state 3: decode msg body
-    x_nMsgRecvState=nMsgState["DecBody"]
+    x_nMsgRecvState=nDecBody
   else
     // error whilst receiving msg body, reset state machine
-    x_nMsgRecvState=nMsgState["Reset"]
+    x_nMsgRecvState=nReset
   endIf
 end]]></Code>
   </Program>
