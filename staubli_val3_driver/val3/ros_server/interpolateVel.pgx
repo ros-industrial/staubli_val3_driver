@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Programs xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.staubli.com/robotics/VAL3/Program/2">
+  <Program name="interpolateVel">
+    <Code><![CDATA[begin
+  // Applies velocity "smoothing" to last point in trajectory when vel==0 is replaced by vel==0.1 (default for MoveIt)
+  
+  // Round to remove trailing decimal places from fromBinary()
+  rosTrajPtMsg.jointTrajPt.nVelocity = rosTrajPtMsg.jointTrajPt.nVelocity * 10000
+  rosTrajPtMsg.jointTrajPt.nVelocity = round(rosTrajPtMsg.jointTrajPt.nVelocity)
+  rosTrajPtMsg.jointTrajPt.nVelocity = rosTrajPtMsg.jointTrajPt.nVelocity / 10000
+  // Smooth last point in traj
+  if((rosTrajPtMsg.jointTrajPt.nVelocity == 0.1) and (rosTrajPtMsg.jointTrajPt.nSeq != 0))
+    rosTrajPtMsg.jointTrajPt.nVelocity = (nVel[0] - (nVel[1] - nVel[0]))
+  endIf
+
+  
+end]]></Code>
+  </Program>
+</Programs>

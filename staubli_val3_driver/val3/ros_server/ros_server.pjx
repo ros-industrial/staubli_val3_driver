@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project xmlns="http://www.staubli.com/robotics/VAL3/Project/3">
-  <Parameters version="s7.7.2" stackSize="5000" millimeterUnit="true" />
+  <Parameters version="s7.11" stackSize="5000" millimeterUnit="true" />
   <Programs>
     <Program file="dataReceiver.pgx" />
     <Program file="dataStreamer.pgx" />
@@ -16,6 +16,7 @@
     <Program file="encTrajPtFAck.pgx" />
     <Program file="fetchStatus.pgx" />
     <Program file="initParams.pgx" />
+    <Program file="interpolateVel.pgx" />
     <Program file="motionControl.pgx" />
     <Program file="pushMotion.pgx" />
     <Program file="recvData.pgx" />

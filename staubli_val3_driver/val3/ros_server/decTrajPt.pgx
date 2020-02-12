@@ -46,7 +46,7 @@
     endIf
   endFor
 
- // Velocity buffer to smooth out last traj point
+  // Velocity buffer to smooth out last traj point
   nVel[1] = nVel[0]
   nVel[0] = rosTrajPtMsg.jointTrajPt.nVelocity
 
@@ -55,15 +55,6 @@
   if(l_nRetVal!=1)
     x_bFlag=false
     return
-  endIf
-
- // Round to remove trailing decimal places from fromBinary()
-  rosTrajPtMsg.jointTrajPt.nVelocity = rosTrajPtMsg.jointTrajPt.nVelocity * 10000
-  rosTrajPtMsg.jointTrajPt.nVelocity = round(rosTrajPtMsg.jointTrajPt.nVelocity)
-  rosTrajPtMsg.jointTrajPt.nVelocity = rosTrajPtMsg.jointTrajPt.nVelocity / 10000
-  // Smooth last point in traj
-  if((rosTrajPtMsg.jointTrajPt.nVelocity == 0.1) and (rosTrajPtMsg.jointTrajPt.nSeq != 0))
-    rosTrajPtMsg.jointTrajPt.nVelocity = (nVel[0] - (nVel[1] - nVel[0]))
   endIf
 
   // duration
