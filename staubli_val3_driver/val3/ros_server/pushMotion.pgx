@@ -34,9 +34,6 @@
       // ROS joint position values are in rad, but VAL3 uses degrees
       call toJointRxDeg(rosTrajPtMsg.jointTrajPt.nJoints, l_mTrajPt.jJointRx)
 
-      // Interpolate velocity for last point in trajectory
-      call interpolateVel()
-
       // from industrial_robot_client/src/joint_trajectory_interface.cpp
       // JointTrajectoryInterface::trajectory_to_msgs()
       // JointTrajectoryInterface::calc_speed()

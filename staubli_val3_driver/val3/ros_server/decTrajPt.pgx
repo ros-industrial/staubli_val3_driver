@@ -46,10 +46,6 @@
     endIf
   endFor
 
-  // Velocity buffer to smooth out last traj point
-  nVel[1] = nVel[0]
-  nVel[0] = rosTrajPtMsg.jointTrajPt.nVelocity
-
   // velocity
   l_nRetVal=fromBinary(rosTrajPtMsg.body.nData[44],4,"4.0l",rosTrajPtMsg.jointTrajPt.nVelocity)
   if(l_nRetVal!=1)
