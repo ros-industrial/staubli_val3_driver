@@ -28,22 +28,30 @@
   // See the License for the specific language governing permissions and
   // limitations under the License.
 
-  // Check for VAL 3 version >= 7.7
 
-  l_sVersionMajor = mid(getVersion("VAL3"),1,1)
-  l_sVersionMinor = mid(getVersion("VAL3"),2,1)
-  toNum(l_sVersionMajor, l_nVersionMajor, l_bOkMajor)
-  toNum(l_sVersionMinor, l_nVersionMinor, l_bOkMinor)
-  if(!l_bOkMajor or !l_bOkMinor)
-    popUpMsg("Error reading VAL 3 version")
-    taskKill("ros_server~")
+  // Load interface library for CS8C or CS9
+  
+  if(mid(getVersion("System"),1,1) == "7")
+    // CS8
+    // Check for VAL 3 version >= 7.7
+    l_sVersionMajor = mid(getVersion("VAL3"),1,1)
+    l_sVersionMinor = mid(getVersion("VAL3"),2,1)
+    toNum(l_sVersionMajor, l_nVersionMajor, l_bOkMajor)
+    toNum(l_sVersionMinor, l_nVersionMinor, l_bOkMinor)
+    if(!l_bOkMajor or !l_bOkMinor)
+      popUpMsg("Error reading VAL 3 version")
+      taskKill("ros_server~")
+    endIf
+    if( !((l_nVersionMajor == 7) and (l_nVersionMinor >= 7)))
+      // VAL 3 version is too old
+      popUpMsg("Error: VAL 3 version is < 7.7")
+      taskKill("ros_server~")
+    endIf
+    libInterface:libLoad("ros_libs/UserInterface/interfaceCS8")
+  elseIf(mid(getVersion("System"),1,1) == "8")
+    // CS9
+    libInterface:libLoad("ros_libs/UserInterface/interfaceCS9")
   endIf
-  if( !((l_nVersionMajor == 7) and (l_nVersionMinor >= 7)))
-    popUpMsg("Error: VAL 3 version is < 7.7")
-    taskKill("ros_server~")
-  endIf
-
-  //libInterface:libLoad("ros_libs/Interface/interfaceCS8")
 
   // feedback task will run every 20ms (50Hz)
   l_nFbkPeriod=0.02
