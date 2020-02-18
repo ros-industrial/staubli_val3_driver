@@ -43,6 +43,8 @@
     taskKill("ros_server~")
   endIf
 
+  //libInterface:libLoad("ros_libs/Interface/interfaceCS8")
+
   // feedback task will run every 20ms (50Hz)
   l_nFbkPeriod=0.02
   //l_nFbkPeriod = 0.032 // 30Hz
