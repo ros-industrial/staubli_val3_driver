@@ -7,6 +7,8 @@
     </Parameters>
     <Code><![CDATA[begin
   
+  // update trajectory buffer size
+  
   gotoxy(scMonitor, 0,3)
   // 18 characteres: gotoxy(19,3) to insert status
   put(scMonitor, "Trajectory buffer:")

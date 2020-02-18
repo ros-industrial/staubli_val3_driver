@@ -6,7 +6,8 @@
     </Parameters>
     <Code><![CDATA[begin
   
-  // update connection status on port 11002
+  // update connection status on port 11002 (feedback server)
+  
   switch x_nOutConnFlag
     case -1
       userPageSet("uxMonitor", "lblFeedbackState", "innerHTML", "connection lost")

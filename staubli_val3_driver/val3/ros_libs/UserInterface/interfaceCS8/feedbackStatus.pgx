@@ -6,7 +6,8 @@
     </Parameters>
     <Code><![CDATA[begin
   
-  // update connection status on port 11002
+  // update connection status on port 11002 (feedback server)
+  
   gotoxy(scMonitor, 0,1)
   // 11 characteres: gotoxy(12,1) to insert status
   put(scMonitor, "Port 11002:")

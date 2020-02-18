@@ -7,6 +7,8 @@
     </Parameters>
     <Code><![CDATA[begin
   
+  // update motion buffer size
+  
   userPageSet("uxMonitor", "lblMotionBuffer", "innerHTML", x_nElems)
   userPageSet("uxMonitor", "lblMotionBufferPopped", "innerHTML", x_nMovePts)
   

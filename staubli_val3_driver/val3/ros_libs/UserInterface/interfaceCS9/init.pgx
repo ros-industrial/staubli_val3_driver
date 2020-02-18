@@ -3,6 +3,7 @@
   <Program name="init" access="public">
     <Code><![CDATA[begin
   
+  // Initialize UI
   
   userPage("uxMonitor")
   

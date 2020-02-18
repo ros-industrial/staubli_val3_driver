@@ -29,10 +29,13 @@
   // limitations under the License.
 
 
-  // Load interface library for CS8C or CS9
+  // Load interface library for CS8 or CS9
+  //
+  // CS9 handles the UI differently than CS8, requires
+  // the UI funtions to be loaded in seperate libraries
   
   if(mid(getVersion("System"),1,1) == "7")
-    // CS8
+    // CS8 - VAL 3 rev 7
     // Check for VAL 3 version >= 7.7
     l_sVersionMajor = mid(getVersion("VAL3"),1,1)
     l_sVersionMinor = mid(getVersion("VAL3"),2,1)
@@ -44,12 +47,12 @@
     endIf
     if( !((l_nVersionMajor == 7) and (l_nVersionMinor >= 7)))
       // VAL 3 version is too old
-      popUpMsg("Error: VAL 3 version is < 7.7")
+      popUpMsg("Error: VAL 3 version is < 7.7, socket communication will not work!")
       taskKill("ros_server~")
     endIf
     libInterface:libLoad("ros_libs/UserInterface/interfaceCS8")
   elseIf(mid(getVersion("System"),1,1) == "8")
-    // CS9
+    // CS9 - VAL 3 rev 8
     libInterface:libLoad("ros_libs/UserInterface/interfaceCS9")
   endIf
 

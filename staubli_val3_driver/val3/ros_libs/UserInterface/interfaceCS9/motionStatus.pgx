@@ -6,21 +6,22 @@
     </Parameters>
     <Code><![CDATA[begin
   
-  // update connection status on port 11000
-    switch x_nInConnFlag
-      case -1
-        userPageSet("uxMonitor", "lblMotionState", "innerHTML", "connection lost")
-      break
-      case 0
-        userPageSet("uxMonitor", "lblMotionState", "innerHTML", "not connected")
-      break
-      case 1
-        userPageSet("uxMonitor", "lblMotionState", "innerHTML", "connected")
-      break
-      default
-        userPageSet("uxMonitor", "lblMotionState", "innerHTML", "not connected")
-      break
-    endSwitch
+  // update connection status on port 11000 (motion server)
+  
+  switch x_nInConnFlag
+    case -1
+      userPageSet("uxMonitor", "lblMotionState", "innerHTML", "connection lost")
+    break
+    case 0
+      userPageSet("uxMonitor", "lblMotionState", "innerHTML", "not connected")
+    break
+    case 1
+      userPageSet("uxMonitor", "lblMotionState", "innerHTML", "connected")
+    break
+    default
+      userPageSet("uxMonitor", "lblMotionState", "innerHTML", "not connected")
+    break
+  endSwitch
   
 end]]></Code>
   </Program>

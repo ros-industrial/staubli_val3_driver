@@ -8,6 +8,7 @@
     <Code><![CDATA[begin
   
   // display time between valid trajectory point received and ACK sent
+  
   userPageSet("uxMonitor", "lblHeaderTime", "innerHTML", toString(".4", x_nHeaderTime))
   userPageSet("uxMonitor", "lblElapsedTime", "innerHTML", toString(".4", x_nElapsedTime))
   

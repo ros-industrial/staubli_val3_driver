@@ -6,6 +6,8 @@
     </Parameters>
     <Code><![CDATA[begin
   
+  // Debug
+  
   gotoxy(scMonitor, 18,12)
   switch x_nExecStatus
     case 0

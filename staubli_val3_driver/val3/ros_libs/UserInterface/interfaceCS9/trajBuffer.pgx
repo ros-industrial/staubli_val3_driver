@@ -7,6 +7,8 @@
     </Parameters>
     <Code><![CDATA[begin
   
+  // update trajectory buffer size
+  
   userPageSet("uxMonitor", "lblTrajectoryBuffer", "innerHTML", x_nElems)
   userPageSet("uxMonitor", "lblTrajectoryBufferPopped", "innerHTML", x_nPtsPopped)
   

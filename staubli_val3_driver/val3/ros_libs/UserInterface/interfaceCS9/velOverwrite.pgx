@@ -7,11 +7,12 @@
     <Code><![CDATA[begin
   
   // display velocity overwrite status
-    if(x_bOverwriteVel == true)
-      userPageSet("uxMonitor", "lblVelocityOverwrite", "innerHTML", "enabled")
-    else
-      userPageSet("uxMonitor", "lblVelocityOverwrite", "innerHTML", "disabled")
-    endIf
+  
+  if(x_bOverwriteVel == true)
+    userPageSet("uxMonitor", "lblVelocityOverwrite", "innerHTML", "enabled")
+  else
+    userPageSet("uxMonitor", "lblVelocityOverwrite", "innerHTML", "disabled")
+  endIf
   
 end]]></Code>
   </Program>

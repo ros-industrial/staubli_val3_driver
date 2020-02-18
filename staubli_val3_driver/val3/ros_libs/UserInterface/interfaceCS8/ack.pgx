@@ -7,6 +7,8 @@
     </Parameters>
     <Code><![CDATA[begin
   
+  // display time between valid trajectory point received and ACK sent
+  
   gotoxy(scMonitor, 0,9)
   put(scMonitor, "recvMsgHeader:")
   gotoxy(scMonitor, 15,9)

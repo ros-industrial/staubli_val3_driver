@@ -7,6 +7,8 @@
     </Parameters>
     <Code><![CDATA[begin
   
+  // update motion buffer size
+  
   gotoxy(scMonitor, 0,4)
   put(scMonitor, "Motion buffer:")
   gotoxy(scMonitor, 19,4)

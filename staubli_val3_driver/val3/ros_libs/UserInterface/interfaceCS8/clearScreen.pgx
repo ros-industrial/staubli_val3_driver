@@ -3,6 +3,8 @@
   <Program name="clearScreen" access="public">
     <Code><![CDATA[begin
   
+  // Clear pendant screen
+  
   cls(scMonitor)
   
 end]]></Code>

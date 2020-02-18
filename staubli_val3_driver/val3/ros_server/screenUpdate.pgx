@@ -24,12 +24,13 @@
   l_nExecStatus = 0
 
   call libInterface:init()
- 
   
   while(true)
+    
     // clear screen
     call libInterface:clearScreen()
     
+    // @TODO: Remove all code related to velocity overwrite
     //    // toggle velocity overwrite upon release of F1 key
     //    l_nKey = getKey(scMonitor)
     //    call libQueueFuncs:getNumElems(qMoveBuffer,l_nElems)

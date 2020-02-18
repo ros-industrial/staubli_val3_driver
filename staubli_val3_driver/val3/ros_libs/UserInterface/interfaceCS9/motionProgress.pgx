@@ -8,6 +8,7 @@
     <Code><![CDATA[begin
   
   // display nMoveId and nMotionProgress
+  
   userPageSet("uxMonitor", "lblMoveId", "innerHTML", x_nMoveId)
   userPageSet("uxMonitor", "lblMotionProgress", "innerHTML", x_nMotProg)
   

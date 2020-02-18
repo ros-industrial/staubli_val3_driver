@@ -3,6 +3,7 @@
   <Program name="init" access="public">
     <Code><![CDATA[begin
   
+  // Init user page
   
   userPage(scMonitor)
   cls(scMonitor)
