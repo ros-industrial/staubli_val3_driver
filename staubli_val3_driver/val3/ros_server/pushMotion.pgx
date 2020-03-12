@@ -89,7 +89,7 @@
     if(l_bOk==false)
       // could not push trajectory point into buffer
       // thus ACK should flag FAILURE, but only if comm type is request
-      if(rosGenericMsg.header.nCommType==nGenericMsgType["SERVICE_REQUEST"])
+      if(rosGenericMsg.header.nCommType==nCommType["SERVICE_REQUEST"])
         switch rosGenericMsg.header.nMsgType
           case nGenericMsgType["JOINT_TRAJ_PT"]
             rosTrajPtAck.header.nReplyCode=2
@@ -104,7 +104,7 @@
     endIf
   endIf
   // check whether ACK should be sent
-  if(rosGenericMsg.header.nCommType == nGenericMsgType["SERVICE_REQUEST"])
+  if(rosGenericMsg.header.nCommType == nCommType["SERVICE_REQUEST"])
     // comm type request requires ACK
     x_nMsgRecvState = nAck
   else
