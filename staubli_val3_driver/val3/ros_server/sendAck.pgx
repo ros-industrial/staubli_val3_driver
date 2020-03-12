@@ -22,10 +22,10 @@
 
 
   switch rosGenericMsg.header.nMsgType
-    case nGenericMsgType["JOINT_TRAJ_PT"]
+    case nStandardMsgType["JOINT_TRAJ_PT"]
       call sendRosMsg(siTcpIpMotion, rosTrajPtAck.prefix, rosTrajPtAck.header, rosTrajPtAck.body, nInConnFlag)
     break
-    case nGenericMsgType["JOINT_TRAJ_PT_FULL"]
+    case nStandardMsgType["JOINT_TRAJ_PT_FULL"]
       call sendRosMsg(siTcpIpMotion, rosTrajPtFAck.prefix, rosTrajPtFAck.header, rosTrajPtFAck.body, nInConnFlag)
     break
     default

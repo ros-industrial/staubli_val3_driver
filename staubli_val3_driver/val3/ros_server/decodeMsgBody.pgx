@@ -27,10 +27,10 @@
   l_bFlag=false
 
   switch rosGenericMsg.header.nMsgType
-    case nGenericMsgType["JOINT_TRAJ_PT"]
+    case nStandardMsgType["JOINT_TRAJ_PT"]
       call decTrajPt(l_bFlag)
     break
-    case nGenericMsgType["JOINT_TRAJ_PT_FULL"]
+    case nStandardMsgType["JOINT_TRAJ_PT_FULL"]
       call decTrajPtFull(l_bFlag)
     break
     default
@@ -44,10 +44,10 @@
     // error whilst decoding msg body...
     if (rosGenericMsg.header.nCommType==2)
       switch rosGenericMsg.header.nMsgType
-        case nGenericMsgType["JOINT_TRAJ_PT"]
+        case nStandardMsgType["JOINT_TRAJ_PT"]
           rosTrajPtAck.header.nReplyCode=2
         break
-        case nGenericMsgType["JOINT_TRAJ_PT_FULL"]
+        case nStandardMsgType["JOINT_TRAJ_PT_FULL"]
           rosTrajPtFAck.header.nReplyCode=2
         break
         default

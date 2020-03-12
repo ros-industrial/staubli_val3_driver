@@ -19,10 +19,10 @@
 
 
   switch rosGenericMsg.header.nMsgType
-    case nGenericMsgType["JOINT_TRAJ_PT"]
+    case nStandardMsgType["JOINT_TRAJ_PT"]
       call encTrajPtAck()
     break
-    case nGenericMsgType["JOINT_TRAJ_PT_FULL"]
+    case nStandardMsgType["JOINT_TRAJ_PT_FULL"]
       call encTrajPtFAck()
     break
     default

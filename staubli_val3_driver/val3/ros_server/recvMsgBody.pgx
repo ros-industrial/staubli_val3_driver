@@ -27,10 +27,10 @@
   l_bFlag=false
 
   switch rosGenericMsg.header.nMsgType
-    case nGenericMsgType["JOINT_TRAJ_PT"]
+    case nStandardMsgType["JOINT_TRAJ_PT"]
       call recvTrajPt(l_bFlag)
     break
-    case nGenericMsgType["JOINT_TRAJ_PT_FULL"]
+    case nStandardMsgType["JOINT_TRAJ_PT_FULL"]
       call recvTrajPtFull(l_bFlag)
     break
     default

@@ -28,7 +28,7 @@
 
 
   switch rosGenericMsg.header.nMsgType
-    case nGenericMsgType["JOINT_TRAJ_PT"]
+    case nStandardMsgType["JOINT_TRAJ_PT"]
       l_mTrajPt.nSequence=rosTrajPtMsg.jointTrajPt.nSeq
 
       // ROS joint position values are in rad, but VAL3 uses degrees
@@ -43,7 +43,7 @@
       l_mTrajPt.nDuration=rosTrajPtMsg.jointTrajPt.nDuration
 
     break
-    case nGenericMsgType["JOINT_TRAJ_PT_FULL"]
+    case nStandardMsgType["JOINT_TRAJ_PT_FULL"]
       l_mTrajPt.nSequence=rosTrajPtFMsg.jointTrajPtFull.nSeq
       l_mTrajPt.nDuration=rosTrajPtFMsg.jointTrajPtFull.nTime
 
@@ -91,10 +91,10 @@
       // thus ACK should flag FAILURE, but only if comm type is request
       if(rosGenericMsg.header.nCommType==nCommType["SERVICE_REQUEST"])
         switch rosGenericMsg.header.nMsgType
-          case nGenericMsgType["JOINT_TRAJ_PT"]
+          case nStandardMsgType["JOINT_TRAJ_PT"]
             rosTrajPtAck.header.nReplyCode=2
           break
-          case nGenericMsgType["JOINT_TRAJ_PT_FULL"]
+          case nStandardMsgType["JOINT_TRAJ_PT_FULL"]
             rosTrajPtFAck.header.nReplyCode=2
           break
           default
