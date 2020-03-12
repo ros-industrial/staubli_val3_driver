@@ -22,10 +22,10 @@
 
 
   switch rosGenericMsg.header.nMsgType
-    case 11
+    case nStdMsgType["JOINT_TRAJ_PT"]
       call sendRosMsg(siTcpIpMotion, rosTrajPtAck.prefix, rosTrajPtAck.header, rosTrajPtAck.body, nInConnFlag)
     break
-    case 14
+    case nStdMsgType["JOINT_TRAJ_PT_FULL"]
       call sendRosMsg(siTcpIpMotion, rosTrajPtFAck.prefix, rosTrajPtFAck.header, rosTrajPtFAck.body, nInConnFlag)
     break
     default
@@ -34,7 +34,7 @@
 
   // regardless of result from sending ACK
   // reset state machine to receive new messages
-  x_nMsgRecvState=0
+  x_nMsgRecvState=nReset
 end]]></Code>
   </Program>
 </Programs>

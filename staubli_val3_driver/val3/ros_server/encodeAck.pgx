@@ -1,6 +1,6 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
-<Programs xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.staubli.com/robotics/VAL3/Program/2" >
-  <Program name="encodeAck" access="public" >
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Programs xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.staubli.com/robotics/VAL3/Program/2">
+  <Program name="encodeAck" access="public">
     <Code><![CDATA[begin
   // Copyright (c) 2016, Ocado Technology - Robotics Research Team
   //
@@ -19,10 +19,10 @@
 
 
   switch rosGenericMsg.header.nMsgType
-    case 11
+    case nStdMsgType["JOINT_TRAJ_PT"]
       call encTrajPtAck()
     break
-    case 14
+    case nStdMsgType["JOINT_TRAJ_PT_FULL"]
       call encTrajPtFAck()
     break
     default
