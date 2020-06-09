@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Programs xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.staubli.com/robotics/VAL3/Program/2">
+  <Program name="ack" access="public">
+    <Parameters xmlns="http://www.staubli.com/robotics/VAL3/Param/1">
+      <Parameter name="x_nHeaderTime" type="num" xsi:type="element" />
+      <Parameter name="x_nElapsedTime" type="num" xsi:type="element" />
+    </Parameters>
+    <Code><![CDATA[begin
+  
+  // display time between valid trajectory point received and ACK sent
+  
+  gotoxy(scMonitor, 0,9)
+  put(scMonitor, "recvMsgHeader:")
+  gotoxy(scMonitor, 15,9)
+  put(scMonitor, toString(".4", x_nHeaderTime))
+    
+  gotoxy(scMonitor, 0,10)
+  put(scMonitor, "other states:")
+  gotoxy(scMonitor, 15,10)
+  put(scMonitor, toString(".4", x_nElapsedTime))
+  
+end]]></Code>
+  </Program>
+</Programs>

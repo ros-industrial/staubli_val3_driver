@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://www.staubli.com/robotics/VAL3/Project/3">
+  <Parameters version="s7.11" stackSize="5000" millimeterUnit="true" />
+  <Programs>
+    <Program file="ack.pgx" />
+    <Program file="clearScreen.pgx" />
+    <Program file="debug.pgx" />
+    <Program file="feedbackStatus.pgx" />
+    <Program file="init.pgx" />
+    <Program file="motionBuffer.pgx" />
+    <Program file="motionProgress.pgx" />
+    <Program file="motionStatus.pgx" />
+    <Program file="start.pgx" />
+    <Program file="stop.pgx" />
+    <Program file="trajBuffer.pgx" />
+    <Program file="velOverwrite.pgx" />
+  </Programs>
+  <Database>
+    <Data file="interfaceDefault.dtx" />
+  </Database>
+  <Libraries>
+    <Library alias="libQueueFuncs" path="Disk://ros_libs/QueueFuncs/QueueFuncs.pjx" />
+  </Libraries>
+</Project>

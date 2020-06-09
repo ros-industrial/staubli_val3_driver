@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Programs xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.staubli.com/robotics/VAL3/Program/2">
+  <Program name="trajBuffer" access="public">
+    <Parameters xmlns="http://www.staubli.com/robotics/VAL3/Param/1">
+      <Parameter name="x_nElems" type="num" xsi:type="element" />
+      <Parameter name="x_nPtsPopped" type="num" xsi:type="element" />
+    </Parameters>
+    <Code><![CDATA[begin
+  
+  // update trajectory buffer size
+  
+  gotoxy(scMonitor, 0,3)
+  // 18 characteres: gotoxy(19,3) to insert status
+  put(scMonitor, "Trajectory buffer:")
+  gotoxy(scMonitor, 19,3)
+  put(scMonitor, x_nElems)
+  // also print number of points popped from buffer
+  gotoxy(scMonitor, 24,3)
+  put(scMonitor, x_nPtsPopped)
+  
+end]]></Code>
+  </Program>
+</Programs>

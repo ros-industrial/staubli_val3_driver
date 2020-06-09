@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Programs xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.staubli.com/robotics/VAL3/Program/2">
+  <Program name="motionProgress" access="public">
+    <Parameters xmlns="http://www.staubli.com/robotics/VAL3/Param/1">
+      <Parameter name="x_nMoveId" type="num" xsi:type="element" />
+      <Parameter name="x_nMotProg" type="num" xsi:type="element" />
+    </Parameters>
+    <Code><![CDATA[begin
+  
+  // display nMoveId and nMotionProgress
+  
+  gotoxy(scMonitor, 0,7)
+  put(scMonitor, "moveId:")
+  gotoxy(scMonitor, 8,7)
+  put(scMonitor, x_nMoveId)
+  gotoxy(scMonitor, 13,7)
+  put(scMonitor, "progress:")
+  gotoxy(scMonitor, 23,7)
+  put(scMonitor, x_nMotProg)
+  
+end]]></Code>
+  </Program>
+</Programs>

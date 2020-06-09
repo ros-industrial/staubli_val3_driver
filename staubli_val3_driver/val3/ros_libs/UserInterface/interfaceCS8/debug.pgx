@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Programs xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.staubli.com/robotics/VAL3/Program/2">
+  <Program name="debug" access="public">
+    <Parameters xmlns="http://www.staubli.com/robotics/VAL3/Param/1">
+      <Parameter name="x_nExecStatus" type="num" xsi:type="element" use="reference" />
+    </Parameters>
+    <Code><![CDATA[begin
+  
+  // Debug
+  
+  gotoxy(scMonitor, 18,12)
+  switch x_nExecStatus
+    case 0
+      put(scMonitor, "[+]")
+      x_nExecStatus = 1
+    break
+    case 1
+      put(scMonitor, "[-]")
+      x_nExecStatus = 0
+    break
+    default
+    break
+  endSwitch
+  
+end]]></Code>
+  </Program>
+</Programs>

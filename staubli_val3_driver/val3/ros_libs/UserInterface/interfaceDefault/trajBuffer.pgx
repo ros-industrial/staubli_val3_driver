@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Programs xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.staubli.com/robotics/VAL3/Program/2">
+  <Program name="trajBuffer" access="public">
+    <Parameters xmlns="http://www.staubli.com/robotics/VAL3/Param/1">
+      <Parameter name="x_nElems" type="num" xsi:type="element" />
+      <Parameter name="x_nPtsPopped" type="num" xsi:type="element" />
+    </Parameters>
+    <Code><![CDATA[begin
+  
+  // Do nothing 
+  // See start() program for more details
+  
+end]]></Code>
+  </Program>
+</Programs>

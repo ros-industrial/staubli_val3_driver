@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Programs xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.staubli.com/robotics/VAL3/Program/2">
+  <Program name="start">
+    <Code><![CDATA[begin
+  
+  // Library to handle all of the interface actions for CS9 controller
+  // Loaded at runtime in ros_server()
+  
+  // DO NOT auto-load
+  // Auto-loading will break cross-controller functionality
+  // The correct library will be loaded at runtime, otherwise an error will be generated
+  
+end]]></Code>
+  </Program>
+</Programs>

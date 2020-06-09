@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Programs xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.staubli.com/robotics/VAL3/Program/2">
+  <Program name="clearScreen" access="public">
+    <Code><![CDATA[begin
+  
+  // Do nothing - not needed on CS9
+  
+end]]></Code>
+  </Program>
+</Programs>

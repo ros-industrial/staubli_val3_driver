@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Programs xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.staubli.com/robotics/VAL3/Program/2">
+  <Program name="motionStatus" access="public">
+    <Parameters xmlns="http://www.staubli.com/robotics/VAL3/Param/1">
+      <Parameter name="x_nInConnFlag" type="num" xsi:type="element" />
+    </Parameters>
+    <Code><![CDATA[begin
+  
+  // update connection status on port 11000 (motion server)
+  
+  switch x_nInConnFlag
+    case -1
+      userPageSet("uxMonitor", "lblMotionState", "innerHTML", "connection lost")
+    break
+    case 0
+      userPageSet("uxMonitor", "lblMotionState", "innerHTML", "not connected")
+    break
+    case 1
+      userPageSet("uxMonitor", "lblMotionState", "innerHTML", "connected")
+    break
+    default
+      userPageSet("uxMonitor", "lblMotionState", "innerHTML", "not connected")
+    break
+  endSwitch
+  
+end]]></Code>
+  </Program>
+</Programs>

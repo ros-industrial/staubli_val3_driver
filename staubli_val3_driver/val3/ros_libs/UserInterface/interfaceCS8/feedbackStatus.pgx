@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Programs xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.staubli.com/robotics/VAL3/Program/2">
+  <Program name="feedbackStatus" access="public">
+    <Parameters xmlns="http://www.staubli.com/robotics/VAL3/Param/1">
+      <Parameter name="x_nOutConnFlag" type="num" xsi:type="element" />
+    </Parameters>
+    <Code><![CDATA[begin
+  
+  // update connection status on port 11002 (feedback server)
+  
+  gotoxy(scMonitor, 0,1)
+  // 11 characteres: gotoxy(12,1) to insert status
+  put(scMonitor, "Port 11002:")
+  gotoxy(scMonitor, 12,1)
+  switch x_nOutConnFlag
+    case -1
+      put(scMonitor, "connection lost")
+    break
+    case 0
+      put(scMonitor, "not connected")
+    break
+    case 1
+      put(scMonitor, "connected")
+    break
+    default
+      put(scMonitor, "not connected")
+    break
+  endSwitch
+  
+end]]></Code>
+  </Program>
+</Programs>
