@@ -24,10 +24,10 @@ contents of the `val3` folder to the controller itself.
 
 ### Clone this repository
 
-Clone branch `kinetic-devel` of [staubli_experimental](https://github.com/ros-industrial/staubli_experimental):
+Clone branch `master` of [staubli_val3_driver](https://github.com/ros-industrial/staubli_val3_driver):
 
 ```shell
-git clone https://github.com/ros-industrial/staubli_experimental -b kinetic-devel
+git clone https://github.com/ros-industrial/staubli_val3_driver
 ```
 
 ### Transfer driver to Staubli controller
