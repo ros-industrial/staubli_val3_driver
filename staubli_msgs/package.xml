@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>staubli_msgs</name>
+  <version>0.1.0</version>
+  <description>Staubli specific message and service definitions</description>
+  <author>Engin Karlidag</author>
+  <maintainer email="engin.karlidag@gmx.de">Engin Karlidag</maintainer>
+  <license>BSD</license>
+
+  <buildtool_depend>catkin</buildtool_depend>
+
+  <build_depend>message_generation</build_depend>
+  <build_export_depend>message_runtime</build_export_depend>
+  <exec_depend>message_runtime</exec_depend>
+
+  <depend>industrial_msgs</depend>
+  <depend>std_msgs</depend>
+</package>

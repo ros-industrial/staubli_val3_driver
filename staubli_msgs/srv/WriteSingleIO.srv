@@ -1,0 +1,10 @@
+# Specifies the IO module (e.g. VALVE_OUT, BASIC_OUT, ...)
+staubli_msgs/IOModule module
+
+# Index of pin (e.g. [0-15] for BasicIO module)
+uint8 pin
+
+# Desired state of pin
+bool state
+---
+industrial_msgs/ServiceReturnCode code

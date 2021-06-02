@@ -8,6 +8,6 @@
   <!-- put them on the parameter server -->
   <param name="robot_ip_address" type="str" value="$(arg robot_ip)" />
 
-  <!-- reuse generic industrial robot client state node -->
-  <node pkg="industrial_robot_client" type="robot_state" name="robot_state" />
+  <!-- start the Staubli specific robot state node -->
+  <node pkg="staubli_val3_driver" type="robot_state" name="robot_state" />
 </launch>

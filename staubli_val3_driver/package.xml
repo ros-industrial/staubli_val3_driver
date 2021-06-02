@@ -27,7 +27,15 @@
 
   <buildtool_depend>catkin</buildtool_depend>
 
-  <exec_depend>industrial_robot_client</exec_depend>
+  <exec_depend>message_runtime</exec_depend>
+
+  <depend>control_msgs</depend>
+  <depend>industrial_msgs</depend>
+  <depend>industrial_robot_client</depend>
+  <depend>roscpp</depend>
+  <depend>sensor_msgs</depend>
+  <depend>simple_message</depend>
+  <depend>staubli_msgs</depend>
 
   <test_depend>roslaunch</test_depend>
 

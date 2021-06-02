@@ -1,0 +1,26 @@
+cmake_minimum_required(VERSION 3.0.2)
+project(staubli_msgs)
+
+find_package(catkin REQUIRED COMPONENTS
+  industrial_msgs
+  message_generation
+  std_msgs
+)
+
+add_message_files(FILES
+  IOModule.msg
+  IOStates.msg
+)
+
+add_service_files(FILES WriteSingleIO.srv)
+
+generate_messages(DEPENDENCIES
+  industrial_msgs
+  std_msgs
+)
+
+catkin_package(CATKIN_DEPENDS
+  industrial_msgs
+  message_runtime
+  std_msgs
+)

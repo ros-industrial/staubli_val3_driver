@@ -36,6 +36,20 @@
     <arg name="robot_ip" value="$(arg robot_ip)" />
   </include>
 
+  <!-- io_interface: sends IO writes to the controller
+       (using socket connection to robot)
+  -->
+  <include file="$(find staubli_val3_driver)/launch/io_interface.launch">
+    <arg name="robot_ip" value="$(arg robot_ip)" />
+  </include>
+
+  <!-- system_interface: sends system commands to the controller
+       (using socket connection to robot)
+  -->
+  <include file="$(find staubli_val3_driver)/launch/system_interface.launch">
+    <arg name="robot_ip" value="$(arg robot_ip)" />
+  </include>
+
   <!-- joint_trajectory_action: provides actionlib interface for
        high-level robot control
   -->
