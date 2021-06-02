@@ -2,16 +2,21 @@
 <Programs xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.staubli.com/robotics/VAL3/Program/2">
   <Program name="pushMotion" access="public">
     <Parameters xmlns="http://www.staubli.com/robotics/VAL3/Param/1">
-      <Parameter name="x_nMsgRecvState" type="num" xsi:type="element" use="reference" />
+      <Parameter name="x_msg" type="RosSimpleMsg" use="reference" xsi:type="element" dimensions="1" />
+      <Parameter name="x_nMsgRecvState" type="num" use="reference" xsi:type="element" dimensions="1" />
     </Parameters>
     <Locals>
       <Local name="l_bOk" type="bool" xsi:type="array" size="1" />
-      <Local name="l_nCounter" type="num" xsi:type="array" size="1" />
-      <Local name="l_nJointError" type="num" xsi:type="array" size="1" />
+      <Local name="l_motCfgVel" type="MotionCfgVel" xsi:type="array" size="1" />
+      <Local name="l_motCmdVel" type="MotionCmdVel" xsi:type="array" size="1" />
       <Local name="l_mTrajPt" type="MotionCmd" xsi:type="array" size="1" />
+      <Local name="l_nConversion" type="num" xsi:type="array" size="1" />
+      <Local name="l_nIndex" type="num" xsi:type="array" size="1" />
+      <Local name="l_nRad2Deg" type="num" xsi:type="array" size="1" />
     </Locals>
     <Code><![CDATA[begin
   // Copyright (c) 2016, Ocado Technology - Robotics Research Team
+  // Copyright (c) 2021, Institute for Factory Automation and Production Systems (FAPS)
   //
   // Licensed under the Apache License, Version 2.0 (the "License");
   // you may not use this file except in compliance with the License.
@@ -26,91 +31,250 @@
   // limitations under the License.
 
 
+  l_nRad2Deg = 57.29577951308232
 
-  switch rosGenericMsg.header.nMsgType
-    case 11
-      l_mTrajPt.nSequence=rosTrajPtMsg.jointTrajPt.nSeq
+  // assume success to push motion
+  l_bOk = true
 
-      // ROS joint position values are in rad, but VAL3 uses degrees
-      call toJointRxDeg(rosTrajPtMsg.jointTrajPt.nJoints, l_mTrajPt.jJointRx)
+  if (rosStatusMsg.robotStatus.nMotionPossible == 0)
+    // don't push motion into buffer when motion not possible
+    l_bOk = false
+    // set stop flag so that the motion task resets motion and clears the motion buffers
+    bStopNow = true
+  endIf
 
-      // from industrial_robot_client/src/joint_trajectory_interface.cpp
-      // JointTrajectoryInterface::trajectory_to_msgs()
-      // JointTrajectoryInterface::calc_speed()
-      // velocity is converted to a scalar value representing % of max velocity,
-      // such that 0.2 = 20% of maximum joint speed
+  //region @get_data -- get data from message and store in local variable first
+  if (l_bOk)
+    switch x_msg.header.nMsgType
+      case SimpleMsg:MsgType.JOINT_TRAJ_PT
+        l_mTrajPt.nSequence = rosTrajPtMsg.jointTrajPt.nSeq
+
+        // ROS joint position values are in rad, but VAL3 uses degrees
+        call toJointRxDeg(rosTrajPtMsg.jointTrajPt.nJoints, l_mTrajPt.jJointRx)
+
+        // from industrial_robot_client/src/joint_trajectory_interface.cpp
+        // JointTrajectoryInterface::trajectory_to_msgs()
+        // JointTrajectoryInterface::calc_speed()
+        // velocity is converted to a scalar value representing % of max velocity,
+        // such that 0.2 = 20% of maximum joint speed
       l_mTrajPt.mDesc.vel= limit((rosTrajPtMsg.jointTrajPt.nVelocity * 100), 0, 100)
-      l_mTrajPt.nDuration=rosTrajPtMsg.jointTrajPt.nDuration
+        l_mTrajPt.nDuration=rosTrajPtMsg.jointTrajPt.nDuration
 
-    break
-    case 14
-      l_mTrajPt.nSequence=rosTrajPtFMsg.jointTrajPtFull.nSeq
-      l_mTrajPt.nDuration=rosTrajPtFMsg.jointTrajPtFull.nTime
+      break
+      case SimpleMsg:MsgType.JOINT_TRAJ_PT_F
+        l_mTrajPt.nSequence=rosTrajPtFMsg.jointTrajPtFull.nSeq
+        l_mTrajPt.nDuration=rosTrajPtFMsg.jointTrajPtFull.nTime
 
-      // ROS joint position values are in rad, but VAL3 uses degrees
+        // ROS joint position values are in rad, but VAL3 uses degrees
       call toJointRxDeg(rosTrajPtFMsg.jointTrajPtFull.nPositions, l_mTrajPt.jJointRx)
 
-      // from industrial_robot_client/src/joint_trajectory_interface.cpp
-      // JointTrajectoryInterface::trajectory_to_msgs()
-      // JointTrajectoryInterface::calc_speed()
-      // velocity is converted to a scalar value representing % of max velocity,
-      // such that 0.2 = 20% of maximum joint speed
+        // from industrial_robot_client/src/joint_trajectory_interface.cpp
+        // JointTrajectoryInterface::trajectory_to_msgs()
+        // JointTrajectoryInterface::calc_speed()
+        // velocity is converted to a scalar value representing % of max velocity,
+        // such that 0.2 = 20% of maximum joint speed
       l_mTrajPt.mDesc.vel= limit((rosTrajPtFMsg.jointTrajPtFull.nVelocities[0] * 100), 0, 100)
-      // not sure about accelerations as yet
-      l_mTrajPt.mDesc.accel=rosTrajPtFMsg.jointTrajPtFull.nAccelerations[0]
-      l_mTrajPt.mDesc.decel=l_mTrajPt.mDesc.accel
-    break
-    default
-    break
-  endSwitch
+        // not sure about accelerations as yet
+        l_mTrajPt.mDesc.accel=rosTrajPtFMsg.jointTrajPtFull.nAccelerations[0]
+        l_mTrajPt.mDesc.decel=l_mTrajPt.mDesc.accel
+      break
+      // Staubli specific
+      case Staubli:MsgType.VELOCITY_CFG
+        l_motCfgVel.nCmdType=Staubli:velCfgMsg.velCfg.nCmdType
+        link(l_motCfgVel.fReference,world)
+        l_motCfgVel.fReference.trsf.x=Staubli:velCfgMsg.velCfg.nRefFrameVec[0]*1000
+        l_motCfgVel.fReference.trsf.y=Staubli:velCfgMsg.velCfg.nRefFrameVec[1]*1000
+        l_motCfgVel.fReference.trsf.z=Staubli:velCfgMsg.velCfg.nRefFrameVec[2]*1000
+        l_motCfgVel.fReference.trsf.rx=Staubli:velCfgMsg.velCfg.nRefFrameVec[3]*l_nRad2Deg
+        l_motCfgVel.fReference.trsf.ry=Staubli:velCfgMsg.velCfg.nRefFrameVec[4]*l_nRad2Deg
+        l_motCfgVel.fReference.trsf.rz=Staubli:velCfgMsg.velCfg.nRefFrameVec[5]*l_nRad2Deg
+        link(l_motCfgVel.tTool,flange)
+        l_motCfgVel.tTool.trsf.x=Staubli:velCfgMsg.velCfg.nToolVec[0]*1000
+        l_motCfgVel.tTool.trsf.y=Staubli:velCfgMsg.velCfg.nToolVec[1]*1000
+        l_motCfgVel.tTool.trsf.z=Staubli:velCfgMsg.velCfg.nToolVec[2]*1000
+        l_motCfgVel.tTool.trsf.rx=Staubli:velCfgMsg.velCfg.nToolVec[3]*l_nRad2Deg
+        l_motCfgVel.tTool.trsf.ry=Staubli:velCfgMsg.velCfg.nToolVec[4]*l_nRad2Deg
+        l_motCfgVel.tTool.trsf.rz=Staubli:velCfgMsg.velCfg.nToolVec[5]*l_nRad2Deg
+        l_motCfgVel.mMaxSpeed.accel=limit(Staubli:velCfgMsg.velCfg.nAccel*100,0,100)
+        l_motCfgVel.mMaxSpeed.vel=limit(Staubli:velCfgMsg.velCfg.nVel*100,0,100)
+        l_motCfgVel.mMaxSpeed.decel=l_motCfgVel.mMaxSpeed.accel
+        l_motCfgVel.mMaxSpeed.tvel=Staubli:velCfgMsg.velCfg.nTransVel*1000
+        l_motCfgVel.mMaxSpeed.rvel=Staubli:velCfgMsg.velCfg.nRotVel*l_nRad2Deg
+      break
+      case Staubli:MsgType.VELOCITY_CMD
+        l_motCmdVel.nSequence=Staubli:velCmdMsg.velCmd.nSeq
+        l_motCmdVel.nCmdType=Staubli:velCmdMsg.velCmd.nCmdType
+        if l_motCmdVel.nCmdType==Staubli:VelocityType.JOINT
+          for l_nIndex=0 to 5
+            l_motCmdVel.nVelCmd[l_nIndex]=Staubli:velCmdMsg.velCmd.nVelVec[l_nIndex]*l_nRad2Deg
+          endFor
+        elseIf (l_motCmdVel.nCmdType==Staubli:VelocityType.BASE_FRAME) or (l_motCmdVel.nCmdType==Staubli:VelocityType.TOOL_FRAME)
+          l_motCmdVel.nVelCmd[0]=Staubli:velCmdMsg.velCmd.nVelVec[0]*1000
+          l_motCmdVel.nVelCmd[1]=Staubli:velCmdMsg.velCmd.nVelVec[1]*1000
+          l_motCmdVel.nVelCmd[2]=Staubli:velCmdMsg.velCmd.nVelVec[2]*1000
+          l_motCmdVel.nVelCmd[3]=Staubli:velCmdMsg.velCmd.nVelVec[3]*l_nRad2Deg
+          l_motCmdVel.nVelCmd[4]=Staubli:velCmdMsg.velCmd.nVelVec[4]*l_nRad2Deg
+          l_motCmdVel.nVelCmd[5]=Staubli:velCmdMsg.velCmd.nVelVec[5]*l_nRad2Deg
+        else
+          popUpMsg("Failed to push velocity command. Invalid command type ("+toString("",motionCmdVel.nCmdType)+")")
+          for l_nIndex=0 to 5
+            l_motCmdVel.nVelCmd[l_nIndex]=0
+          endFor
+        endIf        
+      break
+      // unknown message type
+      default
+        l_bOk = false
+        //region @DEBUG
+        if (bDebugMode and nDebugLevel<=4)
+          call printDebug("ERROR: Unknown msg type ("+toString("",x_msg.header.nMsgType)+")",false)
+          call printDebug("       Failed to get data from msg",false)
+        endIf
+        //endregion
+      break
+    endSwitch
+    //endregion
 
-  // see github.com/ros-industrial/industrial_core/simple_message/include/simple_message/joint_traj_pt.h
-  if (l_mTrajPt.nSequence==-4)
-    // set flag to stop immediately
-    bStopNow=true
-  else
-    // check whether velocity value should be overwritten with value set on teach pendant
-    if (bOverwriteVel == true)
-      // overwrite velocity (and acceleration - ?)
-      l_mTrajPt.mDesc.vel = getMonitorSpeed()
-      // explicitly setting accel and decel to VAL3 default values
-      l_mTrajPt.mDesc.accel = 9999
-      l_mTrajPt.mDesc.decel = 9999
-    endIf
-    // only push motion into buffer if not a STOP message
-    // and if joint positions are within software joint limits
-    // and if velocity is greater than zero (beucase movej() will not accept vel <= 0)
-    if (isInRange(l_mTrajPt.jJointRx) and l_mTrajPt.mDesc.vel > 0)
-      call libQueueFuncs:push(qTrajPtBuffer,l_mTrajPt,l_bOk)
-    else
-      l_bOk = false
-    endIf
-    
-    if (l_bOk==false)
-      // could not push trajectory point into buffer
-      // thus ACK should flag FAILURE, but only if comm type is request
-      if (rosGenericMsg.header.nCommType==2)
-        switch rosGenericMsg.header.nMsgType
-          case 11
-            rosTrajPtAck.header.nReplyCode=2
-          break
-          case 14
-            rosTrajPtFAck.header.nReplyCode=2
-          break
-          default
-          break
-        endSwitch
+    //region @check_special_and_store -- check for special cases before storing motion command
+    switch x_msg.header.nMsgType
+      case SimpleMsg:MsgType.JOINT_TRAJ_PT,SimpleMsg:MsgType.JOINT_TRAJ_PT_F
+        // see github.com/ros-industrial/industrial_core/simple_message/include/simple_message/joint_traj_pt.h
+        if (l_mTrajPt.nSequence==-4)
+          // set flag to stop immediately
+          bStopNow=true
+        else
+          // check whether velocity value should be overwritten with value set on teach pendant
+          if (bOverwriteVel == true)
+            // overwrite velocity (and acceleration - ?)
+            l_mTrajPt.mDesc.vel = getMonitorSpeed()
+            // explicitly setting accel and decel to VAL3 default values
+            l_mTrajPt.mDesc.accel = 9999
+            l_mTrajPt.mDesc.decel = 9999
+          endIf
+          // only push motion into buffer if not a STOP message
+          // and if joint positions are within software joint limits
+          // and if velocity is greater than zero (because movej() will not accept vel <= 0)
+          if (isInRange(l_mTrajPt.jJointRx) and l_mTrajPt.mDesc.vel > 0)
+            call libQueueFuncs:push(qTrajPtBuffer,l_mTrajPt,l_bOk)
+          else
+            l_bOk = false
+          endIf
+          //region @DEBUG
+          if (bDebugMode and nDebugLevel<=4)
+            call printDebug("pushMotion: Pushed traj pt",true)
+            call printDebug("bOk: "+toString("",sel(l_bOk,1,0))+" isInRange: "+toString("",sel(isInRange(l_mTrajPt.jJointRx),1,0))+" vel: "+toString("",l_mTrajPt.mDesc.vel),false)
+          endIf
+          //endregion
+        endIf
+      break
+      // Staubli specific
+      case Staubli:MsgType.VELOCITY_CFG
+        // @TODO -- check validity of data (e.g. l_motCfgVel.tvel > 0) before storing
+        // ... but now only store values in global variable for velocity motion configuration
+        motionCfgVel = l_motCfgVel
+        //region @DEBUG
+        if (bDebugMode and nDebugLevel<=4)
+          call printDebug("pushMotion: Pushed vel cfg", true)
+        endIf
+        //endregion
+      break
+      case Staubli:MsgType.VELOCITY_CMD
+        // check for special sequence number
+        if (l_motCmdVel.nSequence==SimpleMsg:SpecialSeqVal.STOP_TRAJECTORY)
+          bStopNow=true
+          //region @DEBUG
+          if (bDebugMode and nDebugLevel<=4)
+            call printDebug("pushMotion: Stop command!", true)
+          endIf
+          //endregion
+        else
+          // @TODO -- probably better to check if (l_motCmdVel.nCmdType == motionCfgVel.nCmdType) to
+          //          avoid that the values from l_motCmdVel.nVelCmd are processed with a wrong
+          //          reference (joint/frame)
+          motionCmdVel = l_motCmdVel
+          //region @DEBUG
+          if (bDebugMode and nDebugLevel<=4)
+            call printDebug("pushMotion: Pushed vel cmd", true)
+          endIf
+          //endregion
+        endIf
+      break
+      // unknown message type
+      default
+        l_bOk=false
+        //region @DEBUG
+        if (bDebugMode and nDebugLevel<=4)
+          call printDebug("ERROR: Unknown msg type ("+toString("",x_msg.header.nMsgType)+")",false)
+          call printDebug("       Failed to store motion data",false)
+        endIf
+        //endregion
+      break
+    endSwitch
+  endIf
+  //endregion
+
+  //region @check_success -- check whether storing was successful
+  if (l_bOk)
+    // if successful, setting motion message type and event flag for state machine
+    nMotionMsgType = x_msg.header.nMsgType
+    switch nMotionMsgType
+      case SimpleMsg:MsgType.JOINT_TRAJ_PT, SimpleMsg:MsgType.JOINT_TRAJ_PT_F
+        bMotionMsgEvent=true
+      break
+      case Staubli:MsgType.VELOCITY_CFG
+        bMotionMsgEvent = true
+      break
+      default
+        // no state transition required
+      break
+    endSwitch
+
+    //region @DEBUG
+    if (bDebugMode and nDebugLevel<=4)
+      if (bMotionMsgEvent)
+        call printDebug("INFO: State transition event ("+toString("",nMotionMsgType)+")",false)
       endIf
     endIf
+    //endregion
+  else
+    // could not push trajectory point into buffer / store motion command
+    // thus ACK should flag FAILURE, but only if comm type is request
+    if (x_msg.header.nCommType==SimpleMsg:CommType.SERVICE_REQUEST)
+      switch x_msg.header.nMsgType
+        case SimpleMsg:MsgType.JOINT_TRAJ_PT
+          rosTrajPtAck.header.nReplyCode=SimpleMsg:ReplyCode.FAILURE
+        break
+        case SimpleMsg:MsgType.JOINT_TRAJ_PT_F
+          rosTrajPtFAck.header.nReplyCode=SimpleMsg:ReplyCode.FAILURE
+        break
+        // Staubli specific
+        case Staubli:MsgType.VELOCITY_CFG
+          Staubli:velCfgAck.header.nReplyCode=SimpleMsg:ReplyCode.FAILURE
+        break
+        case Staubli:MsgType.VELOCITY_CMD
+          Staubli:velCmdAck.header.nReplyCode=SimpleMsg:ReplyCode.FAILURE
+        break
+        default
+        break
+      endSwitch
+    endIf
+    //region @DEBUG
+    if (bDebugMode and nDebugLevel<=4)
+      call printDebug("ERROR: Push motion failed",false)
+    endIf
+    //endregion
   endIf
-  // check whether ACK should be sent
-  if (rosGenericMsg.header.nCommType == 2)
+  //endregion
+
+  //region @check_reply -- check whether service reply (ACK) should be sent
+  if (x_msg.header.nCommType == SimpleMsg:CommType.SERVICE_REQUEST)
     // comm type request requires ACK
-    x_nMsgRecvState = 5
+    x_nMsgRecvState = MsgRecvState.SEND_ACK
   else
     // other comm types (e.g., topic) does not require ACK, hence skip state
-    x_nMsgRecvState = 0
+    x_nMsgRecvState = MsgRecvState.RECEIVE_HEADER
   endIf
+  //endregion
 end]]></Code>
   </Program>
 </Programs>

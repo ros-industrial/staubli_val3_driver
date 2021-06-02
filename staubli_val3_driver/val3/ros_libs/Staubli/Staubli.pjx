@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://www.staubli.com/robotics/VAL3/Project/3">
+  <Parameters version="s7.9.1" stackSize="5000" millimeterUnit="true" />
+  <Programs>
+    <Program file="decodeVelCfg.pgx" />
+    <Program file="decodeVelCmd.pgx" />
+    <Program file="decSetDrvPwrMsg.pgx" />
+    <Program file="decWriSingIOMsg.pgx" />
+    <Program file="encodeVelCfgAck.pgx" />
+    <Program file="encodeVelCmdAck.pgx" />
+    <Program file="encSetDrvPwrAck.pgx" />
+    <Program file="encWriSingIOAck.pgx" />
+    <Program file="init.pgx" />
+    <Program file="initStaubliMsgs.pgx" />
+    <Program file="start.pgx" />
+    <Program file="stop.pgx" />
+  </Programs>
+  <Database>
+    <Data file="Staubli.dtx" />
+  </Database>
+  <Libraries>
+    <Library alias="SimpleMsg" path="Disk://ros_libs/SimpleMessage/SimpleMessage.pjx" />
+  </Libraries>
+  <Types>
+    <Type name="_MotionMode" path="./_MotionMode/MotionMode.pjx" />
+    <Type name="_MsgTypeStaubli" path="./_MsgTypeStaubli/MsgTypeStaubli.pjx" />
+    <Type name="_VelocityType" path="./_VelocityType/VelocityType.pjx" />
+    <Type name="VelocityCmdMsg" path="./VelocityCmdMsg/VelocityCmdMsg.pjx" />
+    <Type name="VelocityCfgMsg" path="./VelocityCfgMsg/VelocityCfgMsg.pjx" />
+    <Type name="SetDrivePwrMsg" path="./SetDrivePwrMsg/SetDrivePwrMsg.pjx" />
+    <Type name="WriteSingIOMsg" path="./WriteSingIOMsg/WriteSingIOMsg.pjx" />
+  </Types>
+</Project>

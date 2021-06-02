@@ -2,15 +2,17 @@
 <Programs xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.staubli.com/robotics/VAL3/Program/2">
   <Program name="motionControl" access="public">
     <Locals>
-      <Local name="l_mTrajPt" type="MotionCmd" xsi:type="array" size="1" />
       <Local name="l_bFlag" type="bool" xsi:type="array" size="1" />
-      <Local name="l_motion" type="MotionCmd" xsi:type="array" size="1" />
-      <Local name="l_nTime" type="num" xsi:type="array" size="1" />
       <Local name="l_bStopAndClean" type="bool" xsi:type="array" size="1" />
+      <Local name="l_jTmp" type="joint" xsi:type="array" size="1" />
+      <Local name="l_mTrajPt" type="MotionCmd" xsi:type="array" size="1" />
+      <Local name="l_motion" type="MotionCmd" xsi:type="array" size="1" />
       <Local name="l_nElems" type="num" xsi:type="array" size="1" />
+      <Local name="l_nTime" type="num" xsi:type="array" size="1" />
     </Locals>
     <Code><![CDATA[begin
   // Copyright (c) 2016, Ocado Technology - Robotics Research Team
+  // Copyright (c) 2021, Institute for Factory Automation and Production Systems (FAPS)
   //
   // Licensed under the Apache License, Version 2.0 (the "License");
   // you may not use this file except in compliance with the License.
@@ -30,8 +32,8 @@
 
   while (true)
     // check connection status, and whether to stop motion
-    if (nInConnFlag == 1 and nOutConnFlag == 1 and bStopNow == false)
-      
+    if (nConnFlagMotion == 1 and nConnFlagState == 1 and bStopNow == false)
+
       // process trajectory point from trajectory buffer
       call libQueueFuncs:getNumElems(qTrajPtBuffer, l_nElems)
       if (l_nElems > 0)
@@ -41,7 +43,7 @@
           call libQueueFuncs:push(qMoveBuffer,l_mTrajPt,l_bFlag)
         endIf
       endIf
-      
+
       // process motion command from move buffer
       // @TODO move buffer should have elements previously interpolated to ensure they are 4 ms apart
       call libQueueFuncs:getNumElems(qMoveBuffer, l_nElems)
@@ -57,21 +59,41 @@
           // always be a delay in the data coming out of herej() and the actual pose of the robot.
           // @TODO potentially set move id according to sequence value
           nMoveId = movej(l_motion.jJointRx, tTool, l_motion.mDesc)
+
+          if (bDebugMode and nDebugLevel<=6)
+            l_jTmp=l_motion.jJointRx
+            call printDebug("motionControl: movej() = "+toString("",nMoveId),true)
+            call printDebug("Joint:  "+toString("",l_jTmp.j1)+" "+toString("",l_jTmp.j2)+" "+toString("",l_jTmp.j3)+" "+toString("",l_jTmp.j4)+" "+toString("",l_jTmp.j5)+" "+toString("",l_jTmp.j6),false)
+            call printDebug("vel  :  "+toString("5",l_motion.mDesc.vel),false)
+            call printDebug("tvel :  "+toString("5",l_motion.mDesc.tvel)+"  rvel :  "+toString("5",l_motion.mDesc.rvel),false)
+            call printDebug("accel:  "+toString("5",l_motion.mDesc.accel)+"  decel:  "+toString("5",l_motion.mDesc.decel),false)
+          endIf
         endIf
       endIf
     else
       // stop immediately -- resetMotion() also resets moveId
       resetMotion()
+      nMoveId = 0
+
       // clear buffers
       call libQueueFuncs:clear(qTrajPtBuffer)
       call libQueueFuncs:clear(qMoveBuffer)
-      bStopNow = false
-      
+
       // debug
       nPtsPopped = 0
       nMovePts = 0
+
+      // debug
+      if (bDebugMode and nDebugLevel==6)
+        call printDebug("motionControl: resetMotion()",true)
+        call printDebug("bStopNow: "+toString("",sel(bStopNow,1,0))+" inConn: "+toString("",nConnFlagMotion)+" outConn: "+toString("",nConnFlagState),false)
+      endIf
+
+      // reset stop flag
+      bStopNow = false
     endIf
-      
+
+    // store actual move id (progress)
     nMotionProgress = getMoveId()
 
     // sequence task

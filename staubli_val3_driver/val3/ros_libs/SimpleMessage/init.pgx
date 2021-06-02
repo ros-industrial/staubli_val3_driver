@@ -1,0 +1,67 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Programs xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.staubli.com/robotics/VAL3/Program/2">
+  <Program name="init" access="public">
+    <Code><![CDATA[begin
+  // Copyright (c) 2021, Institute for Factory Automation and Production Systems (FAPS)
+  //
+  // Licensed under the Apache License, Version 2.0 (the "License");
+  // you may not use this file except in compliance with the License.
+  // You may obtain a copy of the License at
+  //
+  //     http://www.apache.org/licenses/LICENSE-2.0
+  //
+  // Unless required by applicable law or agreed to in writing, software
+  // distributed under the License is distributed on an "AS IS" BASIS,
+  // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  // See the License for the specific language governing permissions and
+  // limitations under the License.
+
+
+  // initializing the type IDs for messages part of the standardized Simple Message message set
+  // (see https://github.com/ros-industrial/rep/blob/master/rep-I0004.rst#standard-messages)
+  // (or  http://docs.ros.org/kinetic/api/simple_message/html/namespaceindustrial_1_1simple__message_1_1StandardMsgTypes.html)
+  //
+  // NOTE:
+  //
+  //   The custom Staubli specific message IDs are part of a different
+  //   library "Staubli" to emphasize that those are non-standard.
+  //   Furthermore the limitation of variable names to max. 15 characters in VAL3
+  //   makes it difficult to assign names which are self-explanatory. So the library
+  //   names are used like a prefix (e.g. Staubli:MsgType.ALTER_CMD)
+  //
+  MsgType.PING            = 1
+  MsgType.GET_VERSION     = 2
+  
+  MsgType.JOINT_POSITION  = 10
+  MsgType.JOINT_TRAJ_PT   = 11
+  MsgType.JOINT_TRAJ      = 12
+  MsgType.STATUS          = 13
+  MsgType.JOINT_TRAJ_PT_F = 14
+  MsgType.JOINT_FEEDBACK  = 15
+  
+  // initialize communication types
+  // (see https://github.com/gavanderhoorn/rep-ros-i/blob/retrospective_simple_msg/rep-ixxxx.rst#communication-types)
+  // (or  http://docs.ros.org/kinetic/api/simple_message/html/namespaceindustrial_1_1simple__message_1_1CommTypes.html)
+  CommType.INVALID         = 0
+  CommType.TOPIC           = 1
+  CommType.SERVICE_REQUEST = 2
+  CommType.SERVICE_REPLY   = 3
+  
+  // initialize reply codes
+  // (see https://github.com/gavanderhoorn/rep-ros-i/blob/retrospective_simple_msg/rep-ixxxx.rst#reply-codes)
+  // (or  http://docs.ros.org/kinetic/api/simple_message/html/namespaceindustrial_1_1simple__message_1_1ReplyTypes.html)
+  ReplyCode.INVALID = 0
+  ReplyCode.SUCCESS = 1
+  ReplyCode.FAILURE = 2
+  
+  // initialize special sequence values
+  // (see https://github.com/gavanderhoorn/rep-ros-i/blob/retrospective_simple_msg/rep-ixxxx.rst#special-sequence-numbers)
+  // (or http://docs.ros.org/kinetic/api/simple_message/html/namespaceindustrial_1_1joint__traj__pt_1_1SpecialSeqValues.html)
+  // (or https://github.com/ros-industrial/industrial_core/blob/kinetic-devel/simple_message/include/simple_message/joint_traj_pt.h#L54)
+  SpecialSeqVal.START_TRAJ_DOWN = -1
+  SpecialSeqVal.START_TRAJ_STRE = -2
+  SpecialSeqVal.END_TRAJECTORY  = -3
+  SpecialSeqVal.STOP_TRAJECTORY = -4
+end]]></Code>
+  </Program>
+</Programs>

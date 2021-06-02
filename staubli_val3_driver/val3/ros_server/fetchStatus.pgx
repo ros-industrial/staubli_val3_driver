@@ -3,6 +3,7 @@
   <Program name="fetchStatus" access="public">
     <Code><![CDATA[begin
   // Copyright (c) 2016, Ocado Technology - Robotics Research Team
+  // Copyright (c) 2021, Institute for Factory Automation and Production Systems (FAPS)
   //
   // Licensed under the Apache License, Version 2.0 (the "License");
   // you may not use this file except in compliance with the License.
@@ -35,22 +36,22 @@
   endIf
 
   // error_code
-  if (taskStatus(sMotionTaskName) > 1)
-    rosStatusMsg.robotStatus.nErrorCode = taskStatus(sMotionTaskName)
-  elseIf (taskStatus(sTrajPtTaskName) > 1)
-    rosStatusMsg.robotStatus.nErrorCode = taskStatus(sTrajPtTaskName)
-  elseIf (taskStatus(sStreamTaskName) > 1)
-    rosStatusMsg.robotStatus.nErrorCode = taskStatus(sStreamTaskName)
-  elseIf (taskStatus(sHtbtTaskName) > 1)
-    rosStatusMsg.robotStatus.nErrorCode = taskStatus(sHtbtTaskName)
-  elseIf (taskStatus(sScreenTaskName) > 1)
-    rosStatusMsg.robotStatus.nErrorCode = taskStatus(sScreenTaskName)
+  if (taskStatus(sMotionTask) > 1)
+    rosStatusMsg.robotStatus.nErrorCode = taskStatus(sMotionTask)
+  elseIf (taskStatus(sMotionRecvTask) > 1)
+    rosStatusMsg.robotStatus.nErrorCode = taskStatus(sMotionRecvTask)
+  elseIf (taskStatus(sStreamerTask) > 1)
+    rosStatusMsg.robotStatus.nErrorCode = taskStatus(sStreamerTask)
+  elseIf (taskStatus(sHeartbeatTask) > 1)
+    rosStatusMsg.robotStatus.nErrorCode = taskStatus(sHeartbeatTask)
+  elseIf (taskStatus(sScreenTask) > 1)
+    rosStatusMsg.robotStatus.nErrorCode = taskStatus(sScreenTask)
   else
     rosStatusMsg.robotStatus.nErrorCode = 0
   endIf
 
   // in_error
-  if (taskStatus(sTrajPtTaskName) == 1 and taskStatus(sMotionTaskName) == 1 and taskStatus(sStreamTaskName) == 1 and taskStatus(sScreenTaskName) == 1 and taskStatus(sHtbtTaskName) == 1)
+  if (taskStatus(sMotionRecvTask) == 1 and taskStatus(sMotionTask) == 1 and taskStatus(sStreamerTask) == 1 and taskStatus(sScreenTask) == 1 and taskStatus(sHeartbeatTask) == 1)
     rosStatusMsg.robotStatus.nInError = 0
   else
     rosStatusMsg.robotStatus.nInError = 1
@@ -80,7 +81,7 @@
   // drives must be powered and e-stop must be off
   // and dataReceiver and motionControl tasks must be
   // running normally
-  if (isPowered() == true and esStatus() == 0 and taskStatus(sTrajPtTaskName) == 1 and taskStatus(sMotionTaskName) == 1)
+  if (isPowered() == true and esStatus() == 0 and taskStatus(sMotionRecvTask) == 1 and taskStatus(sMotionTask) == 1)
     rosStatusMsg.robotStatus.nMotionPossible=1
   else
     rosStatusMsg.robotStatus.nMotionPossible=0

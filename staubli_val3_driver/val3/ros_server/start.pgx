@@ -3,12 +3,12 @@
   <Program name="start">
     <Locals>
       <Local name="l_nFbkPeriod" type="num" xsi:type="array" size="1" />
-      <Local name="l_nMotionPeriod" type="num" xsi:type="array" size="1" />
-      <Local name="l_nTrajPeriod" type="num" xsi:type="array" size="1" />
+      <Local name="l_nRecvPeriod" type="num" xsi:type="array" size="1" />
       <Local name="l_nScreenUpdate" type="num" xsi:type="array" size="1" />
     </Locals>
     <Code><![CDATA[begin 
   // Copyright (c) 2016, Ocado Technology - Robotics Research Team
+  // Copyright (c) 2021, Institute for Factory Automation and Production Systems (FAPS)
   //
   // Licensed under the Apache License, Version 2.0 (the "License");
   // you may not use this file except in compliance with the License.
@@ -24,48 +24,62 @@
 
 
 
-  // feedback task will run every 20ms (50Hz)
-  l_nFbkPeriod=0.02
-  //l_nFbkPeriod = 0.032 // 30Hz
-  //l_nFbkPeriod = 0.05  // 20Hz
-  //l_nFbkPeriod = 1.0   //  1Hz
-  
+  // feedback task will run every 4ms (250Hz)
+  l_nFbkPeriod=0.004
+
   // motion control task will run every 4ms (250Hz)
-  l_nMotionPeriod = 0.004
-  //l_nMotionPeriod=0.012  // 83Hz
-  //l_nMotionPeriod = 0.05 // 20Hz
-  
+  nMotionPeriod=0.004
+
   // data (trajectory) reception task will run every 4ms (250Hz)
-  l_nTrajPeriod = 0.004
-  // not in use at the moment
-  l_nScreenUpdate = 1.0
+  l_nRecvPeriod=0.004
 
-  sStreamTaskName = "streamerTask"
-  sTrajPtTaskName = "trajPtTask"
-  sMotionTaskName = "motionTask"
-  sScreenTaskName = "screenTask"
-  sHtbtTaskName = "htbtTask"
+  // screen update task will run every 100ms (10Hz)
+  l_nScreenUpdate=0.1
 
-  // initialise TCP/IP parameters
+  sStreamerTask="streamerTask"
+  sMotionRecvTask="motionRecvTask"
+  sMotionTask="motionTask"
+  sSysRequestTask="sysRequestTask"
+  sIORequestTask="ioRequestTask"
+  sStateMachTask="stateMachTask"
+  sScreenTask="screenTask"
+  sHeartbeatTask="htbtTask"
+
+  // initialize TCP/IP parameters and MsgRecvState enum
   call initParams()
+
+  // initialize libraries (must init SimpleMsg first! Staubli is dependent on SimpleMsg)
+  call SimpleMsg:init()
+  call Staubli:init()
+  call IO:init()
   // setup prefix and header of ROS messages
-  call setupRosMsgs()
-  
+  call initRosMsgs()
+
+  // set standard motion mode
+  nMotionMode=Staubli:MotionMode.JOINT_TRAJ
+
   // socket connection status flags: initially disconnected
-  nInConnFlag = 0
-  nOutConnFlag = 0
-  
+  nConnFlagIO = 0
+  nConnFlagMotion = 0
+  nConnFlagState = 0
+  nConnFlagSystem = 0
+
+  // flags defining whether data being received/sent
+  bDataIn = false
+  bDataOut = false
+
   // flag defining whether velocity to be overwritten to max. vel.
   bOverwriteVel = false
-  
-  nPtsPopped = 0
-  nMovePts = 0
 
-  // flush buffer of incoming socket
+  nPtsPopped=0
+  nMovePts=0
+
+  // flush buffers of sockets
+  clearBuffer(siTcpIpIO)
   clearBuffer(siTcpIpMotion)
-  // flush buffer of outgoing socket
-  clearBuffer(siTcpIpFbk)
-  
+  clearBuffer(siTcpIpState)
+  clearBuffer(siTcpIpSystem)
+
   // check if robot is not in emergency stop and wait until estop is reset
   if (esStatus() == 2)
     popUpMsg("Please reset E-Stop")
@@ -88,21 +102,28 @@
   resetMotion()
 
   // create joint state and robot status streamer task to send data to industrial_robot_client
-  taskCreateSync sStreamTaskName, l_nFbkPeriod, bFbkOverrun, dataStreamer()
-  
-  // create trajectory point task to receive data from industrial_robot_client
-  taskCreateSync sTrajPtTaskName, l_nTrajPeriod, bTrajPtOverrun, dataReceiver()
-  //taskCreate sTrajPtTaskName, 100, dataReceiver()
-  
-  // create motion task to synchronously apply motion commands to robot
-  taskCreateSync sMotionTaskName, l_nMotionPeriod, bMotionOverrun, motionControl()
+  taskCreateSync sStreamerTask, l_nFbkPeriod, bFbkOverrun, dataStreamer()
 
-  // create synchronous task to update screen
-  //taskCreateSync sScreenTaskName, l_nScreenUpdate, bScreenOverrun, screenUpdate()
-  taskCreate sScreenTaskName, 10, screenUpdate()
-  
+  // create receiver task for motion commands (e.g. from industrial_robot_client)
+  taskCreateSync sMotionRecvTask, l_nRecvPeriod, bRecvOverrun, dataReceiver(siTcpIpMotion, nConnFlagMotion, genericMotMsg)
+
+  // create motion task to synchronously apply motion commands to robot
+  taskCreateSync sMotionTask, nMotionPeriod, bMotionOverrun, motionControl()
+
+  // create asynchronous task to handle state transition
+  taskCreate sStateMachTask, 100, stateMachine()
+
+  // create asynchronous task to handle system requests
+  taskCreate sSysRequestTask, 100, dataReceiver(siTcpIpSystem, nConnFlagSystem, genericSysMsg)
+
+  // create asynchronous task to handle io requests
+  taskCreate sIORequestTask, 100, dataReceiver(siTcpIpIO, nConnFlagIO, genericIOMsg)
+
+  // create asynchronous task to update screen
+  taskCreate sScreenTask, 10, screenUpdate(l_nScreenUpdate)
+
   // create asynchronous task to receive heartbeat on port 11002
-  taskCreate sHtbtTaskName, 10, recvHeartbeat()
+  taskCreate sHeartbeatTask, 10, recvHeartbeat()
 
 end]]></Code>
   </Program>

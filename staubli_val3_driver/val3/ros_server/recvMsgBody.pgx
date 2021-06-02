@@ -2,6 +2,9 @@
 <Programs xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.staubli.com/robotics/VAL3/Program/2">
   <Program name="recvMsgBody" access="public">
     <Parameters xmlns="http://www.staubli.com/robotics/VAL3/Param/1">
+      <Parameter name="x_sSocket" type="sio" xsi:type="element" use="reference" />
+      <Parameter name="x_nConnFlag" type="num" xsi:type="element" use="reference" />
+      <Parameter name="x_msg" type="RosSimpleMsg" xsi:type="element" use="reference" />
       <Parameter name="x_nMsgRecvState" type="num" xsi:type="element" use="reference" />
     </Parameters>
     <Locals>
@@ -9,6 +12,7 @@
     </Locals>
     <Code><![CDATA[begin
   // Copyright (c) 2016, Ocado Technology - Robotics Research Team
+  // Copyright (c) 2021, Institute for Factory Automation and Production Systems (FAPS)
   //
   // Licensed under the Apache License, Version 2.0 (the "License");
   // you may not use this file except in compliance with the License.
@@ -26,23 +30,51 @@
 
   l_bFlag=false
 
-  switch rosGenericMsg.header.nMsgType
-    case 11
-      call recvTrajPt(l_bFlag)
+  switch x_msg.header.nMsgType
+    // standard ROS industrial messages
+    case SimpleMsg:MsgType.JOINT_TRAJ_PT
+      call recvTrajPt(x_sSocket, x_nConnFlag, x_msg, l_bFlag)
     break
-    case 14
-      call recvTrajPtFull(l_bFlag)
+    case SimpleMsg:MsgType.JOINT_TRAJ_PT_F
+      call recvTrajPtFull(x_sSocket,x_nConnFlag,x_msg,l_bFlag)
+    break
+    // Staubli specific
+    case Staubli:MsgType.SET_DRIVE_POWER
+      call recvRosMsg(x_sSocket, Staubli:setDrvPwrMsg.prefix, Staubli:setDrvPwrMsg.header, Staubli:setDrvPwrMsg.body, x_nConnFlag, x_msg, l_bFlag)
+    break
+    case Staubli:MsgType.WRITE_SINGLE_IO
+      call recvRosMsg(x_sSocket, Staubli:writeSingIOMsg.prefix, Staubli:writeSingIOMsg.header, Staubli:writeSingIOMsg.body, x_nConnFlag, x_msg, l_bFlag)
+    break
+    case Staubli:MsgType.VELOCITY_CFG
+      call recvRosMsg(x_sSocket, Staubli:velCfgMsg.prefix, Staubli:velCfgMsg.header, Staubli:velCfgMsg.body, x_nConnFlag, x_msg, l_bFlag)
+    break
+    case Staubli:MsgType.VELOCITY_CMD
+      call recvRosMsg(x_sSocket, Staubli:velCmdMsg.prefix, Staubli:velCmdMsg.header, Staubli:velCmdMsg.body, x_nConnFlag, x_msg, l_bFlag)
     break
     default
+      if (bDebugMode and nDebugLevel<=2)
+        call printDebug("ERROR: unknown msg type ("+toString("",x_msg.header.nMsgType)+")",false)
+      endIf
     break
   endSwitch
 
   if (l_bFlag == true)
     // move on to state 3: decode msg body
-    x_nMsgRecvState=3
+    x_nMsgRecvState = MsgRecvState.DECODE_BODY
+
+    // debug
+    if (bDebugMode and nDebugLevel<=2)
+      call printDebug("INFO: receiving successful",false)
+    endIf
   else
     // error whilst receiving msg body, reset state machine
-    x_nMsgRecvState=0
+    x_nMsgRecvState = MsgRecvState.RECEIVE_HEADER
+    clearBuffer(x_sSocket)
+
+    // debug
+    if (bDebugMode and nDebugLevel<=2)
+      call printDebug("ERROR: receiving not successful",false)
+    endIf
   endIf
 end]]></Code>
   </Program>

@@ -1,0 +1,59 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Programs xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.staubli.com/robotics/VAL3/Program/2">
+  <Program name="initStaubliMsgs">
+    <Code><![CDATA[begin
+  // Copyright (c) 2021, Institute for Factory Automation and Production Systems (FAPS)
+  //
+  // Licensed under the Apache License, Version 2.0 (the "License");
+  // you may not use this file except in compliance with the License.
+  // You may obtain a copy of the License at
+  //
+  //     http://www.apache.org/licenses/LICENSE-2.0
+  //
+  // Unless required by applicable law or agreed to in writing, software
+  // distributed under the License is distributed on an "AS IS" BASIS,
+  // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  // See the License for the specific language governing permissions and
+  // limitations under the License.
+
+
+  // initialize Staubli specific messages (outgoing)
+
+
+  // Set drive power message:
+  // prefix length = 12 + 1 = 13
+  setDrvPwrAck.prefix.nLength=13
+  setDrvPwrAck.header.nMsgType=MsgType.SET_DRIVE_POWER
+  setDrvPwrAck.header.nCommType=SimpleMsg:CommType.SERVICE_REPLY
+  setDrvPwrAck.header.nReplyCode=SimpleMsg:ReplyCode.INVALID
+  // body (data) assumed to be initialized to zero
+
+
+  // Write single IO message:
+  // prefix length = 12 + 9 = 21
+  writeSingIOAck.prefix.nLength=21
+  writeSingIOAck.header.nMsgType=MsgType.WRITE_SINGLE_IO
+  writeSingIOAck.header.nCommType=SimpleMsg:CommType.SERVICE_REPLY
+  writeSingIOAck.header.nReplyCode=SimpleMsg:ReplyCode.INVALID
+  // body (data) assumed to be initialized to zero
+
+
+  // Velocity mode configuration message:
+  // prefix length = 12 + 68 = 80
+  velCfgAck.prefix.nLength=80
+  velCfgAck.header.nMsgType=MsgType.VELOCITY_CFG
+  velCfgAck.header.nCommType=SimpleMsg:CommType.SERVICE_REPLY
+  velCfgAck.header.nReplyCode=SimpleMsg:ReplyCode.INVALID
+  // body (data) assumed to be initialized to zero
+
+
+  // Velocity command message:
+  // prefix length = 12 + 32 = 44
+  velCmdAck.prefix.nLength=44
+  velCmdAck.header.nMsgType=MsgType.VELOCITY_CMD
+  velCmdAck.header.nCommType=SimpleMsg:CommType.SERVICE_REPLY
+  velCmdAck.header.nReplyCode=SimpleMsg:ReplyCode.INVALID
+  // body (data) assumed to be initialized to zero
+end]]></Code>
+  </Program>
+</Programs>

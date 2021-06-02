@@ -1,13 +1,19 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Programs xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.staubli.com/robotics/VAL3/Program/2">
-  <Program name="screenUpdate" access="public">
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Programs xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.staubli.com/robotics/VAL3/Program/2" >
+  <Program name="screenUpdate" access="public" >
+    <Parameters xmlns="http://www.staubli.com/robotics/VAL3/Param/1" >
+      <Parameter name="x_nPeriod" type="num" use="value" xsi:type="element" dimensions="1" />
+    </Parameters>
     <Locals>
-      <Local name="l_nKey" type="num" xsi:type="array" size="1" />
-      <Local name="l_nExecStatus" type="num" xsi:type="array" size="1" />
       <Local name="l_nElems" type="num" xsi:type="array" size="1" />
+      <Local name="l_nExecStatus" type="num" xsi:type="array" size="1" />
+      <Local name="l_nKey" type="num" xsi:type="array" size="1" />
+      <Local name="l_nIdx" type="num" xsi:type="array" size="1" />
+      <Local name="l_sVelCmdType" type="string" xsi:type="array" size="1" />
     </Locals>
-    <Code><![CDATA[begin  
+    <Code><![CDATA[begin
   // Copyright (c) 2016, Ocado Technology - Robotics Research Team
+  // Copyright (c) 2021, Institute for Factory Automation and Production Systems (FAPS)
   //
   // Licensed under the Apache License, Version 2.0 (the "License");
   // you may not use this file except in compliance with the License.
@@ -22,147 +28,326 @@
   // limitations under the License.
 
 
+  // screen status indicator
+  l_nExecStatus=0
 
-  l_nExecStatus = 0
+  // setup debug screen
+  nDebugLevel=5
+  nDebugLevelMax=8
+  bDebugMode=false
+  cls(scDebug)
+  title(scDebug,"ROS-I server (DEBUG: Level "+toString("",nDebugLevel)+")")
+  gotoxy(scDebug,0,13)
+  put(scDebug,"BACK")
+  gotoxy(scDebug,16,13)
+  put(scDebug,"CLS")
+  gotoxy(scDebug,31,13)
+  put(scDebug,"-")
+  gotoxy(scDebug,36,13)
+  put(scDebug,"+")
+  gotoxy(scDebug,0,0)
+  nDebugCursor=0
+
+  // setup main screen
   userPage(scMonitor)
   cls(scMonitor)
-  title(scMonitor, "ROS-I server")
-  
+  title(scMonitor,"ROS-I server")
+
   while (true)
-    // clear screen
-    cls(scMonitor)
-    
-    // toggle velocity overwrite upon release of F1 key
-    l_nKey = getKey(scMonitor)
-    call libQueueFuncs:getNumElems(qMoveBuffer,l_nElems)
-    if (l_nKey == 277 and bOverwriteVel == false)
-      if (l_nElems == 0)
-        bOverwriteVel = true
-      else
-        popUpMsg("Motion buffer not empty; cannot enable V/OW")
+    // check whether debug screen is enabled
+    if (bDebugMode)
+      // -----------------------------------------------------
+      // DEBUG SCREEN
+      // -----------------------------------------------------
+      // show the debug screen if not done already
+      if (!bShowDebug)
+        userPage(scDebug)
+        bShowDebug=true
       endIf
-    elseIf (l_nKey == 278 and bOverwriteVel == true)
-      if (l_nElems == 0)
-        bOverwriteVel = false
-      else
-        popUpMsg("Motion buffer not empty; cannot disable V/OW")
-      endIf
-    endIf
-    
-    // update connection status on port 11000
-    gotoxy(scMonitor, 0,0)
-    // 11 characteres: gotoxy(12,0) to insert status
-    put(scMonitor, "Port 11000:")
-    gotoxy(scMonitor, 12,0)
-    switch nInConnFlag
-      case -1
-        put(scMonitor, "connection lost")
-      break
-      case 0
-        put(scMonitor, "not connected")
-      break
-      case 1
-        put(scMonitor, "connected")
-      break
-      default
-        put(scMonitor, "not connected")
-      break
-    endSwitch
-    
-    // update connection status on port 11002
-    gotoxy(scMonitor, 0,1)
-    // 11 characteres: gotoxy(12,1) to insert status
-    put(scMonitor, "Port 11002:")
-    gotoxy(scMonitor, 12,1)
-    switch nOutConnFlag
-      case -1
-        put(scMonitor, "connection lost")
-      break
-      case 0
-        put(scMonitor, "not connected")
-      break
-      case 1
-        put(scMonitor, "connected")
-      break
-      default
-        put(scMonitor, "not connected")
-      break
-    endSwitch
-    
-    // update trajectory buffer size
-    call libQueueFuncs:getNumElems(qTrajPtBuffer,l_nElems)
-    gotoxy(scMonitor, 0,3)
-    // 18 characteres: gotoxy(19,3) to insert status
-    put(scMonitor, "Trajectory buffer:")
-    gotoxy(scMonitor, 19,3)
-    put(scMonitor, l_nElems)
-    // also print number of points popped from buffer
-    gotoxy(scMonitor, 24,3)
-    put(scMonitor, nPtsPopped)
-    // do the same for move buffer
-    call libQueueFuncs:getNumElems(qMoveBuffer,l_nElems)
-    gotoxy(scMonitor, 0,4)
-    put(scMonitor, "Motion buffer:")
-    gotoxy(scMonitor, 19,4)
-    put(scMonitor, l_nElems)
-    gotoxy(scMonitor, 24,4)
-    put(scMonitor, nMovePts)
-    
-    // display velocity overwrite status
-    gotoxy(scMonitor, 0,5)
-    put(scMonitor, "Velocity overwrite:")
-    gotoxy(scMonitor, 20,5)
-    if (bOverwriteVel == true)
-      put(scMonitor, "enabled")
+
+      l_nKey=getKey(scDebug)
+
+      switch (l_nKey)
+        // toggle screen with F1
+        case 271
+          bShowDebug=false
+          bDebugMode=false
+          userPage(scMonitor)
+        break
+        // clear debug screen with F4
+        case 274
+          cls(scDebug)
+          gotoxy(scDebug,0,13)
+          put(scDebug,"BACK")
+          gotoxy(scDebug,16,13)
+          put(scDebug,"CLS")
+          gotoxy(scDebug,31,13)
+          put(scDebug,"-")
+          gotoxy(scDebug,36,13)
+          put(scDebug,"+")
+          gotoxy(scDebug,0,0)
+          nDebugCursor=0
+        break
+        // decrease debug level with F7
+        case 277
+          nDebugLevel=sel(nDebugLevel==0,0,nDebugLevel-1)
+          title(scDebug,"ROS-I server (DEBUG: Level "+toString("",nDebugLevel)+")")
+        break
+        // increase debug level with F8
+        case 278
+          nDebugLevel=sel(nDebugLevel==nDebugLevelMax,nDebugLevelMax,nDebugLevel+1)
+          title(scDebug,"ROS-I server (DEBUG: Level "+toString("",nDebugLevel)+")")
+        break
+        // ignore other keys
+        default
+        break
+      endSwitch
+
     else
-      put(scMonitor, "disabled")
+      // -----------------------------------------------------
+      // MAIN SCREEN
+      // -----------------------------------------------------
+      // clear screen and set title
+      cls(scMonitor)
+      switch (nMotionMode)
+        case Staubli:MotionMode.JOINT_TRAJ
+          title(scMonitor,"ROS-I server [JOINT_TRAJECTORY]")
+        break
+        case Staubli:MotionMode.VELOCITY_CTRL
+          title(scMonitor,"ROS-I server [VELOCITY_CONTROL]")
+        break
+        default
+          title(scMonitor,"ROS-I server")
+        break
+      endSwitch
+
+      // toggle velocity overwrite upon release of F7/F8 keys
+      l_nKey=getKey(scMonitor)
+      call libQueueFuncs:getNumElems(qMoveBuffer,l_nElems)
+      if (l_nKey==277 and bOverwriteVel==false)
+        if (l_nElems==0)
+          bOverwriteVel=true
+        else
+          popUpMsg("Motion buffer not empty; cannot enable V/OW")
+        endIf
+      elseIf (l_nKey==278 and bOverwriteVel==true)
+        if (l_nElems==0)
+          bOverwriteVel=false
+        else
+          popUpMsg("Motion buffer not empty; cannot disable V/OW")
+        endIf
+      endIf
+
+      // switch to debug screen upon release of F1 key
+      if (l_nKey==271)
+        bDebugMode=true
+      endIf
+
+      // update connection status on port 11000
+      gotoxy(scMonitor,0,0)
+      // 15 characters: gotoxy(16,0) to insert status
+      put(scMonitor,"Motion (11000):")
+      gotoxy(scMonitor,16,0)
+      switch nConnFlagMotion
+        case -1
+          put(scMonitor,"connection lost")
+        break
+        case 0
+          put(scMonitor,"not connected")
+        break
+        case 1
+          put(scMonitor,"connected")
+        break
+        default
+          put(scMonitor,"not connected")
+        break
+      endSwitch
+      // update data incoming indicator
+      if (bDataIn)
+        gotoxy(scMonitor,37,0)
+        put(scMonitor,"<<<")
+        bDataIn=false
+      endIf
+
+      // update connection status on port 11001
+      gotoxy(scMonitor,0,1)
+      // 15 characters: gotoxy(16,0) to insert status
+      put(scMonitor,"System (11001):")
+      gotoxy(scMonitor,16,1)
+      switch nConnFlagSystem
+        case -1
+          put(scMonitor,"connection lost")
+        break
+        case 0
+          put(scMonitor,"not connected")
+        break
+        case 1
+          put(scMonitor,"connected")
+        break
+        default
+          put(scMonitor,"not connected")
+        break
+      endSwitch
+
+      // update connection status on port 11002
+      gotoxy(scMonitor,0,2)
+      // 15 characters: gotoxy(16,2) to insert status
+      put(scMonitor,"State  (11002):")
+      gotoxy(scMonitor,16,2)
+      switch nConnFlagState
+        case -1
+          put(scMonitor,"connection lost")
+        break
+        case 0
+          put(scMonitor,"not connected")
+        break
+        case 1
+          put(scMonitor,"connected")
+        break
+        default
+          put(scMonitor,"not connected")
+        break
+      endSwitch
+      // update data outgoing indicator
+      if (bDataOut)
+        gotoxy(scMonitor,37,2)
+        put(scMonitor,">>>")
+        bDataOut=false
+      endIf
+
+      // update connection status on port 11003
+      gotoxy(scMonitor,0,3)
+      // 15 characters: gotoxy(16,3) to insert status
+      put(scMonitor,"IO     (11003):")
+      gotoxy(scMonitor,16,3)
+      switch nConnFlagIO
+        case -1
+          put(scMonitor,"connection lost")
+        break
+        case 0
+          put(scMonitor,"not connected")
+        break
+        case 1
+          put(scMonitor,"connected")
+        break
+        default
+          put(scMonitor,"not connected")
+        break
+      endSwitch
+
+      if (nMotionMode == Staubli:MotionMode.JOINT_TRAJ)
+        // update trajectory buffer size
+        call libQueueFuncs:getNumElems(qTrajPtBuffer,l_nElems)
+        gotoxy(scMonitor,0,5)
+        // 18 characteres: gotoxy(19,3) to insert status
+        put(scMonitor,"Trajectory buffer:")
+        gotoxy(scMonitor,19,5)
+        put(scMonitor,l_nElems)
+        // also print number of points popped from buffer
+        gotoxy(scMonitor,24,5)
+        put(scMonitor,nPtsPopped)
+        // do the same for move buffer
+        call libQueueFuncs:getNumElems(qMoveBuffer,l_nElems)
+        gotoxy(scMonitor,0,6)
+        put(scMonitor,"Motion buffer:")
+        gotoxy(scMonitor,19,6)
+        put(scMonitor,l_nElems)
+        gotoxy(scMonitor,24,6)
+        put(scMonitor,nMovePts)
+
+        // display velocity overwrite status
+        gotoxy(scMonitor,0,7)
+        put(scMonitor,"Velocity overwrite:")
+        gotoxy(scMonitor,20,7)
+        if (bOverwriteVel==true)
+          put(scMonitor,"enabled")
+        else
+          put(scMonitor,"disabled")
+        endIf
+
+        // display nMoveId and nMotionProgress
+        gotoxy(scMonitor,0,8)
+        put(scMonitor,"moveId:")
+        gotoxy(scMonitor,8,8)
+        put(scMonitor,nMoveId)
+        gotoxy(scMonitor,13,8)
+        put(scMonitor,"progress:")
+        gotoxy(scMonitor,23,8)
+        put(scMonitor,nMotionProgress)
+
+      elseIf (nMotionMode == Staubli:MotionMode.VELOCITY_CTRL)
+        // get velocity command type as string
+        switch actMotionCmdVel.nCmdType
+          case Staubli:VelocityType.INVALID
+            l_sVelCmdType = "INVALID"
+          break
+          case Staubli:VelocityType.JOINT
+            l_sVelCmdType = "JOINT"
+          break
+          case Staubli:VelocityType.BASE_FRAME
+            l_sVelCmdType = "BASE_FRAME"
+          break
+          case Staubli:VelocityType.TOOL_FRAME
+            l_sVelCmdType = "TOOL_FRAME"
+          break
+          default
+            l_sVelCmdType = "Unknown=" + toString("", actMotionCmdVel.nCmdType)
+          break
+        endSwitch
+        // print velocity command data and type
+        gotoxy(scMonitor, 0, 5)
+        put(scMonitor, "Velocity Command (" + l_sVelCmdType + "):")
+        for l_nIdx = 0 to 5
+          gotoxy(scMonitor, l_nIdx * 7, 6)
+          put(scMonitor, toString("5", actMotionCmdVel.nVelCmd[l_nIdx]))
+        endFor
+        // print velocity config data
+        gotoxy(scMonitor, 0, 7)
+        put(scMonitor, "Velocity Config (accel,vel,tvel,rvel):")
+        gotoxy(scMonitor, 0, 8)
+        put(scMonitor, "a: "+toString("",motionCfgVel.mMaxSpeed.accel)+" | v: "+toString("",motionCfgVel.mMaxSpeed.vel)+" | t: "+toString("",motionCfgVel.mMaxSpeed.tvel)+" | r: "+toString("",motionCfgVel.mMaxSpeed.rvel))
+      endIf
+
+      
+
+      // display time between valid trajectory point received and ACK sent
+      gotoxy(scMonitor,0,10)
+      put(scMonitor,"recvMsgHeader:")
+      gotoxy(scMonitor,15,10)
+      put(scMonitor,toString(".3",nHeaderTime))
+
+      gotoxy(scMonitor,0,11)
+      put(scMonitor,"other states:")
+      gotoxy(scMonitor,15,11)
+      put(scMonitor,toString(".4",nElapsedTime))
+
+      // update debug status
+      gotoxy(scMonitor,37,11)
+      switch l_nExecStatus
+        case 0
+          put(scMonitor,"[+]")
+          l_nExecStatus=1
+        break
+        case 1
+          put(scMonitor,"[-]")
+          l_nExecStatus=0
+        break
+        default
+        break
+      endSwitch
+
+      // add Function keys labels
+      gotoxy(scMonitor,0,13)
+      put(scMonitor,"DBG")
+      gotoxy(scMonitor,30,13)
+      put(scMonitor,"V/ON")
+      gotoxy(scMonitor,35,13)
+      put(scMonitor,"V/OFF")
+
     endIf
-    
-    // display nMoveId and nMotionProgress
-    gotoxy(scMonitor, 0,7)
-    put(scMonitor, "moveId:")
-    gotoxy(scMonitor, 8,7)
-    put(scMonitor, nMoveId)
-    gotoxy(scMonitor, 13,7)
-    put(scMonitor, "progress:")
-    gotoxy(scMonitor, 23,7)
-    put(scMonitor, nMotionProgress)
-    
-    // display time between valid trajectory point received and ACK sent
-    gotoxy(scMonitor, 0,9)
-    put(scMonitor, "recvMsgHeader:")
-    gotoxy(scMonitor, 15,9)
-    put(scMonitor, toString(".4", nHeaderTime))
-    
-    gotoxy(scMonitor, 0,10)
-    put(scMonitor, "other states:")
-    gotoxy(scMonitor, 15,10)
-    put(scMonitor, toString(".4", nElapsedTime))
-    
-    // update debug status
-    gotoxy(scMonitor, 18,12)
-    switch l_nExecStatus
-      case 0
-        put(scMonitor, "[+]")
-        l_nExecStatus = 1
-      break
-      case 1
-        put(scMonitor, "[-]")
-        l_nExecStatus = 0
-      break
-      default
-      break
-    endSwitch
-    
-    // add Function keys labels
-    gotoxy(scMonitor, 30,13)
-    put(scMonitor, "V/ON")
-    gotoxy(scMonitor, 35,13)
-    put(scMonitor, "V/OFF")
-    
+
     // sequence task
-    //delay(0)
-    delay(0.5)
+    delay(x_nPeriod)
   endWhile
 end]]></Code>
   </Program>

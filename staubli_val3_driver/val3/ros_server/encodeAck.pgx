@@ -1,8 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <Programs xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.staubli.com/robotics/VAL3/Program/2" >
   <Program name="encodeAck" access="public" >
+    <Parameters xmlns="http://www.staubli.com/robotics/VAL3/Param/1">
+      <Parameter name="x_msg" type="RosSimpleMsg" xsi:type="element" use="reference" />
+    </Parameters>
     <Code><![CDATA[begin
   // Copyright (c) 2016, Ocado Technology - Robotics Research Team
+  // Copyright (c) 2021, Institute for Factory Automation and Production Systems (FAPS)
   //
   // Licensed under the Apache License, Version 2.0 (the "License");
   // you may not use this file except in compliance with the License.
@@ -18,14 +22,40 @@
 
 
 
-  switch rosGenericMsg.header.nMsgType
-    case 11
+  switch x_msg.header.nMsgType
+
+    case SimpleMsg:MsgType.JOINT_TRAJ_PT
       call encTrajPtAck()
     break
-    case 14
+
+    case SimpleMsg:MsgType.JOINT_TRAJ_PT_F
       call encTrajPtFAck()
     break
+
+    // Staubli specific
+    case Staubli:MsgType.SET_DRIVE_POWER
+      call Staubli:encSetDrvPwrAck()
+    break
+
+    case Staubli:MsgType.WRITE_SINGLE_IO
+      call Staubli:encWriSingIOAck()
+    break
+
+    case Staubli:MsgType.VELOCITY_CFG
+      call Staubli:encodeVelCfgAck()
+    break
+
+    case Staubli:MsgType.VELOCITY_CMD
+      call Staubli:encodeVelCmdAck()
+    break
+
     default
+      //region @DEBUG
+      if (bDebugMode and nDebugLevel<=5)
+        call printDebug("encodeAck: switch (msgType)",true)
+        call printDebug("ERROR: unknown msg type",false)
+      endIf
+      //endregion
     break
   endSwitch
 end]]></Code>

@@ -1,0 +1,159 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Programs xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.staubli.com/robotics/VAL3/Program/2" >
+  <Program name="stateMachine" access="private" >
+    <Locals>
+      <Local name="l_bKillMotTask" type="bool" xsi:type="array" size="1" />
+      <Local name="l_bOk" type="bool" xsi:type="array" size="1" />
+      <Local name="l_bResetMotion" type="bool" xsi:type="array" size="1" />
+      <Local name="l_nNextState" type="num" xsi:type="array" size="1" />
+    </Locals>
+    <Code><![CDATA[begin
+  // Copyright (c) 2021, Institute for Factory Automation and Production Systems (FAPS)
+  //
+  // Licensed under the Apache License, Version 2.0 (the "License");
+  // you may not use this file except in compliance with the License.
+  // You may obtain a copy of the License at
+  //
+  //     http://www.apache.org/licenses/LICENSE-2.0
+  //
+  // Unless required by applicable law or agreed to in writing, software
+  // distributed under the License is distributed on an "AS IS" BASIS,
+  // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  // See the License for the specific language governing permissions and
+  // limitations under the License.
+
+
+  while (true)
+    // assume success to state transition
+    l_bOk=true
+    // reset flags
+    l_bKillMotTask=false
+    l_bResetMotion=false
+    // wait for state transition event
+    wait(bMotionMsgEvent)
+    bMotionMsgEvent=false
+
+    // //region @DEBUG
+    // if (bDebugMode and nDebugLevel==7)
+      // call printDebug("stateMachine: got event ("+toString("",nMotionMsgType)+")",true)
+      // call printDebug("INFO: current state: "+toString("",nMotionMode),false)
+    // endIf
+    // //endregion
+
+    //region @switch_current_state -- check whether the current motion task has to be killed
+    //                                and set next state
+    if (nMotionMode==Staubli:MotionMode.JOINT_TRAJ)
+
+      switch (nMotionMsgType)
+        case SimpleMsg:MsgType.JOINT_TRAJ_PT,SimpleMsg:MsgType.JOINT_TRAJ_PT_F
+          // already in JOINT_TRAJ mode, skip state transition
+          l_bOk=false
+        break
+        case Staubli:MsgType.VELOCITY_CFG
+          l_bKillMotTask=true
+          l_nNextState=Staubli:MotionMode.VELOCITY_CTRL
+        break
+      endSwitch
+
+    elseIf (nMotionMode==Staubli:MotionMode.VELOCITY_CTRL)
+
+      switch (nMotionMsgType)
+        case SimpleMsg:MsgType.JOINT_TRAJ_PT,SimpleMsg:MsgType.JOINT_TRAJ_PT_F
+          l_bKillMotTask=true
+          l_nNextState=Staubli:MotionMode.JOINT_TRAJ
+        break
+        case Staubli:MsgType.VELOCITY_CFG
+          l_bResetMotion=true
+        break
+      endSwitch
+
+    endIf
+    //endregion @switch_current_state
+
+    // check whether to continue
+    if (l_bOk)
+
+      //region @DEBUG
+      if (bDebugMode and nDebugLevel==7)
+        call printDebug("INFO: state transition ("+toString("",nMotionMode)+" -> "+toString("",l_nNextState)+")",false)
+      endIf
+      //endregion
+
+      //region @clean_up_motion_task -- if so force motion task to reset motion and/or kill the task
+      if (l_bResetMotion)
+        // set stop flag (important for velocity mode: reconfiguration without killing task)
+        bStopNow=true
+      elseIf (l_bKillMotTask)
+        // if the current motion task has to be killed, wait until it finishes cleaning up
+        bStopNow=true
+        wait(bStopNow==false)
+        // ... and then kill the task
+        taskKill(sMotionTask)
+        resetMotion()
+
+        //region @DEBUG
+        if (bDebugMode and nDebugLevel==7)
+          call printDebug("INFO: motion task killed",false)
+        endIf
+        //endregion
+      endIf
+      //endregion
+
+      //region @create_new_motion_task -- create the new motion task if required
+      if (l_bKillMotTask)
+        switch l_nNextState
+          case Staubli:MotionMode.JOINT_TRAJ
+            taskCreateSync sMotionTask,nMotionPeriod,bMotionOverrun,motionControl()
+          break
+          case Staubli:MotionMode.VELOCITY_CTRL
+            taskCreateSync sMotionTask,nMotionPeriod,bMotionOverrun,motionCtrlVel()
+          break
+          default
+            l_bOk=false
+            //region @DEBUG
+            if (bDebugMode and nDebugLevel==7)
+              call printDebug("ERROR: unknown next state",false)
+            endIf
+            //endregion
+          break
+        endSwitch
+
+        //region @DEBUG
+        if (bDebugMode and nDebugLevel==7)
+          if (l_bOk)
+            call printDebug("INFO: new motion task created",false)
+          else
+            call printDebug("ERROR: new motion task not created",false)
+          endIf
+        endIf
+        //endregion
+      endIf
+      //endregion
+
+      // finally update current state if successful
+      if (l_bOk)
+        if (l_nNextState!=Staubli:MotionMode.INVALID)
+          nMotionMode=l_nNextState
+
+          //region @DEBUG
+          if (bDebugMode and nDebugLevel==7)
+            call printDebug("INFO: set new state ("+toString("",l_nNextState)+")",false)
+          endIf
+          //endregion
+        else
+          //region @DEBUG
+          if (bDebugMode and nDebugLevel==7)
+            call printDebug("WARN: state not set -> invalid ("+toString("",l_nNextState)+")",false)
+          endIf
+          //endregion
+        endIf
+      endIf
+
+    endIf
+
+    // sequence task
+    delay(0)
+  endWhile
+end]]></Code>
+  </Program>
+</Programs>

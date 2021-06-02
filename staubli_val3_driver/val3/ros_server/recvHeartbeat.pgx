@@ -10,6 +10,7 @@
     </Locals>
     <Code><![CDATA[begin
   // Copyright (c) 2016, Ocado Technology - Robotics Research Team
+  // Copyright (c) 2021, Institute for Factory Automation and Production Systems (FAPS)
   //
   // Licensed under the Apache License, Version 2.0 (the "License");
   // you may not use this file except in compliance with the License.
@@ -27,20 +28,20 @@
 
   while (true)
     l_nBytesRecv=0
-    l_nIndex = sioGet(siTcpIpFbk, l_nByte)
+    l_nIndex = sioGet(siTcpIpState, l_nByte)
     if (l_nIndex == -1)
       // connection not established or connection lost
-      if (nOutConnFlag == 1)
-        nOutConnFlag = -1
+      if (nConnFlagState == 1)
+        nConnFlagState = -1
       endIf
     else
       // it means l_nIndex >= 0: connection established
       // check if connection had not already been established
-      if (nOutConnFlag != 1)
+      if (nConnFlagState != 1)
         // delay data output to avoid sync issues with client
         delay(1.0)
         // flag connection as established
-        nOutConnFlag = 1
+        nConnFlagState = 1
       endIf
     endIf
   endWhile

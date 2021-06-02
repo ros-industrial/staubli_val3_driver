@@ -6,6 +6,7 @@
     </Locals>
     <Code><![CDATA[begin
   // Copyright (c) 2016, Ocado Technology - Robotics Research Team
+  // Copyright (c) 2021, Institute for Factory Automation and Production Systems (FAPS)
   //
   // Licensed under the Apache License, Version 2.0 (the "License");
   // you may not use this file except in compliance with the License.
@@ -19,16 +20,32 @@
   // See the License for the specific language governing permissions and
   // limitations under the License.
 
+  MsgRecvState.RECEIVE_HEADER=0
+  MsgRecvState.DECODE_HEADER=1
+  MsgRecvState.RECEIVE_BODY=2
+  MsgRecvState.DECODE_BODY=3
+  MsgRecvState.PUSH_MOTION=4
+  MsgRecvState.HANDLE_REQUEST=5
+  MsgRecvState.SEND_ACK=6
 
+  l_nRetVal=sioCtrl(siTcpIpIO,"timeout",-1)
+  if (l_nRetVal!=0)
+    popUpMsg("Error while setting 'IO' socket timeout")
+  endIf
 
   l_nRetVal=sioCtrl(siTcpIpMotion,"timeout",-1)
   if (l_nRetVal!=0)
-    popUpMsg("Error while setting consumer timeout")
+    popUpMsg("Error while setting 'Motion' socket timeout")
   endIf
 
-  l_nRetVal=sioCtrl(siTcpIpFbk,"timeout",-1)
+  l_nRetVal=sioCtrl(siTcpIpState,"timeout",-1)
   if (l_nRetVal!=0)
-    popUpMsg("Error while setting producer timeout")
+    popUpMsg("Error while setting 'State' socket timeout")
+  endIf
+
+  l_nRetVal=sioCtrl(siTcpIpSystem,"timeout",-1)
+  if (l_nRetVal!=0)
+    popUpMsg("Error while setting 'System' socket timeout")
   endIf
 end]]></Code>
   </Program>

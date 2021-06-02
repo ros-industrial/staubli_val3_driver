@@ -2,10 +2,14 @@
 <Programs xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.staubli.com/robotics/VAL3/Program/2">
   <Program name="sendAck" access="public">
     <Parameters xmlns="http://www.staubli.com/robotics/VAL3/Param/1">
+      <Parameter name="x_sSocket" type="sio" xsi:type="element" use="reference" />
+      <Parameter name="x_nConnFlag" type="num" xsi:type="element" use="reference" />
+      <Parameter name="x_msg" type="RosSimpleMsg" xsi:type="element" use="reference" />
       <Parameter name="x_nMsgRecvState" type="num" xsi:type="element" use="reference" />
     </Parameters>
     <Code><![CDATA[begin
   // Copyright (c) 2016, Ocado Technology - Robotics Research Team
+  // Copyright (c) 2021, Institute for Factory Automation and Production Systems (FAPS)
   //
   // Licensed under the Apache License, Version 2.0 (the "License");
   // you may not use this file except in compliance with the License.
@@ -21,20 +25,40 @@
 
 
 
-  switch rosGenericMsg.header.nMsgType
-    case 11
-      call sendRosMsg(siTcpIpMotion, rosTrajPtAck.prefix, rosTrajPtAck.header, rosTrajPtAck.body, nInConnFlag)
+  switch x_msg.header.nMsgType
+    case SimpleMsg:MsgType.JOINT_TRAJ_PT
+      call sendRosMsg(x_sSocket, rosTrajPtAck.prefix, rosTrajPtAck.header, rosTrajPtAck.body, x_nConnFlag)
     break
-    case 14
-      call sendRosMsg(siTcpIpMotion, rosTrajPtFAck.prefix, rosTrajPtFAck.header, rosTrajPtFAck.body, nInConnFlag)
+    case SimpleMsg:MsgType.JOINT_TRAJ_PT_F
+      call sendRosMsg(x_sSocket, rosTrajPtFAck.prefix, rosTrajPtFAck.header, rosTrajPtFAck.body, x_nConnFlag)
     break
+    // Staubli specific
+    case Staubli:MsgType.SET_DRIVE_POWER
+      call sendRosMsg(x_sSocket, Staubli:setDrvPwrAck.prefix, Staubli:setDrvPwrAck.header, Staubli:setDrvPwrAck.body, x_nConnFlag)
+    break
+    case Staubli:MsgType.WRITE_SINGLE_IO
+      call sendRosMsg(x_sSocket, Staubli:writeSingIOAck.prefix, Staubli:writeSingIOAck.header, Staubli:writeSingIOAck.body, x_nConnFlag)
+    break
+    case Staubli:MsgType.VELOCITY_CFG
+      call sendRosMsg(x_sSocket, Staubli:velCfgAck.prefix, Staubli:velCfgAck.header, Staubli:velCfgAck.body, x_nConnFlag)
+    break
+    case Staubli:MsgType.VELOCITY_CMD
+      call sendRosMsg(x_sSocket, Staubli:velCmdAck.prefix, Staubli:velCmdAck.header, Staubli:velCmdAck.body, x_nConnFlag)
+    break
+    // default
     default
+      //region @DEBUG
+      if (bDebugMode and nDebugLevel<=5)
+        call printDebug("sendAck: switch (msgType)",true)
+        call printDebug("ERROR: unknown msg type",false)
+      endIf
+      //endregion
     break
   endSwitch
 
   // regardless of result from sending ACK
   // reset state machine to receive new messages
-  x_nMsgRecvState=0
+  x_nMsgRecvState = MsgRecvState.RECEIVE_HEADER
 end]]></Code>
   </Program>
 </Programs>

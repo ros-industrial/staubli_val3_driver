@@ -1,0 +1,103 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Programs xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.staubli.com/robotics/VAL3/Program/2" >
+  <Program name="writeSingle" access="public" >
+    <Parameters xmlns="http://www.staubli.com/robotics/VAL3/Param/1" >
+      <Parameter name="x_nModuleId" type="num" use="value" xsi:type="element" dimensions="1" />
+      <Parameter name="x_nPin" type="num" use="value" xsi:type="element" dimensions="1" />
+      <Parameter name="x_bState" type="bool" use="value" xsi:type="element" dimensions="1" />
+      <Parameter name="x_bSuccess" type="bool" use="reference" xsi:type="element" dimensions="1" />
+    </Parameters>
+    <Locals>
+      <Local name="l_diSignal" type="dio" xsi:type="array" size="1" />
+      <Local name="l_nPins" type="num" xsi:type="array" size="1" />
+    </Locals>
+    <Code><![CDATA[begin
+  // Copyright (c) 2021, Institute for Factory Automation and Production Systems (FAPS)
+  //
+  // Licensed under the Apache License, Version 2.0 (the "License");
+  // you may not use this file except in compliance with the License.
+  // You may obtain a copy of the License at
+  //
+  //     http://www.apache.org/licenses/LICENSE-2.0
+  //
+  // Unless required by applicable law or agreed to in writing, software
+  // distributed under the License is distributed on an "AS IS" BASIS,
+  // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  // See the License for the specific language governing permissions and
+  // limitations under the License.
+
+
+  x_bSuccess=true
+
+  // get max pin count for given module
+  switch x_nModuleId
+    case IOModule:USER_IN,IOModule:VALVE_OUT
+      l_nPins=2
+    break
+    case IOModule:BASIC_IN,IOModule:BASIC_OUT,IOModule:BASIC_IN_2,IOModule:BASIC_OUT_2
+      l_nPins=16
+    break
+    default
+      x_bSuccess=false
+    break
+  endSwitch
+
+  // return if unknown module id was given
+  if (x_bSuccess==false)
+    popUpMsg("Error! Unknown module id: "+toString("",x_nModuleId))
+    return
+  endIf
+
+  // check if pin index is out of range
+  if (x_nPin>=l_nPins)
+    popUpMsg("Error! Trying to set pin "+toString("",x_nPin)+" of module "+toString("",x_nModuleId))
+    x_bSuccess=false
+    return
+  endIf
+
+  // link signal source to local variable if possible
+  switch x_nModuleId
+    case IOModule:USER_IN
+      dioLink(l_diSignal,diUserIn[x_nPin])
+    break
+    case IOModule:VALVE_OUT
+      dioLink(l_diSignal,diValveOut[x_nPin])
+    break
+    case IOModule:BASIC_IN
+      if (bBasicIO1)
+        dioLink(l_diSignal,diBasicIn[x_nPin])
+      else
+        x_bSuccess=false
+      endIf
+    break
+    case IOModule:BASIC_OUT
+      if (bBasicIO1)
+        dioLink(l_diSignal,diBasicOut[x_nPin])
+      else
+        x_bSuccess=false
+      endIf
+    break
+    case IOModule:BASIC_IN_2
+      if (bBasicIO2)
+        dioLink(l_diSignal,diBasicIn2[x_nPin])
+      else
+        x_bSuccess=false
+      endIf
+    break
+    case IOModule:BASIC_OUT_2
+      if (bBasicIO2)
+        dioLink(l_diSignal,diBasicOut2[x_nPin])
+      else
+        x_bSuccess=false
+      endIf
+    break
+  endSwitch
+
+  // set dio if linked successfully
+  if (x_bSuccess)
+    l_diSignal=x_bState
+  endIf
+
+end]]></Code>
+  </Program>
+</Programs>

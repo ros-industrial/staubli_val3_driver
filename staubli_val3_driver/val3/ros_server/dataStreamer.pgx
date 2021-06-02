@@ -3,10 +3,12 @@
   <Program name="dataStreamer" access="public">
     <Locals>
       <Local name="l_nThrottle" type="num" xsi:type="array" size="1" />
-      <Local name="l_jCurrPose" type="jointRx" xsi:type="array" size="1" />
+      <Local name="l_nTime" type="num" xsi:type="array" size="1" />
+      <Local name="l_nJntSpeed" type="num" xsi:type="array" size="6" />
     </Locals>
     <Code><![CDATA[begin
   // Copyright (c) 2016, Ocado Technology - Robotics Research Team
+  // Copyright (c) 2021, Institute for Factory Automation and Production Systems (FAPS)
   //
   // Licensed under the Apache License, Version 2.0 (the "License");
   // you may not use this file except in compliance with the License.
@@ -25,27 +27,47 @@
   l_nThrottle = 0
   while (true)
     // only attempt to send data if flag indicates that connection is established
-    if (nOutConnFlag == 1)
-      // fetch current joint positions
-      l_jCurrPose=herej()
-      // encode and send ROS simple_message ID 10: joint state
-      call encodeJState(l_jCurrPose)
-      call sendRosMsg(siTcpIpFbk, rosJointMsg.prefix, rosJointMsg.header, rosJointMsg.body, nOutConnFlag)
-      
-      // send Robot Status messages 5 times slower than Joint State
-      if (l_nThrottle == 5)
+    if (nConnFlagState == 1)
+      // fetch current joint feedback data
+      l_nTime = clock()
+      jPosition = herej()
+      $getJntSpeedCmd(l_nJntSpeed)
+      jSpeed.j1 = l_nJntSpeed[0]
+      jSpeed.j2 = l_nJntSpeed[1]
+      jSpeed.j3 = l_nJntSpeed[2]
+      jSpeed.j4 = l_nJntSpeed[3]
+      jSpeed.j5 = l_nJntSpeed[4]
+      jSpeed.j6 = l_nJntSpeed[5]
+
+      // init joint feedback message, valid fields: ( time[0x01] | pos[0x02] | vel[0x04] )
+      rosJointFbkMsg.jointFeedback.nRobotId = 0
+      rosJointFbkMsg.jointFeedback.nValidFields = 7
+      rosJointFbkMsg.jointFeedback.nTime = l_nTime
+
+      // encode and send ROS simple_message ID 15: joint feedback
+      call encodeJFeedback(l_nTime, jPosition, jSpeed)
+      call sendRosMsg(siTcpIpState, rosJointFbkMsg.prefix, rosJointFbkMsg.header, rosJointFbkMsg.body, nConnFlagState)
+
+      //region @DEBUG
+      if (bDebugMode and nDebugLevel==8)
+        call printDebug("dataStreamer: Sent fbk msg", true)
+      endIf
+      //endregion
+
+      // send Robot Status messages 20 times slower than Joint State
+      if (l_nThrottle == 20)
         // fetch robot status
         call fetchStatus()
         // encode and send ROS simple_message ID 13: robot status
         call encodeStatus()
-        call sendRosMsg(siTcpIpFbk, rosStatusMsg.prefix, rosStatusMsg.header, rosStatusMsg.body, nOutConnFlag)
+        call sendRosMsg(siTcpIpState, rosStatusMsg.prefix, rosStatusMsg.header, rosStatusMsg.body, nConnFlagState)
         l_nThrottle = 0
       endIf
       l_nThrottle = l_nThrottle + 1
     else
       delay(0.1)
     endIf
-    
+
     // sequence task
     delay(0)
   endWhile

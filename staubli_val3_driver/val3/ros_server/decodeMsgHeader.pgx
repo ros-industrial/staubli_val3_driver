@@ -2,13 +2,15 @@
 <Programs xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.staubli.com/robotics/VAL3/Program/2">
   <Program name="decodeMsgHeader" access="public">
     <Parameters xmlns="http://www.staubli.com/robotics/VAL3/Param/1">
-      <Parameter name="x_nMsgRecvState" type="num" xsi:type="element" use="reference" />
+      <Parameter name="x_msg" type="RosSimpleMsg" use="reference" xsi:type="element" dimensions="1" />
+      <Parameter name="x_nMsgRecvState" type="num" use="reference" xsi:type="element" dimensions="1" />
     </Parameters>
     <Locals>
       <Local name="l_nRetVal" type="num" xsi:type="array" size="1" />
     </Locals>
     <Code><![CDATA[begin
   // Copyright (c) 2016, Ocado Technology - Robotics Research Team
+  // Copyright (c) 2021, Institute for Factory Automation and Production Systems (FAPS)
   //
   // Licensed under the Apache License, Version 2.0 (the "License");
   // you may not use this file except in compliance with the License.
@@ -25,34 +27,43 @@
 
 
   // decode message into generic message first  
-  l_nRetVal=fromBinary(rosGenericMsg.prefix.nData,4,"-4l",rosGenericMsg.prefix.nLength)
+  l_nRetVal=fromBinary(x_msg.prefix.nData,4,"-4l",x_msg.prefix.nLength)
   if (l_nRetVal!=1)
     // error decoding prefix, reset state machine
-    x_nMsgRecvState=0
+    x_nMsgRecvState = MsgRecvState.RECEIVE_HEADER
     return
   endIf
-  l_nRetVal=fromBinary(rosGenericMsg.header.nData,4,"-4l",rosGenericMsg.header.nMsgType)
+  l_nRetVal=fromBinary(x_msg.header.nData,4,"-4l",x_msg.header.nMsgType)
   if (l_nRetVal!=1)
     // error decoding header (msg type), reset state machine
-    x_nMsgRecvState=0
+    x_nMsgRecvState = MsgRecvState.RECEIVE_HEADER
     return
   endIf
-  l_nRetVal=fromBinary(rosGenericMsg.header.nData[4],4,"-4l",rosGenericMsg.header.nCommType)
+  l_nRetVal=fromBinary(x_msg.header.nData[4],4,"-4l",x_msg.header.nCommType)
   if (l_nRetVal!=1)
     // error decoding header (comm type), reset state machine
-    x_nMsgRecvState=0
+    x_nMsgRecvState = MsgRecvState.RECEIVE_HEADER
     return
   endIf
-  l_nRetVal=fromBinary(rosGenericMsg.header.nData[8],4,"-4l",rosGenericMsg.header.nReplyCode)
+  l_nRetVal=fromBinary(x_msg.header.nData[8],4,"-4l",x_msg.header.nReplyCode)
   if (l_nRetVal!=1)
     // error decoding header (reply code), reset state machine
-    x_nMsgRecvState=0
+    x_nMsgRecvState = MsgRecvState.RECEIVE_HEADER
     return
   endIf
 
   // no errors detected whilst decoding prefix and header
   // move on to state 2: receive msg body
-  x_nMsgRecvState=2
+  x_nMsgRecvState = MsgRecvState.RECEIVE_BODY
+
+  // debug
+  if (bDebugMode and nDebugLevel<=1)
+    call printDebug("decodeMsgHeader: successful",true)
+    call printDebug("Prefix    :"+toString("",x_msg.prefix.nLength),false)
+    call printDebug("MsgType   :"+toString("",x_msg.header.nMsgType),false)
+    call printDebug("CommType  :"+toString("",x_msg.header.nCommType),false)
+    call printDebug("ReplyType :"+toString("",x_msg.header.nReplyCode),false)
+  endIf
 end]]></Code>
   </Program>
 </Programs>

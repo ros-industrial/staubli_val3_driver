@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://www.staubli.com/robotics/VAL3/Project/3">
+  <Parameters version="s7.8.1" stackSize="5000" millimeterUnit="true" />
+  <Programs>
+    <Program file="start.pgx" />
+    <Program file="stop.pgx" />
+  </Programs>
+  <Database>
+    <Data file="VelocityCmdMsg.dtx" />
+  </Database>
+  <Libraries />
+  <Types>
+    <Type name="Body" path="Disk://ros_libs/Body/Body.pjx" />
+    <Type name="Prefix" path="Disk://ros_libs/Prefix/Prefix.pjx" />
+    <Type name="Header" path="Disk://ros_libs/Header/Header.pjx" />
+    <Type name="VelocityCmd" path="../VelocityCmd/VelocityCmd.pjx" />
+  </Types>
+</Project>

@@ -1,0 +1,115 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Programs xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.staubli.com/robotics/VAL3/Program/2" >
+  <Program name="motionCtrlVel" access="private" >
+    <Locals>
+      <Local name="l_bVelReady" type="bool" xsi:type="array" size="1" />
+      <Local name="l_nIndex" type="num" xsi:type="array" size="1" />
+      <Local name="l_nResult" type="num" xsi:type="array" size="1" />
+      <Local name="l_nVelCmd" type="num" xsi:type="array" size="6" />
+    </Locals>
+    <Code><![CDATA[begin
+  // Copyright (c) 2021, Institute for Factory Automation and Production Systems (FAPS)
+  //
+  // Licensed under the Apache License, Version 2.0 (the "License");
+  // you may not use this file except in compliance with the License.
+  // You may obtain a copy of the License at
+  //
+  //     http://www.apache.org/licenses/LICENSE-2.0
+  //
+  // Unless required by applicable law or agreed to in writing, software
+  // distributed under the License is distributed on an "AS IS" BASIS,
+  // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  // See the License for the specific language governing permissions and
+  // limitations under the License.
+
+
+  l_bVelReady=false
+
+  while (true)
+    // check connection status and whether to stop motion
+    if (nConnFlagMotion==1 and nConnFlagState==1 and bStopNow==false)
+      if (l_bVelReady==false)
+		// start velocity mode according to configured velocity command type
+        switch motionCfgVel.nCmdType
+          case Staubli:VelocityType.JOINT
+            $velJoint(motionCfgVel.tTool, motionCfgVel.mMaxSpeed)
+            l_bVelReady=true
+			if (bDebugMode and nDebugLevel==6)
+				call printDebug("motionCtrlVel: $velJoint()",true)
+			endIf
+          break
+          case Staubli:VelocityType.BASE_FRAME
+            l_nResult=$velFrame(motionCfgVel.fReference, motionCfgVel.tTool, motionCfgVel.mMaxSpeed)
+            if (l_nResult==0)
+              l_bVelReady=true
+            endIf
+			if (bDebugMode and nDebugLevel==6)
+				call printDebug("motionCtrlVel: $velFrame()",true)
+				call printDebug("Result = "+toString("",l_nResult),false)
+			endIf
+          break
+          case Staubli:VelocityType.TOOL_FRAME
+            l_nResult=$velTool(motionCfgVel.tTool, motionCfgVel.mMaxSpeed)
+            if (l_nResult==0)
+              l_bVelReady=true
+            endIf
+            if (bDebugMode and nDebugLevel==6)
+				call printDebug("motionCtrlVel: $velTool()",true)
+				call printDebug("Result = "+toString("",l_nResult),false)
+			endIf
+          break
+          default
+            popUpMsg("Velocity motion command error: Unknown command type ("+toString("",motionCmdVel.nCmdType)+")")
+          break
+        endSwitch
+      endIf
+
+      if (l_bVelReady)
+		// - copy global velocity command into local variable for $setVelCmd
+		// - store velocity command in other global variable for UI
+		// - reset global velocity command (fail-safe, avoiding repeated execution of old commands)
+        for l_nIndex=0 to 5
+          l_nVelCmd[l_nIndex]=motionCmdVel.nVelCmd[l_nIndex]
+          actMotionCmdVel.nVelCmd[l_nIndex]=motionCmdVel.nVelCmd[l_nIndex]
+          motionCmdVel.nVelCmd[l_nIndex]=0
+        endFor
+
+		// store velocity command type also for displaying in the UI
+		actMotionCmdVel.nCmdType=motionCmdVel.nCmdType
+
+        // execute velocity motion command
+		$setVelCmd(l_nVelCmd)
+
+        if (bDebugMode and nDebugLevel==6)
+          call printDebug("motionCtrlVel: $setVelCmd()",true)
+          call printDebug("l_nVelCmd = "+toString("",l_nVelCmd[0])+" "+toString("",l_nVelCmd[1])+" "+toString("",l_nVelCmd[2])+" "+toString("",l_nVelCmd[3])+" "+toString("",l_nVelCmd[4])+" "+toString("",l_nVelCmd[5])+" ",false)
+        endIf
+      endIf
+    else
+      // stop immediately -- resetMotion() also ends velocity mode
+      resetMotion()
+      l_bVelReady=false
+
+      // set velocity motion command to initial state
+      motionCmdVel.nSequence=0
+
+      for l_nIndex=0 to 5
+        motionCmdVel.nVelCmd[l_nIndex]=0
+      endFor
+
+      // debug
+      if (bDebugMode and nDebugLevel==6)
+        call printDebug("motionCtrlVel: resetMotion()",true)
+        call printDebug("bStopNow: "+toString("",sel(bStopNow,1,0))+" inConn: "+toString("",nConnFlagMotion)+" outConn: "+toString("",nConnFlagState),false)
+      endIf
+
+      // reset stop flag
+      bStopNow=false
+    endIf
+
+    // sequence task
+    delay(0)
+  endWhile
+end]]></Code>
+  </Program>
+</Programs>

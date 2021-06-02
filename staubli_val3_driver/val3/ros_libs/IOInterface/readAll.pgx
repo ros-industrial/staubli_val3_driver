@@ -1,0 +1,49 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Programs xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.staubli.com/robotics/VAL3/Program/2" >
+  <Program name="readAll" access="public" >
+    <Parameters xmlns="http://www.staubli.com/robotics/VAL3/Param/1" >
+      <Parameter name="x_nUserIn" type="num" use="reference" xsi:type="element" dimensions="1" />
+      <Parameter name="x_nValveOut" type="num" use="reference" xsi:type="element" dimensions="1" />
+      <Parameter name="x_nBasicIn" type="num" use="reference" xsi:type="element" dimensions="1" />
+      <Parameter name="x_nBasicOut" type="num" use="reference" xsi:type="element" dimensions="1" />
+      <Parameter name="x_nBasicIn2" type="num" use="reference" xsi:type="element" dimensions="1" />
+      <Parameter name="x_nBasicOut2" type="num" use="reference" xsi:type="element" dimensions="1" />
+    </Parameters>
+    <Code><![CDATA[begin
+  // Copyright (c) 2021, Institute for Factory Automation and Production Systems (FAPS)
+  //
+  // Licensed under the Apache License, Version 2.0 (the "License");
+  // you may not use this file except in compliance with the License.
+  // You may obtain a copy of the License at
+  //
+  //     http://www.apache.org/licenses/LICENSE-2.0
+  //
+  // Unless required by applicable law or agreed to in writing, software
+  // distributed under the License is distributed on an "AS IS" BASIS,
+  // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  // See the License for the specific language governing permissions and
+  // limitations under the License.
+
+    
+  x_nUserIn=dioGet(diUserIn)
+  x_nValveOut=dioGet(diValveOut)
+  
+  if (bBasicIO1)
+    x_nBasicIn=dioGet(diBasicIn)
+    x_nBasicOut=dioGet(diBasicOut)
+  else
+    x_nBasicIn=0
+    x_nBasicOut=0
+  endIf
+  
+  if (bBasicIO2)
+    x_nBasicIn2=dioGet(diBasicIn)
+    x_nBasicOut2=dioGet(diBasicOut)
+  else
+    x_nBasicIn2=0
+    x_nBasicOut2=0
+  endIf
+  
+end]]></Code>
+  </Program>
+</Programs>

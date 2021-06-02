@@ -2,13 +2,17 @@
 <Programs xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.staubli.com/robotics/VAL3/Program/2">
   <Program name="recvMsgHeader" access="public">
     <Parameters xmlns="http://www.staubli.com/robotics/VAL3/Param/1">
-      <Parameter name="x_nMsgRecvState" type="num" xsi:type="element" use="reference" />
+      <Parameter name="x_sSocket" type="sio" use="reference" xsi:type="element" dimensions="1" />
+      <Parameter name="x_nConnFlag" type="num" use="reference" xsi:type="element" dimensions="1" />
+      <Parameter name="x_msg" type="RosSimpleMsg" use="reference" xsi:type="element" dimensions="1" />
+      <Parameter name="x_nMsgRecvState" type="num" use="reference" xsi:type="element" dimensions="1" />
     </Parameters>
     <Locals>
       <Local name="l_bFlag" type="bool" xsi:type="array" size="1" />
     </Locals>
     <Code><![CDATA[begin
   // Copyright (c) 2016, Ocado Technology - Robotics Research Team
+  // Copyright (c) 2021, Institute for Factory Automation and Production Systems (FAPS)
   //
   // Licensed under the Apache License, Version 2.0 (the "License");
   // you may not use this file except in compliance with the License.
@@ -25,17 +29,17 @@
 
 
   // attempt to receive message prefix and header
-  call recvData(siTcpIpMotion,rosGenericMsg.prefix.nData,nInConnFlag,l_bFlag)
-  if (l_bFlag == true)
-    call recvData(siTcpIpMotion,rosGenericMsg.header.nData,nInConnFlag,l_bFlag)
+  call recvData(x_sSocket,x_msg.prefix.nData,x_nConnFlag,l_bFlag)
+  if (l_bFlag==true)
+    call recvData(x_sSocket,x_msg.header.nData,x_nConnFlag,l_bFlag)
   endIf
 
   if (l_bFlag == true)
     // move on to state 1: decode header
-    x_nMsgRecvState=1
+    x_nMsgRecvState = MsgRecvState.DECODE_HEADER
   else
     // error: reset state to 0: receive header
-    x_nMsgRecvState=0
+    x_nMsgRecvState = MsgRecvState.RECEIVE_HEADER
   endIf
 end]]></Code>
   </Program>

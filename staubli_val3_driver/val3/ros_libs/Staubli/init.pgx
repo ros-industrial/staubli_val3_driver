@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Programs xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.staubli.com/robotics/VAL3/Program/2">
+  <Program name="init" access="public">
+    <Code><![CDATA[begin
+  // Copyright (c) 2021, Institute for Factory Automation and Production Systems (FAPS)
+  //
+  // Licensed under the Apache License, Version 2.0 (the "License");
+  // you may not use this file except in compliance with the License.
+  // You may obtain a copy of the License at
+  //
+  //     http://www.apache.org/licenses/LICENSE-2.0
+  //
+  // Unless required by applicable law or agreed to in writing, software
+  // distributed under the License is distributed on an "AS IS" BASIS,
+  // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  // See the License for the specific language governing permissions and
+  // limitations under the License.
+
+
+  // initialize Staubli specific message IDs for the simple message protocol
+  MsgType.SET_DRIVE_POWER=1610
+  MsgType.READ_IO=1620
+  MsgType.WRITE_SINGLE_IO=1621
+  MsgType.VELOCITY_CFG=1640
+  MsgType.VELOCITY_CMD=1641
+
+  // initialize "enum" values for different motion modes
+  MotionMode.INVALID=0
+  MotionMode.JOINT_TRAJ=1
+  MotionMode.VELOCITY_CTRL=2
+
+  // initialize "enum" values for the three different types of velocity init functions $velJoint, $velFrame, $velTool
+  VelocityType.INVALID=0
+  VelocityType.JOINT=1
+  VelocityType.BASE_FRAME=2
+  VelocityType.TOOL_FRAME=3
+
+  // initialize Staubli specific messages (MUST be called last because of the dependency on the values above)
+  call initStaubliMsgs()
+end]]></Code>
+  </Program>
+</Programs>

@@ -1,0 +1,102 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Programs xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.staubli.com/robotics/VAL3/Program/2">
+  <Program name="handleRequest" access="public">
+    <Parameters xmlns="http://www.staubli.com/robotics/VAL3/Param/1">
+      <Parameter name="x_msg" type="RosSimpleMsg" xsi:type="element" use="reference" />
+      <Parameter name="x_nMsgRecvState" type="num" xsi:type="element" use="reference" />
+    </Parameters>
+    <Locals>
+      <Local name="l_bOk" type="bool" xsi:type="array" size="1" />
+      <Local name="l_nModuleId" type="num" xsi:type="array" size="1" />
+      <Local name="l_nPin" type="num" xsi:type="array" size="1" />
+      <Local name="l_bState" type="bool" xsi:type="array" size="1" />
+    </Locals>
+    <Code><![CDATA[begin
+  // Copyright (c) 2021, Institute for Factory Automation and Production Systems (FAPS)
+  //
+  // Licensed under the Apache License, Version 2.0 (the "License");
+  // you may not use this file except in compliance with the License.
+  // You may obtain a copy of the License at
+  //
+  //     http://www.apache.org/licenses/LICENSE-2.0
+  //
+  // Unless required by applicable law or agreed to in writing, software
+  // distributed under the License is distributed on an "AS IS" BASIS,
+  // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  // See the License for the specific language governing permissions and
+  // limitations under the License.
+
+
+  // assume success to push motion
+  l_bOk=true
+
+  // handle request
+  switch x_msg.header.nMsgType
+    case Staubli:MsgType.SET_DRIVE_POWER
+      if (Staubli:setDrvPwrMsg.bDrivePower==true and isPowered()==false)
+        enablePower()
+      elseIf (Staubli:setDrvPwrMsg.bDrivePower==false and isPowered()==true)
+        disablePower()
+      else
+        // nothing to do
+      endIf
+    break
+    case Staubli:MsgType.WRITE_SINGLE_IO
+      l_nModuleId=Staubli:writeSingIOMsg.writeSingleIO.nModuleId
+      l_nPin=Staubli:writeSingIOMsg.writeSingleIO.nPin
+      l_bState=Staubli:writeSingIOMsg.writeSingleIO.bState
+      call IO:writeSingle(l_nModuleId,l_nPin,l_bState,l_bOk)
+    break
+    // unknown message type
+    default
+      l_bOk=false
+      //region @DEBUG
+      if (bDebugMode and nDebugLevel<=4)
+        call printDebug("ERROR: unknown msg type ("+toString("",x_msg.header.nMsgType)+")",false)
+      endIf
+      //endregion
+    break
+  endSwitch
+
+  //region @check_success -- check whether handling request was successful 
+  if (l_bOk)
+    //region @DEBUG
+    if (bDebugMode and nDebugLevel<=4)
+      call printDebug("INFO: handling request successful",false)
+    endIf
+    //endregion
+  else
+    // could not handle request
+    // thus ACK should flag FAILURE, but only if comm type is request
+    if (x_msg.header.nCommType==SimpleMsg:CommType.SERVICE_REQUEST)
+      switch x_msg.header.nMsgType
+        case Staubli:MsgType.SET_DRIVE_POWER
+          Staubli:setDrvPwrAck.header.nReplyCode=SimpleMsg:ReplyCode.FAILURE
+        break
+        case Staubli:MsgType.WRITE_SINGLE_IO
+          Staubli:writeSingIOAck.header.nReplyCode=SimpleMsg:ReplyCode.FAILURE
+        break
+        default
+        break
+      endSwitch
+    endIf
+    //region @DEBUG
+    if (bDebugMode and nDebugLevel<=4)
+      call printDebug("ERROR: handling request not successful",false)
+    endIf
+    //endregion
+  endIf
+  //endregion
+
+  //region @check_reply -- check whether service reply (ACK) should be sent
+  if (x_msg.header.nCommType==SimpleMsg:CommType.SERVICE_REQUEST)
+    // comm type request requires ACK
+    x_nMsgRecvState = MsgRecvState.SEND_ACK
+  else
+    // other comm types (e.g., topic) does not require ACK, hence skip state
+    x_nMsgRecvState = MsgRecvState.RECEIVE_HEADER
+  endIf
+  //endregion
+end]]></Code>
+  </Program>
+</Programs>

@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project xmlns="http://www.staubli.com/robotics/VAL3/Project/3">
-  <Parameters version="s7.7.2" stackSize="5000" millimeterUnit="true" />
+  <Parameters version="s7.9.1" stackSize="5000" millimeterUnit="true" />
   <Programs>
     <Program file="dataReceiver.pgx" />
     <Program file="dataStreamer.pgx" />
@@ -9,27 +9,33 @@
     <Program file="decTrajPt.pgx" />
     <Program file="decTrajPtFull.pgx" />
     <Program file="encodeAck.pgx" />
+    <Program file="encodeJFeedback.pgx" />
     <Program file="encodeJState.pgx" />
     <Program file="encodeStatus.pgx" />
     <Program file="encPrefixHeader.pgx" />
     <Program file="encTrajPtAck.pgx" />
     <Program file="encTrajPtFAck.pgx" />
     <Program file="fetchStatus.pgx" />
+    <Program file="handleRequest.pgx" />
     <Program file="initParams.pgx" />
+    <Program file="initRosMsgs.pgx" />
     <Program file="motionControl.pgx" />
+    <Program file="motionCtrlVel.pgx" />
+    <Program file="printDebug.pgx" />
     <Program file="pushMotion.pgx" />
     <Program file="recvData.pgx" />
     <Program file="recvHeartbeat.pgx" />
     <Program file="recvMsgBody.pgx" />
     <Program file="recvMsgHeader.pgx" />
+    <Program file="recvRosMsg.pgx" />
     <Program file="recvTrajPt.pgx" />
     <Program file="recvTrajPtFull.pgx" />
     <Program file="screenUpdate.pgx" />
     <Program file="sendAck.pgx" />
     <Program file="sendData.pgx" />
     <Program file="sendRosMsg.pgx" />
-    <Program file="setupRosMsgs.pgx" />
     <Program file="start.pgx" />
+    <Program file="stateMachine.pgx" />
     <Program file="stop.pgx" />
     <Program file="toJointArrayRad.pgx" />
     <Program file="toJointRxDeg.pgx" />
@@ -38,9 +44,13 @@
     <Data file="ros_server.dtx" />
   </Database>
   <Libraries>
+    <Library alias="IO" path="Disk://ros_libs/IOInterface/IOInterface.pjx" />
     <Library alias="libQueueFuncs" path="Disk://ros_libs/QueueFuncs/QueueFuncs.pjx" />
+    <Library alias="Staubli" path="Disk://ros_libs/Staubli/Staubli.pjx" />
+    <Library alias="SimpleMsg" path="Disk://ros_libs/SimpleMessage/SimpleMessage.pjx" />
   </Libraries>
   <Types>
+    <Type name="_MsgRecvState" path="Disk://ros_libs/_MsgRecvState/MsgRecvState.pjx" />
     <Type name="RosSimpleMsg" path="Disk://ros_libs/RosSimpleMsg/RosSimpleMsg.pjx" />
     <Type name="RobotStatusMsg" path="Disk://ros_libs/RobotStatusMsg/RobotStatusMsg.pjx" />
     <Type name="JointStateMsg" path="Disk://ros_libs/JointStateMsg/JointStateMsg.pjx" />
@@ -52,5 +62,7 @@
     <Type name="Prefix" path="Disk://ros_libs/Prefix/Prefix.pjx" />
     <Type name="Body" path="Disk://ros_libs/Body/Body.pjx" />
     <Type name="Queue" path="Disk://ros_libs/Queue/Queue.pjx" />
+    <Type name="MotionCmdVel" path="Disk://ros_libs/MotionCmdVel/MotionCmdVel.pjx" />
+    <Type name="MotionCfgVel" path="Disk://ros_libs/MotionCfgVel/MotionCfgVel.pjx" />
   </Types>
 </Project>

@@ -1,0 +1,79 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Programs xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.staubli.com/robotics/VAL3/Program/2" >
+  <Program name="decWriSingIOMsg" access="public" >
+    <Parameters xmlns="http://www.staubli.com/robotics/VAL3/Param/1" >
+      <Parameter name="x_bFlag" type="bool" use="reference" xsi:type="element" dimensions="1" />
+    </Parameters>
+    <Locals>
+      <Local name="l_nData" type="num" xsi:type="array" size="1" />
+      <Local name="l_nIndex" type="num" xsi:type="array" size="1" />
+      <Local name="l_nRetVal" type="num" xsi:type="array" size="1" />
+    </Locals>
+    <Code><![CDATA[begin
+  // Copyright (c) 2021, Institute for Factory Automation and Production Systems (FAPS)
+  //
+  // Licensed under the Apache License, Version 2.0 (the "License");
+  // you may not use this file except in compliance with the License.
+  // You may obtain a copy of the License at
+  //
+  //     http://www.apache.org/licenses/LICENSE-2.0
+  //
+  // Unless required by applicable law or agreed to in writing, software
+  // distributed under the License is distributed on an "AS IS" BASIS,
+  // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  // See the License for the specific language governing permissions and
+  // limitations under the License.
+
+
+  // decode write single IO message body (data)
+
+  // assume failure to decode
+  writeSingIOMsg.header.nReplyCode=SimpleMsg:ReplyCode.FAILURE
+
+  // fields:
+  //  writeSingIOMsg.writeSingleIO.nModuleId
+  //  writeSingIOMsg.writeSingleIO.nPin
+  //  writeSingIOMsg.writeSingleIO.bState
+
+
+  // module id, 4 bytes
+  l_nRetVal=fromBinary(writeSingIOMsg.body.nData,1,"-4l",writeSingIOMsg.writeSingleIO.nModuleId)
+
+  if (l_nRetVal!=1)
+    x_bFlag=false
+    return
+  endIf
+  
+  // pin, 4 bytes
+  l_nRetVal=fromBinary(writeSingIOMsg.body.nData[4],1,"-4l",writeSingIOMsg.writeSingleIO.nPin)
+
+  if (l_nRetVal!=1)
+    x_bFlag=false
+    return
+  endIf
+  
+  // state, 1 byte
+  l_nRetVal=fromBinary(writeSingIOMsg.body.nData[8],1,"1",l_nData)
+
+  if (l_nRetVal!=1)
+    x_bFlag=false
+    return
+  endIf
+  
+  // convert decoded data to bool
+  if (l_nData==1)
+    writeSingIOMsg.writeSingleIO.bState=true
+  elseIf (l_nData==0)
+    writeSingIOMsg.writeSingleIO.bState=false
+  else
+    logMsg("[ERROR] WriteSingleIO.bState was decoded to: "+toString("",l_nData))
+    x_bFlag=false
+    return
+  endIf
+
+  // decoding successful
+  writeSingIOAck.header.nReplyCode=SimpleMsg:ReplyCode.SUCCESS
+  x_bFlag=true
+end]]></Code>
+  </Program>
+</Programs>

@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Project xmlns="http://www.staubli.com/robotics/VAL3/Project/3" >
+  <Parameters version="s7.9.1" stackSize="5000" millimeterUnit="true" />
+  <Programs>
+    <Program file="encPrefixHeader.pgx" />
+    <Program file="init.pgx" />
+    <Program file="start.pgx" />
+    <Program file="stop.pgx" />
+  </Programs>
+  <Database>
+    <Data file="SimpleMessage.dtx" />
+  </Database>
+  <Libraries>
+  </Libraries>
+  <Types>
+    <Type name="_MsgType" path="./_MsgType/MsgType.pjx" />
+    <Type name="_CommType" path="./_CommType/CommType.pjx" />
+    <Type name="_ReplyCode" path="./_ReplyCode/ReplyCode.pjx" />
+    <Type name="Prefix" path="Disk://ros_libs/Prefix/Prefix.pjx" />
+    <Type name="Header" path="Disk://ros_libs/Header/Header.pjx" />
+    <Type name="_SpecialSeqVal" path="./_SpecialSeqVal/SpecialSeqVal.pjx" />
+  </Types>
+</Project>

@@ -3,6 +3,7 @@
   <Program name="stop" access="private" >
     <Code><![CDATA[begin
   // Copyright (c) 2016, Ocado Technology - Robotics Research Team
+  // Copyright (c) 2021, Institute for Factory Automation and Production Systems (FAPS)
   //
   // Licensed under the Apache License, Version 2.0 (the "License");
   // you may not use this file except in compliance with the License.
@@ -20,7 +21,8 @@
 
   resetMotion()
   popUpMsg("Pending movement commands have been cancelled.")
-  cls()
+  userPage(scMonitor)
+  cls(scMonitor)
 end]]></Code>
   </Program>
 </Programs>

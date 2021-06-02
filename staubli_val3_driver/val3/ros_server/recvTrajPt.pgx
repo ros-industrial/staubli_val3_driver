@@ -2,10 +2,14 @@
 <Programs xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.staubli.com/robotics/VAL3/Program/2">
   <Program name="recvTrajPt" access="public">
     <Parameters xmlns="http://www.staubli.com/robotics/VAL3/Param/1">
-      <Parameter name="x_bFlag" type="bool" xsi:type="element" use="reference" />
+      <Parameter name="x_sSocket" type="sio" use="reference" xsi:type="element" dimensions="1" />
+      <Parameter name="x_nConnFlag" type="num" use="reference" xsi:type="element" dimensions="1" />
+      <Parameter name="x_msg" type="RosSimpleMsg" use="reference" xsi:type="element" dimensions="1" />
+      <Parameter name="x_bFlag" type="bool" use="reference" xsi:type="element" dimensions="1" />
     </Parameters>
     <Code><![CDATA[begin
   // Copyright (c) 2016, Ocado Technology - Robotics Research Team
+  // Copyright (c) 2021, Institute for Factory Automation and Production Systems (FAPS)
   //
   // Licensed under the Apache License, Version 2.0 (the "License");
   // you may not use this file except in compliance with the License.
@@ -21,13 +25,13 @@
 
 
 
-  // attempt to receive message ID 11 data (prefix and header are in rosGenericMsg)
-  rosTrajPtMsg.prefix.nLength=rosGenericMsg.prefix.nLength
-  rosTrajPtMsg.header.nMsgType=rosGenericMsg.header.nMsgType
-  rosTrajPtMsg.header.nCommType=rosGenericMsg.header.nCommType
-  rosTrajPtMsg.header.nReplyCode=rosGenericMsg.header.nReplyCode
+  // attempt to receive message ID 11 data (prefix and header are in x_msg)
+  rosTrajPtMsg.prefix.nLength=x_msg.prefix.nLength
+  rosTrajPtMsg.header.nMsgType=x_msg.header.nMsgType
+  rosTrajPtMsg.header.nCommType=x_msg.header.nCommType
+  rosTrajPtMsg.header.nReplyCode=x_msg.header.nReplyCode
 
-  call recvData(siTcpIpMotion,rosTrajPtMsg.body.nData,nInConnFlag,x_bFlag)
+  call recvData(x_sSocket,rosTrajPtMsg.body.nData,x_nConnFlag,x_bFlag)
 end]]></Code>
   </Program>
 </Programs>

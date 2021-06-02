@@ -14,6 +14,7 @@
     </Locals>
     <Code><![CDATA[begin
   // Copyright (c) 2016, Ocado Technology - Robotics Research Team
+  // Copyright (c) 2021, Institute for Factory Automation and Production Systems (FAPS)
   //
   // Licensed under the Apache License, Version 2.0 (the "License");
   // you may not use this file except in compliance with the License.
@@ -44,6 +45,8 @@
       l_nBytesRecv=l_nBytesRecv+1
       // received a byte, set flag to indicate connection
       x_nConnFlag=1
+      // set global flag to indicate incoming data
+      bDataIn=true
     elseIf (l_nIndex==-1)
       // error or timeout, indicate only if connection previously established
       if (x_nConnFlag==1)
