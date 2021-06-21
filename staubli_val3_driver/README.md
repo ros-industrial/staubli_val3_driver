@@ -57,12 +57,17 @@ From `Main menu`:
 
 The TCP sockets on the CS8 controller/emulator must be configured prior to using the driver, otherwise a runtime error will be displayed on the teach pendant and the driver will not work.
 
-Two sockets (TCP Servers) are required. From `Main menu`:
+Four sockets (TCP Servers) are required. From `Main menu`:
 
 1. Control panel --> I/O --> Socket --> TCP Servers
-2. Configure two sockets
-   * Name: Feedback, Port: 11002, Timeout: -1, Delimiter: 13, Nagle: Off
-   * Name: Motion, Port: 11000, Timeout: -1, Delimiter: 13, Nagle: Off
+2. Configure the following sockets
+
+    | Name   | Port  | Timeout | Delimiter | Nagle |
+    | ---    | ---   | ---     | ---       | ---   |
+    | Motion | 11000 | -1      | 13        | Off   |
+    | System | 11001 | -1      | 13        | Off   |
+    | State  | 11002 | -1      | 13        | Off   |
+    | IO     | 11003 | -1      | 13        | Off   |
 
 ### Run the driver (ROS-I server)
 
@@ -71,7 +76,7 @@ Check that:
 1. The contents of the `val3` folder (both `ros_server` and `ros_libs` folders)
 have been transferred to the Staubli controller
 2. The VAL3 application `ros_server` has been loaded
-3. Both TCP Server sockets have been configured properly
+3. The TCP Server sockets have been configured properly
 
 Then simply press the `Run` button, ensure that `ros_server` is highlighted, then press `F8` (Ok).
 
