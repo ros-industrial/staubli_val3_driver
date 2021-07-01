@@ -72,7 +72,7 @@
     // check whether velocity value should be overwritten with value set on teach pendant
     if(bOverwriteVel == true)
       // overwrite velocity (and acceleration - ?)
-      //l_mTrajPt.mDesc.vel = getMonitorSpeed()
+      l_mTrajPt.mDesc.vel = getMonitorSpeed()
       // explicitly setting accel and decel to VAL3 default values
       l_mTrajPt.mDesc.accel = mNomSpeed.accel
       l_mTrajPt.mDesc.decel = mNomSpeed.decel
