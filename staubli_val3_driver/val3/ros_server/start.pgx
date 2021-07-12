@@ -2,9 +2,6 @@
 <Programs xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.staubli.com/robotics/VAL3/Program/2">
   <Program name="start">
     <Locals>
-      <Local name="l_nFbkPeriod" type="num" xsi:type="array" size="1" />
-      <Local name="l_nMotionPeriod" type="num" xsi:type="array" size="1" />
-      <Local name="l_nTrajPeriod" type="num" xsi:type="array" size="1" />
       <Local name="l_nScreenUpdate" type="num" xsi:type="array" size="1" />
       <Local name="l_sVersionMajor" type="string" xsi:type="array" size="1" />
       <Local name="l_nVersionMajor" type="num" xsi:type="array" size="1" />
@@ -12,6 +9,7 @@
       <Local name="l_sVersionMinor" type="string" xsi:type="array" size="1" />
       <Local name="l_nVersionMinor" type="num" xsi:type="array" size="1" />
       <Local name="l_bOkMinor" type="bool" xsi:type="array" size="1" />
+      <Local name="l_nLibLoad" type="num" xsi:type="array" size="1" />
     </Locals>
     <Code><![CDATA[begin
   // Copyright (c) 2016, Ocado Technology - Robotics Research Team
@@ -43,99 +41,93 @@
     toNum(l_sVersionMinor, l_nVersionMinor, l_bOkMinor)
     if(!l_bOkMajor or !l_bOkMinor)
       popUpMsg("Error reading VAL 3 version")
-      taskKill("ros_server~")
+      call stop()
     endIf
     if( !((l_nVersionMajor == 7) and (l_nVersionMinor >= 7)))
       // VAL 3 version is too old
       popUpMsg("Error: VAL 3 version is < 7.7, socket communication will not work!")
-      taskKill("ros_server~")
+      call stop()
     endIf
-    libInterface:libLoad("ros_libs/UserInterface/interfaceCS8")
+    nLibLoadError = libInterface:libLoad("ros_libs/UserInterface/interfaceCS8")
   elseIf(mid(getVersion("System"),1,1) == "8")
     // CS9 - VAL 3 rev 8
-    libInterface:libLoad("ros_libs/UserInterface/interfaceCS9")
-  endIf
-
-  // feedback task will run every 20ms (50Hz)
-  l_nFbkPeriod=0.02
-  //l_nFbkPeriod = 0.032 // 30Hz
-  //l_nFbkPeriod = 0.05  // 20Hz
-  //l_nFbkPeriod = 1.0   //  1Hz
-  
-  // motion control task will run every 4ms (250Hz)
-  l_nMotionPeriod = 0.004
-  //l_nMotionPeriod=0.012  // 83Hz
-  //l_nMotionPeriod = 0.05 // 20Hz
-  
-  // data (trajectory) reception task will run every 4ms (250Hz)
-  l_nTrajPeriod = 0.004
-  // not in use at the moment
-  l_nScreenUpdate = 1.0
-
-  sStreamTaskName = "streamerTask"
-  sTrajPtTaskName = "trajPtTask"
-  sMotionTaskName = "motionTask"
-  sScreenTaskName = "screenTask"
-  sHtbtTaskName = "htbtTask"
-
-  // initialise TCP/IP parameters
-  call initParams()
-  // setup prefix and header of ROS messages
-  call setupRosMsgs()
-  
-  // socket connection status flags: initially disconnected
-  nInConnFlag = 0
-  nOutConnFlag = 0
-  
-  // flag defining whether velocity to be overwritten to max. vel.
-  bOverwriteVel = false
-  
-  nPtsPopped = 0
-  nMovePts = 0
-
-  // flush buffer of incoming socket
-  clearBuffer(siTcpIpMotion)
-  // flush buffer of outgoing socket
-  clearBuffer(siTcpIpFbk)
-  
-  // check if robot is not in emergency stop and wait until estop is reset
-  if(esStatus() == 2)
-    popUpMsg("Please reset E-Stop")
-    wait(esStatus() < 2)
+    nLibLoadError = libInterface:libLoad("ros_libs/UserInterface/interfaceCS9")
   endIf
   
-  // before anything else, enable power (only works if robot is in remote mode)
-  if(!isPowered())
-    if(workingMode() >= 4)
-      do
-        enablePower()
-        delay(2)
-      until isPowered()
-    else
-      popUpMsg("Power must be enabled manually")
+  // check for libLoad error
+  if nLibLoadError != 0
+    popUpMsg("Error loading UserPage!")
+    call stop()
+  else
+    // feedback task will run every 20ms (50Hz)
+    nFbkPeriod=0.02
+    //l_nFbkPeriod = 0.032 // 30Hz
+    //l_nFbkPeriod = 0.05  // 20Hz
+    //l_nFbkPeriod = 1.0   //  1Hz
+  
+    // motion control task will run every 4ms (250Hz)
+    nMotionPeriod = 0.004
+    //l_nMotionPeriod=0.012  // 83Hz
+    //l_nMotionPeriod = 0.05 // 20Hz
+  
+    // data (trajectory) reception task will run every 4ms (250Hz)
+    nTrajPeriod = 0.004
+    // not in use at the moment
+    nScreenUpdate = 1.0
+
+    sStreamTaskName = "streamerTask"
+    sTrajPtTaskName = "trajPtTask"
+    sMotionTaskName = "motionTask"
+    sScreenTaskName = "screenTask"
+    sHtbtTaskName = "htbtTask"
+
+    // initialise TCP/IP parameters
+    call initParams()
+    // setup prefix and header of ROS messages
+    call setupRosMsgs()
+  
+    // socket connection status flags: initially disconnected
+    nInConnFlag = 0
+    nOutConnFlag = 0
+  
+    // flag defining whether velocity to be overwritten to max. vel.
+    bOverwriteVel = false
+  
+    nPtsPopped = 0
+    nMovePts = 0
+
+    // flush buffer of incoming socket
+    clearBuffer(siTcpIpMotion)
+    // flush buffer of outgoing socket
+    clearBuffer(siTcpIpFbk)
+  
+    // check if robot is not in emergency stop and wait until estop is reset
+    if(esStatus() == 2)
+      popUpMsg("Please reset E-Stop")
+      wait(esStatus() < 2)
     endIf
+  
+    // before anything else, enable power (only works if robot is in remote mode)
+    if(!isPowered())
+      if(workingMode() >= 4)
+        do
+          enablePower()
+          delay(2)
+        until isPowered()
+      else
+        popUpMsg("Power must be enabled manually")
+      endIf
+    endIf
+  
+    // reset motion, potentially setting a start joint position for calling autoConnect() in the future
+    resetMotion()
+  
+    //start task for the taskManager:
+    taskCreate "taskManager", 50, taskManager()
+    wait(taskStatus("taskManager") != -1)
   endIf
   
-  // reset motion, potentially setting a start joint position for calling autoConnect() in the future
-  resetMotion()
-
-  // create joint state and robot status streamer task to send data to industrial_robot_client
-  taskCreateSync sStreamTaskName, l_nFbkPeriod, bFbkOverrun, dataStreamer()
   
-  // create trajectory point task to receive data from industrial_robot_client
-  taskCreateSync sTrajPtTaskName, l_nTrajPeriod, bTrajPtOverrun, dataReceiver()
-  //taskCreate sTrajPtTaskName, 100, dataReceiver()
-  
-  // create motion task to synchronously apply motion commands to robot
-  taskCreateSync sMotionTaskName, l_nMotionPeriod, bMotionOverrun, motionControl()
-
-  // create synchronous task to update screen
-  //taskCreateSync sScreenTaskName, l_nScreenUpdate, bScreenOverrun, screenUpdate()
-  taskCreate sScreenTaskName, 10, screenUpdate()
-  
-  // create asynchronous task to receive heartbeat on port 11002
-  taskCreate sHtbtTaskName, 10, recvHeartbeat()
-
 end]]></Code>
   </Program>
 </Programs>

@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project xmlns="http://www.staubli.com/robotics/VAL3/Project/3">
-  <Parameters version="s7.11" stackSize="5000" millimeterUnit="true" />
+  <Parameters version="s8.12Cs9_BS2378" stackSize="5000" millimeterUnit="true" />
   <Programs>
     <Program file="dataReceiver.pgx" />
     <Program file="dataStreamer.pgx" />
@@ -32,6 +32,7 @@
     <Program file="setupRosMsgs.pgx" />
     <Program file="start.pgx" />
     <Program file="stop.pgx" />
+    <Program file="taskManager.pgx" />
     <Program file="toJointArrayRad.pgx" />
     <Program file="toJointRxDeg.pgx" />
   </Programs>

@@ -23,31 +23,36 @@
 
 
   l_nThrottle = 0
-  while (true)
-    // only attempt to send data if flag indicates that connection is established
-    if (nOutConnFlag == 1)
-      // fetch current joint positions
-      l_jCurrPose=herej()
-      // encode and send ROS simple_message ID 10: joint state
-      call encodeJState(l_jCurrPose)
-      call sendRosMsg(siTcpIpFbk, rosJointMsg.prefix, rosJointMsg.header, rosJointMsg.body, nOutConnFlag)
-      
-      // send Robot Status messages 5 times slower than Joint State
-      if (l_nThrottle == 5)
-        // fetch robot status
-        call fetchStatus()
-        // encode and send ROS simple_message ID 13: robot status
-        call encodeStatus()
-        call sendRosMsg(siTcpIpFbk, rosStatusMsg.prefix, rosStatusMsg.header, rosStatusMsg.body, nOutConnFlag)
-        l_nThrottle = 0
-      endIf
-      l_nThrottle = l_nThrottle + 1
-    else
-      delay(0.1)
+  while(true)
+    // check for overrun
+    if bFbkOverrun
+      nFbkOverun = nFbkOverun + 1
     endIf
     
-    // sequence task
-    delay(0)
+    // only attempt to send data if flag indicates that connection is established
+      if(nOutConnFlag == 1)
+        // fetch current joint positions
+        l_jCurrPose=herej()
+        // encode and send ROS simple_message ID 10: joint state
+        call encodeJState(l_jCurrPose)
+        call sendRosMsg(siTcpIpFbk, rosJointMsg.prefix, rosJointMsg.header, rosJointMsg.body, nOutConnFlag)
+      
+        // send Robot Status messages 5 times slower than Joint State
+        if(l_nThrottle == 5)
+          // fetch robot status
+          call fetchStatus()
+          // encode and send ROS simple_message ID 13: robot status
+          call encodeStatus()
+          call sendRosMsg(siTcpIpFbk, rosStatusMsg.prefix, rosStatusMsg.header, rosStatusMsg.body, nOutConnFlag)
+          l_nThrottle = 0
+        endIf
+        l_nThrottle = l_nThrottle + 1
+      else
+        delay(0.1)
+      endIf
+    
+      // sequence task
+      delay(0)
   endWhile
 end]]></Code>
   </Program>

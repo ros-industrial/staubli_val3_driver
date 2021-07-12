@@ -27,6 +27,11 @@
   nMoveId = -1
 
   while(true)
+    
+    if bMotionOverrun
+      nMotionOverrun = nMotionOverrun + 1
+    endIf
+    
     // check connection status, and whether to stop motion
     if(nInConnFlag == 1 and nOutConnFlag == 1 and bStopNow == false)
       

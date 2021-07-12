@@ -50,6 +50,13 @@
     // The desirable behaviour is to receive and decode a full message, push motion
     // into buffer and then send ACK to client WITHIN ONE ITERATION of while(),
     // hence the if statement sequence below
+    
+        // check for overrun
+    if bTrajPtOverrun
+      nTrajPtOverrun = nTrajPtOverrun + 1
+    endIf
+    
+    
     l_nStartTime = clock()
     if(l_nMsgRecvState==nRecHeader)
       call recvMsgHeader(l_nMsgRecvState)

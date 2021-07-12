@@ -1,0 +1,60 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Programs xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.staubli.com/robotics/VAL3/Program/2">
+  <Program name="taskManager">
+    <Code><![CDATA[begin
+  // Copyright (c) 2016, Ocado Technology - Robotics Research Team
+  //
+  // Licensed under the Apache License, Version 2.0 (the "License");
+  // you may not use this file except in compliance with the License.
+  // You may obtain a copy of the License at
+  //
+  //     http://www.apache.org/licenses/LICENSE-2.0
+  //
+  // Unless required by applicable law or agreed to in writing, software
+  // distributed under the License is distributed on an "AS IS" BASIS,
+  // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  // See the License for the specific language governing permissions and
+  // limitations under the License.
+  
+  // taskstatus:
+  // -1 : task is not running 
+  //  0 : stopped
+  //  1 : started
+  // >1 : VAL3 runtime error
+  
+  do
+    
+    // create joint state and robot status streamer task to send data to industrial_robot_client
+    if taskStatus(sStreamTaskName) == -1
+      taskCreateSync sStreamTaskName, nFbkPeriod, bFbkOverrun, dataStreamer()
+      wait(taskStatus(sStreamTaskName) != -1)
+    endIf
+    
+    // create trajectory point task to receive data from industrial_robot_client
+    if taskStatus(sTrajPtTaskName) == -1
+      taskCreateSync sTrajPtTaskName, nTrajPeriod, bTrajPtOverrun, dataReceiver()
+      wait(taskStatus(sTrajPtTaskName) != -1)
+    endIf
+    
+    // create motion task to synchronously apply motion commands to robot
+    if taskStatus(sMotionTaskName) == -1
+      taskCreateSync sMotionTaskName, nMotionPeriod, bMotionOverrun, motionControl()
+      wait(taskStatus(sMotionTaskName) != -1)
+    endIf
+    
+    // create asynchronous task to update screen
+    if taskStatus(sScreenTaskName) == -1
+      taskCreate sScreenTaskName, 10, screenUpdate()
+      wait(taskStatus(sScreenTaskName) != -1)
+    endIf
+
+    // create asynchronous task to receive heartbeat on port 11002
+    if taskStatus(sHtbtTaskName) == -1
+      taskCreate sHtbtTaskName, 10, recvHeartbeat()
+      wait(taskStatus(sHtbtTaskName) != -1)
+    endIf
+    
+  until false
+end]]></Code>
+  </Program>
+</Programs>
