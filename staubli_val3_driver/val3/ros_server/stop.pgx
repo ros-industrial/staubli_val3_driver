@@ -25,6 +25,7 @@
     call libInterface:clearScreen()
   endIf
   
+  taskKill("taskManager")
   taskKill("streamerTask")
   taskKill("trajPtTask")
   taskKill("motionTask")
