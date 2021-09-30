@@ -20,7 +20,18 @@
 
   resetMotion()
   popUpMsg("Pending movement commands have been cancelled.")
-  call libInterface:clearScreen()
+  
+  if nLibLoadError == 0
+    call libInterface:clearScreen()
+  endIf
+  
+  taskKill("taskManager")
+  taskKill("streamerTask")
+  taskKill("trajPtTask")
+  taskKill("motionTask")
+  taskKill("screenTask")
+  taskKill("htbtTask")
+  
 end]]></Code>
   </Program>
 </Programs>
